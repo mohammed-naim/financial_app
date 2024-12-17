@@ -8,6 +8,7 @@ from .category_routes import category_bp
 from .transaction_routes import transaction_bp
 from .dashboard_routes import dashboard_bp
 from .notifications_route import notification_bp
+
 # Create a Blueprint for the main app routes
 main_bp = Blueprint('main', __name__)
 
