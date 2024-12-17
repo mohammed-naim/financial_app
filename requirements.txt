@@ -1,0 +1,8 @@
+Flask==3.0.3
+Flask-SQLAlchemy
+Flask-Migrate
+requests
+python-dotenv
+
+werkzeug==3.0.4
+SQLAlchemy==2.0.35

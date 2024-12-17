@@ -1,10 +1,11 @@
 logs/
 *.log
 
-templates/
+templates/*
 
 .env
 
 tests/
+.idea/
 
 *.sqlite
