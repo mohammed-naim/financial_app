@@ -37,6 +37,7 @@ def get_category_by_id(category_id):
         return jsonify({'error': 'Category not found or access denied'}), 404
     return jsonify({'category': category.to_dict()}), 200
 
+
 # Get enabled categories
 @category_bp.get('/enabled')
 @login_required
@@ -72,6 +73,7 @@ def update_category(category_id):
     db.session.commit()
     return jsonify({'message': 'Category updated successfully', 'category': category.to_dict()}), 200
 
+
 # enable a category
 @category_bp.put('/enable/<int:category_id>')
 @login_required
@@ -82,6 +84,7 @@ def enable_category(category_id):
     category.disabled = False
     db.session.commit()
     return jsonify({'message': 'Category enabled successfully'.title()}), 200
+
 
 # disable a category
 @category_bp.put('/disable/<int:category_id>')
