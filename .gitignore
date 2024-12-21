@@ -1,0 +1,11 @@
+logs/
+*.log
+
+templates/*
+__pycache__/
+.env
+
+tests/
+.idea/
+
+*.sqlite
