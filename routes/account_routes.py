@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, current_app
 from models import Account, db, Transaction
 from flask_login import login_required, current_user
 from marshmallow import Schema, fields, ValidationError
+from decimal import Decimal
 
 account_bp = Blueprint('account', __name__, url_prefix='/api/account')
 
@@ -16,7 +17,7 @@ def validate_currency(value):
 class AccountSchema(Schema):
     name = fields.Str(required=True)
     balance = fields.Float(required=True)
-    currency = fields.Str(required=True, validate=validate_currency)
+    currency = fields.Str(required=False, validate=validate_currency)
 
 
 # Create a new account
@@ -58,8 +59,6 @@ def get_accounts():
 @login_required
 def get_enabled_accounts():
     accounts = current_user.accounts.filter_by(disabled=False).all()
-    if not accounts:
-        return jsonify({'error': 'Accounts not found or access denied'}), 404
     accounts = [account.to_dict() for account in accounts]
     return jsonify({'accounts': accounts}), 200
 
@@ -68,8 +67,6 @@ def get_enabled_accounts():
 @login_required
 def get_disabled_accounts():
     accounts = current_user.accounts.filter_by(disabled=True).all()
-    if not accounts:
-        return jsonify({'error': 'Accounts not found or access denied'}), 404
     accounts = [account.to_dict() for account in accounts]
     return jsonify({'accounts': accounts}), 200
 
@@ -144,11 +141,11 @@ def transfer_between_accounts():
     amount = data.get('amount')
     if not from_account_id or not to_account_id or not amount:
         return jsonify({'error': 'Missing required fields'}), 400
-    amount = int(amount)
+    amount = float(amount)
     if amount <= 0:
         return jsonify({'error': 'Amount must be greater than zero'}), 400
-    from_account = current_user.accounts.get(from_account_id)
-    to_account = current_user.accounts.get(to_account_id)
+    from_account = current_user.accounts.filter_by(id=from_account_id).first()
+    to_account = current_user.accounts.filter_by(id=to_account_id).first()
     if not from_account:
         return jsonify({'error': 'Source account not found or access denied'}), 404
     if not to_account:
@@ -172,8 +169,8 @@ def transfer_between_accounts():
     )
     db.session.add(new_transaction)
     # Transfer the amount+
-    from_account.balance -= amount
-    to_account.balance += amount
+    from_account.balance -= Decimal(amount)
+    to_account.balance += Decimal(amount)
     db.session.commit()
 
     return jsonify({'message': 'Transfer completed successfully'}), 200
