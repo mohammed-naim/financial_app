@@ -19,7 +19,7 @@ def fetch_exchange_rates(reference_currency: str, currencies: list):
     :param reference_currency: The currency to compare against (default is 'USD').
     :param currencies: List of currencies to get exchange rates for.
     """
-    api_url = f"https://api.exchangerate-api.com/v4/latest/{reference_currency}"
+    api_url = f"https://open.er-api.com/v6/latest/{reference_currency}"
 
     try:
         response = requests.get(api_url)
