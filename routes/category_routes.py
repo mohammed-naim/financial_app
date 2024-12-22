@@ -14,7 +14,7 @@ def validate_type(value):
 
 class CategorySchema(Schema):
     name = fields.Str(required=True)
-    category_type = fields.Str(required=True, validate=validate_type)
+    category_type = fields.Str(required=False, validate=validate_type)
 
 
 # Create a new category
@@ -28,7 +28,7 @@ def add_category():
     except ValidationError as err:
         return jsonify({'error': 'Category name and type are required'}), 400
     name = data.get('name')
-    category_type = data.get('type')  # 'income' or 'expense'
+    category_type = data.get('category_type', 'expense')  # 'income' or 'expense'
     new_category = Category(name=name, type=category_type, user_id=current_user.id)
     db.session.add(new_category)
     db.session.commit()
@@ -58,8 +58,6 @@ def get_category_by_id(category_id):
 @login_required
 def get_enabled_categories():
     categories = current_user.categories.filter_by(disabled=False).all()
-    if not categories:
-        return jsonify({'error': 'Categories not found or access denied'}), 404
     categories = [category.to_dict() for category in categories]
     return jsonify({'categories': categories}), 200
 
@@ -68,8 +66,6 @@ def get_enabled_categories():
 @login_required
 def get_disabled_categories():
     categories = current_user.categories.filter_by(disabled=True).all()
-    if not categories:
-        return jsonify({'error': 'Categories not found or access denied'}), 404
     categories = [category.to_dict() for category in categories]
     return jsonify({'categories': categories}), 200
 
@@ -98,8 +94,9 @@ def update_category(category_id):
         data = schema.load(data)
     except ValidationError as err:
         return jsonify({'error': 'Category name and type are required'}), 400
+
     category.name = data.get('name', category.name)
-    category.type = data.get('type', category.type)
+    # category.type = data.get('type', category.type)
     db.session.commit()
     return jsonify({'message': 'Category updated successfully', 'category': category.to_dict()}), 200
 

@@ -15,14 +15,15 @@ class Transaction(db.Model):
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     status = db.Column(db.String(10), nullable=False)  # processing or done
 
-    def __init__(self, user_id, account_id, amount, category_id, description=None, date=None, status="done"):
+    def __init__(self, user_id, account_id, amount, category_id, description=None, date=datetime.utcnow(),
+                 status="done"):
         self.user_id = user_id
         self.account_id = account_id
         self.amount = amount
         self.category_id = category_id
         self.description = description
         self.status = status
-        self.date = datetime.strptime(date, "%Y-%m-%d") if date is not None else datetime.utcnow()
+        self.date = date
 
     def update(self, data: dict):
         account = Account.query.filter_by(id=self.account_id, user_id=self.user_id).first()
@@ -51,17 +52,16 @@ class Transaction(db.Model):
         category = self.category.query.filter_by(id=self.category_id).first()
         return {
             'id': self.id,
-            'user_id': self.user_id,
             'account_id': self.account_id,
             'category_id': self.category_id,
             'description': self.description,
             'date': self.date.isoformat(),
             'amount': str(self.amount),
-            'peroid': self.status,
+            'status': self.status,
             'category_name': category.name,
             'type': category.type,
             'account_name': Account.query.filter_by(id=self.account_id, user_id=self.user_id).first().name
         }
 
     def __repr__(self):
-        return f'<Transaction {self.amount} on {self.date} , peroid {self.status}>'
+        return f'<Transaction {self.amount} on {self.date} , status {self.status}>'

@@ -7,11 +7,11 @@ from marshmallow import Schema, fields, ValidationError
 transaction_bp = Blueprint('transaction', __name__, url_prefix='/api/transaction')
 
 
-class RepeatedTransactionsSchema(Schema):
+class TransactionsSchema(Schema):
     amount = fields.Float(required=True)
     account_id = fields.Integer(required=True)
     category_id = fields.Integer(required=True)
-    transaction_date = fields.DateTime(required=True, format='%Y-%m-%d')
+    transaction_date = fields.DateTime(required=False, format='%Y-%m-%d')
     description = fields.String(required=False)
 
 
@@ -21,10 +21,10 @@ class RepeatedTransactionsSchema(Schema):
 def add_transaction():
     data = request.get_json()
     try:
-        schema = RepeatedTransactionsSchema()
+        schema = TransactionsSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': 'Amount, category, and account are required'}), 400
+        return jsonify({'error': 'Amount, category, and account are required or body format is wrong'}), 400
     amount = data.get('amount')
     category_id = data.get('category_id')
     account_id = data.get('account_id')
@@ -70,7 +70,7 @@ def get_transactions():
     elif category_type:
         query = query.join(Category).filter(Category.type == category_type)
     if account_id:
-        query = query.filter_by(account_id=account_id)
+        query = query.filter(Transaction.account_id == account_id)
     if start_date:
         try:
             start_date = datetime.strptime(start_date, '%Y-%m-%d')
@@ -106,12 +106,10 @@ def update_transaction(transaction_id):
     transaction = current_user.transactions.filter_by(id=transaction_id).first()
     if not transaction:
         return jsonify({'error': 'Transaction not found or access denied'}), 404
-    if transaction.category.user_id != current_user.id:
-        return jsonify({'error': "Transaction Can't be edited because it's a transfer between accounts"})
 
     data = request.get_json()
     try:
-        schema = RepeatedTransactionsSchema()
+        schema = TransactionsSchema()
         data = schema.load(data)
     except ValidationError as e:
         return jsonify({'error': 'Amount, category, and account are required'}), 400
@@ -135,8 +133,6 @@ def delete_transaction(transaction_id):
         return jsonify({'error': 'Transaction not found or access denied'}), 404
     account = Account.query.get(transaction.account_id)
     category = Category.query.get(transaction.category_id)
-    if category.user_id != current_user.id:
-        return jsonify({'error': "Transaction Can't be deleted because because it's a transfer between accounts"})
     account.update_balance(-1 * transaction.amount, category.type)
     db.session.delete(transaction)
     db.session.commit()
@@ -149,15 +145,13 @@ def process_transaction(transaction_id):
     transaction = current_user.transactions.filter_by(id=transaction_id).first()
     if not transaction:
         return jsonify({'error': 'Transaction not found or access denied'}), 404
-    if transaction.status != 'in processing':
+    if transaction.status != 'processing':
         return jsonify({'error': 'Transaction is not in processing status'}), 400
 
     # Update the account balance
     account = Account.query.get(transaction.account_id)
     category = Category.query.get(transaction.category_id)
     account.update_balance(transaction.amount, category.type)
-    db.session.commit()
-
     # Update the transaction status
     transaction.status = 'done'
     db.session.commit()
