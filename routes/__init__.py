@@ -6,11 +6,12 @@ from .auth_routes import auth_bp
 from .account_routes import account_bp
 from .category_routes import category_bp
 from .transaction_routes import transaction_bp
+from .repeted_transactions_routes import repeated_transactions_bp
 from .dashboard_routes import dashboard_bp
 from .debt_routes import debt_bp
 from .investment_routes import investment_bp
 from .debtPayments_routes import debt_payments_bp
-from .dashboard_routes import dashboard_bp
+from .notifications_route import notification_bp
 
 # Create a Blueprint for the main app routes
 main_bp = Blueprint('main', __name__)
@@ -23,9 +24,11 @@ def register_routes(app):
     app.register_blueprint(account_bp)
     app.register_blueprint(category_bp)
     app.register_blueprint(transaction_bp)
+    app.register_blueprint(repeated_transactions_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(debt_bp)
     app.register_blueprint(investment_bp)
     app.register_blueprint(debt_payments_bp)
+    app.register_blueprint(notification_bp)
     # Additional main routes can be added here if needed.
     # Example: app.add_url_rule('/', 'index', some_view_function)

@@ -17,7 +17,7 @@ class Repeated_Transaction(db.Model):
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     period = db.Column(db.Integer, nullable=False)  # the number of days till next transaction
 
-    def __init__(self, user_id, account_id, amount, category_id, description=None, start_date=None,
+    def __init__(self, user_id, account_id, amount, category_id, description=None, start_date=datetime.utcnow(),
                  end_date=None, period="30"):
         self.user_id = user_id
         self.account_id = account_id
@@ -25,8 +25,9 @@ class Repeated_Transaction(db.Model):
         self.category_id = category_id
         self.description = description
         self.period = period
-        self.start_date = datetime.strptime(start_date, "%Y-%m-%d") if start_date is not None else datetime.utcnow()
-        self.end_date = datetime.strptime(end_date, "%Y-%m-%d") if end_date is not None else None
+        self.start_date = start_date
+        self.end_date = end_date
+        self.period = period
         self.next_transaction_date = self.start_date
 
     def update(self, data: dict):
@@ -44,7 +45,6 @@ class Repeated_Transaction(db.Model):
         category = Category.query.filter_by(id=self.category_id, user_id=self.user_id).first()
         return {
             'id': self.id,
-            'user_id': self.user_id,
             'account_id': self.account_id,
             'category_id': self.category_id,
             'description': self.description,

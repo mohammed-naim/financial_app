@@ -13,7 +13,6 @@ class DebtPayments(db.Model):
 
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
     debt_id = db.Column(db.Integer, db.ForeignKey('debts.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def update(self, data: dict):
         old_amount = self.amount
@@ -32,7 +31,7 @@ class DebtPayments(db.Model):
         elif old_amount != self.amount:
             account = Account.query.get(self.account_id)
             account.update_balance(old_amount - self.amount, debt.type)
-        # get the sum of the payments ammount of a debt
+        # get the sum of the payments amount of a debt
         paid_amount = (
                           db.session.query(func.sum(DebtPayments.amount))
                           .filter_by(debt_id=self.debt_id)

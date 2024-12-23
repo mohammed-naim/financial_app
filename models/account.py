@@ -13,9 +13,9 @@ class Account(db.Model):
     currency = db.Column(db.String(3), nullable=False)
     disabled = db.Column(db.Boolean, default=False, nullable=False)
     # Relationships
-    transactions = db.relationship('Transaction', backref='account', lazy=True)
-    debts = db.relationship('Debt', backref='account', lazy=True)
-    debts_payments = db.relationship('DebtPayments', backref='account', lazy=True)
+    transactions = db.relationship('Transaction', backref='account', lazy='dynamic')
+    debts = db.relationship('Debt', backref='account', lazy='dynamic')
+    debts_payments = db.relationship('DebtPayments', backref='account', lazy='dynamic')
 
     def __init__(self, user_id, name, balance=0.0, currency="ILS"):
         self.user_id = user_id
@@ -40,7 +40,6 @@ class Account(db.Model):
             'name': self.name,
             'balance': str(self.balance),  # Convert to string for JSON serialization
             'currency': self.currency,
-            'user_id': self.user_id,
             'disabled': self.disabled
         }
 

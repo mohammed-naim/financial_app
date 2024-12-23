@@ -19,7 +19,6 @@ class User(UserMixin, db.Model):
     Repeated_Transactions = db.relationship('Repeated_Transaction', backref='user', lazy='dynamic')
     debts = db.relationship('Debt', backref='user', lazy='dynamic')
     investments = db.relationship('Investment', backref='user', lazy='dynamic')
-    debts_payments = db.relationship('DebtPayments', backref='user', lazy='dynamic')
 
     def __init__(self, full_name, email, password, language="en"):
         self.full_name = full_name

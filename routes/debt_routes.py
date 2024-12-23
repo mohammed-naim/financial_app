@@ -30,14 +30,14 @@ def add_debt():
     try:
         schema = DebtSchema()
         data = schema.load(data)
-    except ValidationError as e:
+    except ValidationError:
         return jsonify({'error': 'Type, person name, amount, and account are required'}), 400
     debt_type = data.get('type')  # "creditor" or "debtor"
     person_name = data.get('person_name')
     amount = data.get('amount')
     description = data.get('description', '')
     account_id = data.get('account_id')
-    account = Account.query.filter_by(id=account_id, user_id=current_user.id).first()
+    account = current_user.accounts.filter_by(id=account_id).first()
     if not account:
         return jsonify({'error': 'Account not found or access denied'}), 404
 
@@ -71,13 +71,13 @@ def get_debts():
     try:
         # If debt ID is provided, return the specific debt
         if debt_id:
-            debt = Debt.query.filter_by(id=debt_id, user_id=current_user.id).first()
+            debt = current_user.debts.filter_by(id=debt_id, user_id=current_user.id).first()
             if not debt:
                 return jsonify({'error': 'Debt not found or access denied'}), 404
             return jsonify(debt.to_dict()), 200
 
         # Base query for current user's debts
-        query = Debt.query.filter_by(user_id=current_user.id)
+        query = current_user.debts.filter_by(user_id=current_user.id)
 
         # If a date range is provided, filter debts by the date range
         if start_date and end_date:
@@ -122,18 +122,18 @@ def get_debts():
 @debt_bp.put('/<int:debt_id>')
 @login_required
 def update_debt(debt_id):
-    debt = Debt.query.filter_by(id=debt_id, user_id=current_user.id).first()
+    debt = current_user.debts.filter_by(id=debt_id).first()
     if not debt:
         return jsonify({'error': 'Debt not found or access denied'}), 404
     data = request.get_json()
     try:
         schema = DebtSchema()
         data = schema.load(data)
-    except ValidationError as e:
+    except ValidationError:
         return jsonify({'error': 'Type, person name, amount, and account are required'}), 400
 
     account_id = data.get('account_id', debt.account_id)
-    account = Account.query.filter_by(id=account_id, user_id=current_user.id).first()
+    account = current_user.accounts.filter_by(id=account_id).first()
     if not account:
         return jsonify({'error': 'Account not found or access denied'}), 404
     previous_amount = debt.amount
@@ -155,9 +155,11 @@ def update_debt(debt_id):
 @debt_bp.delete('/<int:debt_id>')
 @login_required
 def delete_debt(debt_id):
-    debt = Debt.query.filter_by(id=debt_id, user_id=current_user).first()
+    debt = current_user.debts.filter_by(id=debt_id).first()
     if not debt:
         return jsonify({'error': 'Debt not found or access denied'}), 404
+    if debt.debtPayments.all():
+        return jsonify({"error": "There are payments associated with this debt."}), 400
     account = Account.query.get(debt.account_id)
     amount = debt.amount * -1
     account.update_balance(amount, debt.type)

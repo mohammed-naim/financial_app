@@ -27,14 +27,16 @@ def get_payments(debt_id):
     end_date = request.args.get('end_date')
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-
+    debt = current_user.debts.filter_by(id=debt_id).first()
+    if debt is None:
+        return jsonify({"error": "debt not found"}), 404
     # If payment ID is provided, return payment by ID
     if payment_id:
-        payment = DebtPayments.query.filter_by(id=payment_id, user_id=current_user.id).first()
+        payment = debt.debtPayments.filter_by(id=payment_id).first()
         if payment is None:
             return jsonify({'error': 'Payment not found or access denied'}), 404
         return jsonify(payment.to_dict()), 200
-    payments = DebtPayments.query.filter_by(debt_id=debt_id, user_id=current_user.id)
+    payments = debt.debtPayments
     if not payments:
         return jsonify({'error': 'Payment not found or access denied'}), 404
     # If date period is provided, filter payments by date range
@@ -80,19 +82,19 @@ def add_payment():
     except ValidationError as e:
         return jsonify({'error': 'request body is empty or some data lost'}), 400
     # based on the debt type add or remove the amount from the account
-    account = Account.query.filter_by(id=data.get('account_id'), user_id=current_user.id).first()
-    debt = Debt.query.filter_by(id=data.get('debt_id'), user_id=current_user.id).first()
+    account = current_user.accounts.filter_by(id=data.get('account_id')).first()
+    debt = current_user.debts.query.filter_by(id=data.get('debt_id')).first()
     if not account or not debt:
         return jsonify({'error': 'Account or Debt not found or access denied'}), 404
     new_payment = DebtPayments(
         amount=data['amount'],
         description=data.get('description'),
-        date=datetime.strptime(data['date'], '%Y-%m-%d') if data.get('date') else datetime.utcnow(),
+        date=data.get('date') if data.get('date') else datetime.utcnow(),
         account_id=data['account_id'],
         debt_id=data['debt_id']
     )
     account.update_balance(new_payment.amount * -1, debt.type)
-    paid_amount = debt.paid + new_payment.amount
+    paid_amount = float(debt.paid) + float(new_payment.amount)
     debt.update({'paid': paid_amount})
     db.session.add(new_payment)
     db.session.commit()
@@ -103,11 +105,12 @@ def add_payment():
 @debt_payments_bp.delete('/<int:debt_payment_id>')
 @login_required
 def delete_payment(debt_payment_id):
-    payment = DebtPayments.query.filter_by(id=debt_payment_id, user_id=current_user.id).first()
+    payment = current_user.debts.join(DebtPayments).filter(DebtPayments.id == debt_payment_id).first()
     if not payment:
         return jsonify({'error': 'Payment not found or access denied'}), 404
-    account = Account.query.get(payment.account_id)
-    debt = Debt.query.get(payment.debt_id)
+    payment = DebtPayments.query.filter(DebtPayments.id == debt_payment_id).first()
+    account = current_user.accounts.filter_by(id=payment.account_id).first()
+    debt = current_user.debts.filter_by(id=payment.debt_id).first()
     account.update_balance(payment.amount, debt.type)
     paid_amount = debt.paid - Decimal(payment.amount)
     debt.update({'paid': paid_amount})
@@ -126,9 +129,15 @@ def update_payment(debt_payment_id):
         data = schema.load(data)
     except ValidationError as e:
         return jsonify({'error': 'request body is empty or some data lost'}), 400
-    payment = DebtPayments.query.filter_by(id=debt_payment_id, user_id=current_user.id).first()
+    account = current_user.accounts.filter_by(id=data.get('account_id')).first()
+    debt = current_user.debts.filter_by(id=data.get('debt_id')).first()
+    if debt is None or account is None:
+        return jsonify({'error': 'account or debt not found'}), 404
+    payment = current_user.debts.join(DebtPayments).filter(DebtPayments.id == debt_payment_id).first()
     if not payment:
         return jsonify({'error': 'payment not found or access denied'}), 404
+    payment = DebtPayments.query.filter(DebtPayments.id == debt_payment_id).first()
     payment.update(data)
     db.session.commit()
+
     return jsonify(payment.to_dict()), 200

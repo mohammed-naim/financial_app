@@ -36,17 +36,17 @@ def fetch_exchange_rates(reference_currency: str, currencies: list):
 
 
 # Function to calculate the profit or loss for an investment
-def calculate_profit_or_loss(amount_invested, purchase_price, current_price):
+def calculate_profit_or_loss(bought_amount, purchase_price, current_price):
     """
     Calculates the profit or loss based on the amount invested, purchase price, and the current price.
 
-    :param amount_invested: The amount of currency units invested.
+    :param bought_amount: The amount of currency units invested.
     :param purchase_price: The price per unit at the time of purchase.
     :param current_price: The current price per unit.
     :return: The profit or loss as a float with two decimal places.
     """
-    initial_value = amount_invested * purchase_price
-    current_value = float(amount_invested) * float(current_price)
+    initial_value = bought_amount * (1 / purchase_price)
+    current_value = float(bought_amount) * float(current_price)
     profit_or_loss = float(current_value) - float(initial_value)
 
     return round(profit_or_loss, 2)

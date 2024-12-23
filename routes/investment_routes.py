@@ -1,20 +1,21 @@
 from flask import Blueprint, request, jsonify
-from models import Investment, db, Account
+from models import Investment, db
 from flask_login import login_required, current_user
 from marshmallow import Schema, fields, ValidationError
 from services.investment_service import exchange_rates
+from decimal import Decimal
 
 investment_bp = Blueprint('investment', __name__, url_prefix='/api/investment')
 
 
 def validate_currency(value):
-    allowed_currencies = ["ILS"]
+    allowed_currencies = ["USD", "EUR", "JOD"]
     if value not in allowed_currencies:
         raise ValidationError("Invalid currency")
 
 
 def validate_reference_currency(value):
-    allowed_currencies = ["ILS", "USD", "EUR", "JOD"]
+    allowed_currencies = ["ILS"]
     if value not in allowed_currencies:
         raise ValidationError("Invalid currency")
 
@@ -39,15 +40,17 @@ def add_investment():
         data = schema.load(data)
     except ValidationError as e:
         return jsonify({'error': 'Currency, account, amount invested and purchase price are required'}), 400
-    account_id = data.get('account_id', type=int)
+    account_id = data.get('account_id')
+    if current_user.accounts.filter_by(id=account_id).first() is None:
+        return jsonify({'error': 'Account not found'}), 401
     currency = data.get('currency')
     amount_invested = data.get('amount_invested')
-    purchase_price = data.get('purchase_price', type=float)
-    reference_currency = data.get('reference_currency', 'USD')
+    purchase_price = data.get('purchase_price')
+    reference_currency = data.get('reference_currency')
     description = data.get('description')
     date = data.get('date')
-
-    if current_user.accounts.get(account_id):
+    account = current_user.accounts.filter_by(id=account_id).first()
+    if account is None:
         return jsonify({'error': 'Account not found or Access denied'}), 404
 
     new_investment = Investment(
@@ -61,8 +64,7 @@ def add_investment():
         date=date
     )
     # update account balance
-    account = current_user.accounts.get(account_id)
-    account.balance -= purchase_price
+    account.balance -= Decimal(purchase_price)
 
     db.session.add(new_investment)
     db.session.commit()
@@ -78,7 +80,7 @@ def get_investments():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     investment_id = request.args.get('id', None, type=int)
-    investment_query = current_user.investments.query
+    investment_query = current_user.investments
     if investment_id:
         investment = investment_query.filter_by(id=investment_id).first()
         return jsonify(investment.to_dict())
@@ -99,15 +101,17 @@ def get_investments():
 @investment_bp.put('/<int:investment_id>')
 @login_required
 def update_investment(investment_id):
-    investment = current_user.investments.query.filter_by(id=investment_id).first()
+    investment = current_user.investments.filter_by(id=investment_id).first()
     if not investment:
         return jsonify({'error': 'Investment not found or access denied'}), 404
     data = request.get_json()
     try:
         schema = InvestmentSchema()
         data = schema.load(data)
-    except ValidationError as e:
+    except ValidationError:
         return jsonify({'error': 'Currency, account, amount invested and purchase price are required'}), 400
+    if data.get('account_id') is not investment.account_id:
+        return jsonify({'error': "Account can't be updated"}), 400
     investment.update(data)
     db.session.commit()
     return jsonify({'message': 'Investment updated successfully', 'investment': investment.to_dict()}), 200
@@ -117,7 +121,7 @@ def update_investment(investment_id):
 @investment_bp.delete('/<int:investment_id>')
 @login_required
 def delete_investment(investment_id):
-    investment = Investment.query.filter_by(id=investment_id, user_id=current_user.id).first()
+    investment = current_user.investments.filter_by(id=investment_id).first()
     if not investment:
         return jsonify({'error': 'Investment not found or access denied'}), 404
     db.session.delete(investment)
@@ -128,19 +132,23 @@ def delete_investment(investment_id):
 @investment_bp.put('/sell/<int:investment_id>')
 @login_required
 def sell_investment(investment_id):
-    investment = current_user.investments.query.filter_by(id=investment_id).first()
+    investment = current_user.investments.filter_by(id=investment_id).first()
     if not investment:
         return jsonify({'error': 'Investment not found or access denied'}), 404
     data = request.get_json()
-    sell_price = data['sell_price']
+    sell_price = data.get('sell_price')
+    if not sell_price:
+        return jsonify({'error': "bad request"}), 400
     investment.sold = True
-    account = current_user.accounts.query.filter_by(id=investment.account_id)
-    account.balance += (sell_price * investment.amount_invested)
+    account = current_user.accounts.filter_by(id=investment.account_id).first()
+    investment.sell_price = sell_price
+    investment.profit_amount = (Decimal(investment.sell_price) * Decimal(investment.bought_amount))
+    account.balance += investment.profit_amount
     db.session.commit()
     return jsonify({'message': 'Investment updated successfully', 'investment': investment.to_dict()}), 200
 
 
 @investment_bp.get('/exchange_rates')
 @login_required
-def exchange_rates():
-    return jsonify(exchange_rates), 200
+def get_exchange_rates():
+    return jsonify({"exchange_rates": exchange_rates}), 200

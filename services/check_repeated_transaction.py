@@ -1,7 +1,7 @@
 from flask import Flask
 import schedule
 import datetime
-from models import Repeated_Transaction, Transaction, db
+from models import Repeated_Transaction, Transaction, db, Notification
 import time
 
 
@@ -15,6 +15,7 @@ def check_repeated_transactions():
     ).all()
     new_transactions = []
     repeated_transactions_to_update = []
+    new_notifications = []
     for repeated_transaction in repeated_transactions:
         new_transaction = Transaction(
             amount=repeated_transaction.amount,
@@ -25,12 +26,16 @@ def check_repeated_transactions():
             status="processing",
             user_id=repeated_transaction.user_id
         )
+        new_notification = Notification(user_id=repeated_transaction.user_id,
+                                        message=f'Transaction of {repeated_transaction.amount} is pending for {repeated_transaction.description}',
+                                        is_seen=False)
         new_transactions.append(new_transaction)
+        new_notifications.append(new_notification)
         repeated_transaction.next_transaction_date = today + datetime.timedelta(days=repeated_transaction.period)
         repeated_transactions_to_update.append(repeated_transaction)
+
     db.session.add_all(new_transactions)
-    # db.session.bulk_insert(new_transactions)
-    # db.session.bulk_update(repeated_transactions_to_update)
+    db.session.add_all(new_notifications)
     db.session.commit()
     print("Repeated Transactions updated")
 
