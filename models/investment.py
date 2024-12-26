@@ -19,7 +19,7 @@ class Investment(db.Model):
     profit_amount = db.Column(db.Numeric(10, 2), nullable=False)
     reference_currency = db.Column(db.String(3), nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    date = db.Column(db.Date, default=datetime.utcnow, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     sold = db.Column(db.Boolean, default=False, nullable=False)
     sell_price = db.Column(db.Numeric(10, 2), nullable=True)
 

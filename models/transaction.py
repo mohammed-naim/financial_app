@@ -11,7 +11,7 @@ class Transaction(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     description = db.Column(db.String(255), nullable=True)
-    date = db.Column(db.Date, default=datetime.utcnow, nullable=False)
+    date = db.Column(db.Date, nullable=False)
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     status = db.Column(db.String(10), nullable=False)  # processing or done
 
