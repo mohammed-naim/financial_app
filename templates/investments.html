@@ -1,0 +1,588 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .section-heading {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .filter-row, .table-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-content {
+            border-radius: 15px;
+        }
+
+        .exchange-rates-table td {
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <h1 class="text-center text-success section-heading">
+            <i class="bi bi-graph-up-arrow"></i> Investments
+        </h1>
+
+        <!-- Exchange Rates Display -->
+        <div id="exchangeRatesDiv" class="mb-4" style="display:none;">
+            <h5>Current Exchange Rates</h5>
+            <table class="table table-sm table-bordered exchange-rates-table" style="max-width: 300px;">
+                <thead class="table-success">
+                <tr>
+                    <th>Currency</th>
+                    <th>Rate to ILS</th>
+                </tr>
+                </thead>
+                <tbody id="exchangeRatesBody">
+                <!-- Populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Filter + Add Button Row -->
+        <div class="filter-row d-flex flex-wrap align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <!-- Possibly add more filters in the future (like sold/not sold, etc.) -->
+                <button class="btn btn-outline-info me-3" onclick="toggleExchangeRates()">
+                    <i class="bi bi-currency-exchange"></i> Show/Hide Exchange Rates
+                </button>
+            </div>
+            <!-- Add Investment Button -->
+            <button class="btn btn-success" onclick="showModal('addInvestmentModal')">
+                <i class="bi bi-plus-circle"></i> Add Investment
+            </button>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container mb-4">
+            <table class="table table-hover table-striped align-middle">
+                <thead class="table-success">
+                <tr>
+                    <th>Asset Currency</th>
+                    <th>Amount Invested</th>
+                    <th>Purchase Price</th>
+                    <th>Profit / Loss</th>
+                    <th>Sold?</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="investmentTableBody">
+                <!-- Investment rows populated dynamically -->
+                </tbody>
+            </table>
+
+            <!-- Pagination Controls -->
+            <nav aria-label="Investment pagination" class="d-flex justify-content-center mt-3">
+                <ul class="pagination" id="paginationControls">
+                    <!-- Pagination buttons populated dynamically -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ADD Investment Modal -->
+    <div class="modal fade" id="addInvestmentModal" tabindex="-1" aria-labelledby="addInvestmentLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addInvestmentForm" onsubmit="addInvestment(event)">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="addInvestmentLabel">Add Investment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Account ID (user picks account) -->
+                        <div class="mb-3">
+                            <label for="investmentAccount" class="form-label fw-semibold">Account</label>
+                            <select class="form-select" id="investmentAccount" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <!-- Currency -->
+                        <div class="mb-3">
+                            <label for="investmentCurrency" class="form-label fw-semibold">Currency</label>
+                            <select class="form-select" id="investmentCurrency" onchange="updateExchangeRate()"
+                                    required>
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="JOD">JOD</option>
+                                <!-- The route only allows USD/EUR/JOD, not ILS as investment currency -->
+                            </select>
+                        </div>
+                        <!-- Amount Invested -->
+                        <div class="mb-3">
+                            <label for="amountInvested" class="form-label fw-semibold">Amount Invested</label>
+                            <input type="number" step="0.01" class="form-control" id="amountInvested" required>
+                        </div>
+                        <!-- Purchase Price -->
+                        <div class="mb-3">
+                            <label for="purchasePrice" class="form-label fw-semibold">Purchase Price (ILS)</label>
+                            <input type="number" step="0.01" class="form-control" id="purchasePrice" required>
+                        </div>
+                        <!-- Reference Currency (e.g. ILS only, per route) -->
+                        <div class="mb-3">
+                            <label for="referenceCurrency" class="form-label fw-semibold">Reference Currency</label>
+                            <select class="form-select" id="referenceCurrency" required>
+                                <option value="ILS">ILS</option>
+                            </select>
+                        </div>
+                        <!-- Description (optional) -->
+                        <div class="mb-3">
+                            <label for="investmentDescription" class="form-label fw-semibold">Description</label>
+                            <input type="text" class="form-control" id="investmentDescription" placeholder="Short note">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Add
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT Investment Modal -->
+    <div class="modal fade" id="editInvestmentModal" tabindex="-1" aria-labelledby="editInvestmentLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editInvestmentForm" onsubmit="updateInvestment(event)">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="editInvestmentLabel">Edit Investment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editInvestmentId">
+                        <!-- We do NOT allow changing the account_id per the route code, so no account dropdown here -->
+                        <!-- Currency -->
+                        <div class="mb-3">
+                            <label for="editInvestmentCurrency" class="form-label fw-semibold">Currency</label>
+                            <select class="form-select" id="editInvestmentCurrency" required>
+                                <option value="USD" selected>USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="JOD">JOD</option>
+                            </select>
+                        </div>
+                        <!-- Amount Invested -->
+                        <div class="mb-3">
+                            <label for="editAmountInvested" class="form-label fw-semibold">Amount Invested</label>
+                            <input type="number" step="0.01" class="form-control" id="editAmountInvested" required>
+                        </div>
+                        <!-- Purchase Price -->
+                        <div class="mb-3">
+                            <label for="editPurchasePrice" class="form-label fw-semibold">Purchase Price</label>
+                            <input type="number" step="0.01" class="form-control" id="editPurchasePrice" required>
+                        </div>
+                        <!-- Reference Currency -->
+                        <div class="mb-3">
+                            <label for="editReferenceCurrency" class="form-label fw-semibold">Reference Currency</label>
+                            <select class="form-select" id="editReferenceCurrency" required>
+                                <option value="ILS">ILS</option>
+                            </select>
+                        </div>
+                        <!-- Description (Optional) -->
+                        <div class="mb-3">
+                            <label for="editDescription" class="form-label fw-semibold">Description</label>
+                            <input type="text" class="form-control" id="editDescription">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-check-circle"></i> Update
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SELL Investment Modal -->
+    <div class="modal fade" id="sellInvestmentModal" tabindex="-1" aria-labelledby="sellInvestmentLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="sellInvestmentForm" onsubmit="sellInvestment(event)">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="sellInvestmentLabel">Sell Investment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="sellInvestmentId">
+                        <!-- Sell Price (user can override) -->
+                        <div class="mb-3">
+                            <label for="sellPriceInput" class="form-label fw-semibold">Sell Price (ILS)</label>
+                            <input type="number" step="0.01" class="form-control" id="sellPriceInput" required>
+                        </div>
+                        <small class="text-muted">This defaults to the current price if available, but you can
+                            override.</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-cash-coin"></i> Sell
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        let currentPage = 1;
+        const perPage = 10;
+        let exchangeRates = {}; // We'll store fetched exchange rates here
+
+        document.addEventListener("DOMContentLoaded", function () {
+            getInvestments(currentPage);
+            loadAccountsForInvestments(); // Load accounts to show in the "Add Investment" form
+            fetchExchangeRates();         // Load exchange rates on page load
+        });
+
+        /******************* TOGGLE EXCHANGE RATES *******************/
+        function toggleExchangeRates() {
+            const ratesDiv = document.getElementById("exchangeRatesDiv");
+            if (ratesDiv.style.display === "none" || !ratesDiv.style.display) {
+                ratesDiv.style.display = "block";
+            } else {
+                ratesDiv.style.display = "none";
+            }
+        }
+
+        /******************* FETCH EXCHANGE RATES *******************/
+        function fetchExchangeRates() {
+            fetch('/api/investment/exchange_rates')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exchange_rates) {
+                        exchangeRates = data.exchange_rates.ILS;
+                        populateExchangeRatesTable(exchangeRates);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error fetching exchange rates:', err);
+                    showToast('Could not load exchange rates.', 'danger');
+                });
+        }
+
+        function formatRate(rate) {
+            if (isNaN(rate) || rate === 0) {
+                return "N/A"; // Or handle invalid input as needed
+            }
+
+            const result = Number(rate);
+            return result.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        function populateExchangeRatesTable(rates) {
+            const exchangeRatesBody = document.getElementById("exchangeRatesBody");
+            exchangeRatesBody.innerHTML = '';
+
+            // rates = { "USD": 0.28, "EUR": 0.25, ... }  => means 1 ILS => 0.28 USD
+            Object.keys(rates).forEach(currency => {
+                const rate = rates[currency];
+                exchangeRatesBody.insertAdjacentHTML('beforeend', `
+            <tr>
+                <td>${currency}</td>
+                <td>${formatRate(1 / rate)}</td>
+            </tr>
+        `);
+            });
+        }
+
+        function updateExchangeRate() {
+            const selectedCurrency = document.getElementById("investmentCurrency").value;
+            const rate = exchangeRates[selectedCurrency]; // Assume `exchangeRates` is preloaded as an object like { USD: 0.28, ... }
+
+            const rateDisplay = document.getElementById("purchasePrice");
+            rateDisplay.value = rate ? Number.parseFloat(formatRate(rate)) : 'N/A';
+        }
+
+
+        /******************* LOAD ACCOUNTS FOR INVESTMENT FORM *******************/
+        function loadAccountsForInvestments() {
+            // Example: Fetch /api/account?status=enabled => only enabled accounts?
+            fetch('/api/account/enabled')
+                .then(response => response.json())
+                .then(data => {
+                    const acctSelect = document.getElementById("investmentAccount");
+                    acctSelect.innerHTML = '';
+
+                    data.accounts.forEach(acct => {
+                        // e.g. {id: 1, name: "My Savings", currency: "ILS"}
+                        const option = document.createElement("option");
+                        option.value = acct.id;
+                        option.textContent = `${acct.name} (${acct.currency})`;
+                        acctSelect.appendChild(option);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading accounts:', err);
+                    showToast('Could not load accounts.', 'danger');
+                });
+        }
+
+        /******************* FETCH INVESTMENTS *******************/
+        function getInvestments(page) {
+            fetch(`/api/investment?page=${page}&per_page=${perPage}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    populateInvestmentTable(data.investments || []);
+                    setupPagination(data.total || 0, data.page, data.pages || 1);
+                })
+                .catch(err => {
+                    console.error('Error fetching investments:', err);
+                    showToast('Error loading investments.', 'danger');
+                });
+        }
+
+        function populateInvestmentTable(investments) {
+            const tableBody = document.getElementById("investmentTableBody");
+            tableBody.innerHTML = "";
+
+            investments.forEach(invest => {
+                const isSold = invest.sold ? 'Yes' : 'No';
+                // Show profit if sold, else '---'
+                const profitDisplay = invest.profit_amount ? invest.profit_amount : '---';
+
+                // If there's a route that provides "current_price" for unsold investments, you can display it:
+                // const currentValue = invest.current_price || '---';
+                // For now, we only show "purchase_price".
+                // "profit_amount" is only relevant if sold = True or if your server calculates real-time profit.
+
+                const row = `
+          <tr>
+            <td>${invest.currency}</td>
+            <td>${invest.amount_invested}</td>
+            <td>${invest.purchase_price}</td>
+            <td>${profitDisplay}</td>
+            <td>${isSold}</td>
+            <td class="text-center">
+                ${
+                    invest.sold
+                        ? `<!-- Already sold, only Delete or maybe view details? -->
+                        <button class="btn btn-sm btn-danger" onclick="confirmDeleteInvestment(${invest.id})">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>`
+                        : `<!-- Not sold, can Edit, Sell, or Delete -->
+                        <button class="btn btn-sm btn-warning me-1" onclick="editInvestment(${invest.id})">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-info me-1" onclick="showSellModal(${invest.id})">
+                            <i class="bi bi-cash-coin"></i> Sell
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDeleteInvestment(${invest.id})">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>`
+                }
+            </td>
+          </tr>`;
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        }
+
+        /******************* PAGINATION *******************/
+        function setupPagination(totalItems, currentPageNum, totalPages) {
+            currentPage = currentPageNum; // store globally
+            const paginationControls = document.getElementById("paginationControls");
+            paginationControls.innerHTML = "";
+
+            for (let i = 1; i <= totalPages; i++) {
+                const activeClass = i === currentPageNum ? 'active' : '';
+                const pageItem = `
+          <li class="page-item ${activeClass}">
+            <button class="page-link" onclick="getInvestments(${i})">${i}</button>
+          </li>
+        `;
+                paginationControls.insertAdjacentHTML("beforeend", pageItem);
+            }
+        }
+
+        /******************* ADD INVESTMENT *******************/
+        function addInvestment(event) {
+            event.preventDefault();
+            const data = {
+                account_id: parseInt(document.getElementById("investmentAccount").value),
+                currency: document.getElementById("investmentCurrency").value,
+                amount_invested: parseFloat(document.getElementById("amountInvested").value),
+                purchase_price: parseFloat(document.getElementById("purchasePrice").value),
+                reference_currency: document.getElementById("referenceCurrency").value,
+                description: document.getElementById("investmentDescription").value || 'No description'
+            };
+
+            fetch('/api/investment', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(resp => {
+                    if (resp.error) {
+                        showToast(resp.error, 'danger');
+                    } else {
+                        showToast('Investment added successfully!', 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('addInvestmentModal')).hide();
+                        getInvestments(currentPage);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error adding investment:', err);
+                    showToast('Error adding investment.', 'danger');
+                });
+        }
+
+        /******************* EDIT INVESTMENT *******************/
+        function editInvestment(investmentId) {
+            fetch(`/api/investment?id=${investmentId}`)
+                .then(response => response.json())
+                .then(invest => {
+                    if (invest.error) {
+                        showToast(invest.error, 'danger');
+                        return;
+                    }
+                    // Populate the edit modal
+                    document.getElementById("editInvestmentId").value = invest.id;
+                    document.getElementById("editInvestmentCurrency").value = invest.currency;
+                    document.getElementById("editAmountInvested").value = invest.amount_invested;
+                    document.getElementById("editPurchasePrice").value = invest.purchase_price;
+                    document.getElementById("editReferenceCurrency").value = invest.reference_currency;
+                    document.getElementById("editDescription").value = invest.description || '';
+                    showModal("editInvestmentModal");
+                })
+                .catch(err => {
+                    console.error('Error fetching investment:', err);
+                    showToast('Error loading investment.', 'danger');
+                });
+        }
+
+        function updateInvestment(event) {
+            event.preventDefault();
+            const investmentId = document.getElementById("editInvestmentId").value;
+            const data = {
+                currency: document.getElementById("editInvestmentCurrency").value,
+                amount_invested: parseFloat(document.getElementById("editAmountInvested").value),
+                purchase_price: parseFloat(document.getElementById("editPurchasePrice").value),
+                reference_currency: document.getElementById("editReferenceCurrency").value,
+                description: document.getElementById("editDescription").value || 'No description'
+            };
+
+            fetch(`/api/investment/${investmentId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(resp => {
+                    if (resp.error) {
+                        showToast(resp.error, 'danger');
+                    } else {
+                        showToast('Investment updated successfully!', 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('editInvestmentModal')).hide();
+                        getInvestments(currentPage);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error updating investment:', err);
+                    showToast('Error updating investment.', 'danger');
+                });
+        }
+
+        /******************* DELETE INVESTMENT *******************/
+        function confirmDeleteInvestment(id) {
+            showCustomConfirm('Delete Investment', 'Are you sure you want to delete this investment?')
+                .then(userConfirmed => {
+                    if (userConfirmed) deleteInvestment(id);
+                });
+        }
+
+        function deleteInvestment(id) {
+            fetch(`/api/investment/${id}`, {method: 'DELETE'})
+                .then(response => response.json())
+                .then(resp => {
+                    if (resp.error) {
+                        showToast(resp.error, 'danger');
+                    } else {
+                        showToast('Investment deleted successfully!', 'success');
+                        getInvestments(currentPage);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error deleting investment:', err);
+                    showToast('Error deleting investment.', 'danger');
+                });
+        }
+
+        /******************* SELL INVESTMENT *******************/
+        function showSellModal(investmentId) {
+            // We might fetch the "current_price" from server, for now let's assume it's in exchangeRates or from /api/investment?id=...
+            // We'll do a quick fetch:
+            fetch(`/api/investment?id=${investmentId}`)
+                .then(response => response.json())
+                .then(inv => {
+                    if (inv.error) {
+                        showToast(inv.error, 'danger');
+                        return;
+                    }
+                    // Fill hidden ID
+                    document.getElementById('sellInvestmentId').value = inv.id;
+                    // If your server returns something like `current_price`, you can use that as default
+                    document.getElementById('sellPriceInput').value = inv.current_price || inv.purchase_price;
+                    showModal('sellInvestmentModal');
+                })
+                .catch(err => {
+                    console.error('Error fetching investment for selling:', err);
+                    showToast('Error loading investment info.', 'danger');
+                });
+        }
+
+        function sellInvestment(event) {
+            event.preventDefault();
+            const investId = document.getElementById('sellInvestmentId').value;
+            const sellPrice = parseFloat(document.getElementById('sellPriceInput').value);
+
+            fetch(`/api/investment/sell/${investId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({sell_price: sellPrice})
+            })
+                .then(response => response.json())
+                .then(resp => {
+                    if (resp.error) {
+                        showToast(resp.error, 'danger');
+                    } else {
+                        showToast('Investment sold successfully!', 'success');
+                        bootstrap.Modal.getInstance(document.getElementById('sellInvestmentModal')).hide();
+                        getInvestments(currentPage);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error selling investment:', err);
+                    showToast('Error selling investment.', 'danger');
+                });
+        }
+    </script>
+{% endblock %}

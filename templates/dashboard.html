@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Include Chart.js (4.x) from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4"><i class="fas fa-chart-pie"></i> Dashboard</h1>
+
+        <!-- TOP CARDS FOR KEY METRICS (OVERVIEW) -->
+        <div class="row g-4 mb-4 text-center">
+            <!-- Income Card -->
+            <div class="col-md-3">
+                <div class="card border-success shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Income</h5>
+                        <h2 id="incomeValue" class="text-success fw-bold">0</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Expenses Card -->
+            <div class="col-md-3">
+                <div class="card border-danger shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Expenses</h5>
+                        <h2 id="expensesValue" class="text-danger fw-bold">0</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Accounts Card -->
+            <div class="col-md-3">
+                <div class="card border-primary shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Account Balances</h5>
+                        <p class="mb-2">Enabled: <span id="enabledAccountsValue" class="fw-bold text-primary">0</span>
+                        </p>
+                        <p class="mb-0">Disabled: <span id="disabledAccountsValue" class="fw-bold text-muted">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Debts Card -->
+            <div class="col-md-3">
+                <div class="card border-warning shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Debts</h5>
+                        <p class="mb-2">Creditor: <span id="creditorDebtsValue" class="fw-bold text-warning">0</span>
+                        </p>
+                        <p class="mb-0">Debtor: <span id="debtorDebtsValue" class="fw-bold text-warning">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INVESTMENTS CARD -->
+        <div class="row g-4 mb-4 justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-info text-center shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Investments</h5>
+                        <p class="mb-2">Total Invested: <span id="investedValue" class="fw-bold text-info">0</span></p>
+                        <p class="mb-0">Total Profit: <span id="profitValue" class="fw-bold text-success">0</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="row">
+            <!-- Bar Chart: Income vs. Expenses -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white bg-primary">
+                        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Income vs. Expenses</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="incomeExpensesChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doughnut Chart: Category Summary -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white bg-secondary">
+                        <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Category Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categorySummaryChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTER & LINE CHART FOR DETAILED CASH FLOW -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> Cash Flow Over Time</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- FILTER FORM -->
+                        <form id="cashFlowFilterForm" class="row g-3 mb-3">
+                            <div class="col-sm-3">
+                                <label for="startDate" class="form-label fw-semibold">Start Date</label>
+                                <input type="date" id="startDate" name="start_date" class="form-control" required>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="endDate" class="form-label fw-semibold">End Date</label>
+                                <input type="date" id="endDate" name="end_date" class="form-control" required>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="interval" class="form-label fw-semibold">Interval</label>
+                                <select id="interval" name="interval" class="form-select" required>
+                                    <option value="day">Daily</option>
+                                    <option value="week">Weekly</option>
+                                    <option value="month">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-info w-100">
+                                    <i class="fas fa-sync"></i> Apply Filter
+                                </button>
+                            </div>
+                        </form>
+                        <!-- LINE CHART -->
+                        <canvas id="cashFlowChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCRIPT -->
+    <script>
+        let cashFlowChart; // Keep a reference to update the chart if needed
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1) Fetch the overview data
+            fetch('/api/dashboard/overview')
+                .then(response => response.json())
+                .then(data => {
+                    // Update top cards
+                    document.getElementById('incomeValue').textContent = data.income.toFixed(2);
+                    document.getElementById('expensesValue').textContent = data.expenses.toFixed(2);
+                    document.getElementById('enabledAccountsValue').textContent = data.enabled_accounts_balance.toFixed(2);
+                    document.getElementById('disabledAccountsValue').textContent = data.disabled_accounts_balance.toFixed(2);
+                    document.getElementById('creditorDebtsValue').textContent = data.total_creditor_debts.toFixed(2);
+                    document.getElementById('debtorDebtsValue').textContent = data.total_debtor_debts.toFixed(2);
+                    document.getElementById('investedValue').textContent = data.total_invested.toFixed(2);
+                    document.getElementById('profitValue').textContent = data.total_profit.toFixed(2);
+
+                    // Build the Income vs. Expenses chart
+                    buildIncomeExpensesChart(data.income, data.expenses);
+                })
+                .catch(err => console.error('Error fetching overview:', err));
+
+            // 2) Fetch the category summary data
+            fetch('/api/dashboard/category-summary')
+                .then(response => response.json())
+                .then(categories => {
+                    buildCategorySummaryChart(categories);
+                })
+                .catch(err => console.error('Error fetching category summary:', err));
+
+            // 3) Setup the filter form for the detailed cash flow
+            const cashFlowFilterForm = document.getElementById('cashFlowFilterForm');
+            cashFlowFilterForm.addEventListener('submit', event => {
+                event.preventDefault();
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const interval = document.getElementById('interval').value;
+                fetchCashFlowDetailed(startDate, endDate, interval);
+            });
+
+            // Optional: set default date range to last 30 days
+            const end = new Date().toISOString().split('T')[0];
+            const startObj = new Date();
+            startObj.setDate(startObj.getDate() - 30);
+            const start = startObj.toISOString().split('T')[0];
+            document.getElementById('startDate').value = start;
+            document.getElementById('endDate').value = end;
+            document.getElementById('interval').value = 'day';
+
+            // Fetch initial line chart data
+            fetchCashFlowDetailed(start, end, 'day');
+        });
+
+        /*************************************
+         * 1) Income vs. Expenses Chart
+         *************************************/
+        function buildIncomeExpensesChart(income, expenses) {
+            const ctx = document.getElementById('incomeExpensesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Income', 'Expenses'],
+                    datasets: [{
+                        label: 'Amount',
+                        data: [income, expenses],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',  // teal
+                            'rgba(255, 99, 132, 0.7)'   // pink
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Type'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        /*************************************
+         * 2) Category Summary Doughnut Chart
+         *************************************/
+        function buildCategorySummaryChart(categoryData) {
+            const ctx = document.getElementById('categorySummaryChart').getContext('2d');
+            const labels = Object.keys(categoryData);
+            const values = Object.values(categoryData);
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4CAF50',
+                            '#F9F871', '#9575CD', '#FFB74D', '#A1887F',
+                            '#E91E63', '#00BCD4'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        /*************************************
+         * 3) Detailed Cash Flow: Line Chart
+         *************************************/
+        function fetchCashFlowDetailed(startDate, endDate, interval) {
+            const url = `/api/dashboard/cash-flow/detailed?start_date=${startDate}&end_date=${endDate}&interval=${interval}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+                    // Prepare data for Chart.js
+                    const labels = data.map(item => `${item.start_date}`);
+                    const incomes = data.map(item => item.income);
+                    const expenses = data.map(item => item.expenses);
+
+                    if (cashFlowChart) {
+                        // If chart already exists, just update
+                        cashFlowChart.data.labels = labels;
+                        cashFlowChart.data.datasets[0].data = incomes;
+                        cashFlowChart.data.datasets[1].data = expenses;
+                        cashFlowChart.update();
+                    } else {
+                        // Create a new chart
+                        const ctx = document.getElementById('cashFlowChart').getContext('2d');
+                        cashFlowChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'Income',
+                                        data: incomes,
+                                        borderColor: 'rgba(75, 192, 192, 1)',
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                        fill: true,
+                                        tension: 0.1
+                                    },
+                                    {
+                                        label: 'Expenses',
+                                        data: expenses,
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        fill: true,
+                                        tension: 0.1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Amount'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Interval'
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    legend: {position: 'top'}
+                                }
+                            }
+                        });
+                    }
+                })
+                .catch(err => console.error('Error fetching detailed cash flow:', err));
+        }
+    </script>
+{% endblock %}

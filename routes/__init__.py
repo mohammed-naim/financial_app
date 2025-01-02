@@ -12,6 +12,7 @@ from .debt_routes import debt_bp
 from .investment_routes import investment_bp
 from .debtPayments_routes import debt_payments_bp
 from .notifications_route import notification_bp
+from .settings_routes import settings_bp
 
 # Create a Blueprint for the main app routes
 main_bp = Blueprint('main', __name__)
@@ -30,5 +31,6 @@ def register_routes(app):
     app.register_blueprint(investment_bp)
     app.register_blueprint(debt_payments_bp)
     app.register_blueprint(notification_bp)
+    app.register_blueprint(settings_bp)
     # Additional main routes can be added here if needed.
     # Example: app.add_url_rule('/', 'index', some_view_function)

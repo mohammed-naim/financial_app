@@ -1,5 +1,5 @@
 # Auth_Routes
-from flask import Blueprint, request, jsonify, session, render_template, redirect
+from flask import Blueprint, request, jsonify, session, render_template, redirect, url_for
 from models import User, Category, Account, db
 from flask_login import login_required
 from marshmallow import Schema, fields, ValidationError
@@ -14,23 +14,17 @@ class UserSchema(Schema):
 
 
 @auth_bp.get('/signup')
-def signup_page():
-    return render_template('signup.html')
+def signup_redirect():
+    return redirect(url_for('signup_page', next=request.args.get('next')))
 
 
 @auth_bp.post('/signup')
 def signup():
-    from_form = False
     data = {}
     try:
         data = request.get_json()
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
     except Exception as e:
-        from_form = True
-        data = request.form
-        if not data:
-            return redirect("/signup")
+        return jsonify({"error": "No data provided"}), 400
     finally:
         try:
             schema = UserSchema()
@@ -51,8 +45,7 @@ def signup():
 
     create_default_account_and_categories(new_user.id)
     session['_user_id'] = new_user.id
-    if from_form:
-        return redirect('/dashboard')
+
     return jsonify({'message': 'User registered successfully'}), 201
 
 
@@ -77,19 +70,17 @@ def create_default_account_and_categories(user_id):
 
 
 @auth_bp.get('/login')
-def login_page():
-    return render_template('login.html')
+def login_redirect():
+    return redirect(url_for('login_page', next=request.args.get('next')))
 
 
 @auth_bp.post('/login')
 def login():
-    from_form = False
     data = {}
     try:
         data = request.get_json()
     except:
-        from_form = True
-        data = request.form
+        return jsonify({"error": "No data provided"}), 400
     finally:
         try:
             if not data:
@@ -105,8 +96,6 @@ def login():
 
     if user and user.check_password(password):
         session['_user_id'] = user.id
-        if from_form:
-            return redirect('/dashboard')
         return jsonify({'message': 'Login successful'}), 200
 
     return jsonify({'error': 'Invalid email or password'}), 401

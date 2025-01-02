@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- PAGE CONTAINER -->
+    <div class="container mt-5" style="max-width: 1200px;">
+        <!-- PAGE HEADER -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="text-center text-primary fw-bold" style="font-family: 'Poppins', sans-serif;">Accounts</h1>
+                <p class="text-center text-muted" style="font-family: 'Roboto', sans-serif;">
+                    Manage your accounts efficiently. Add, edit, or transfer funds between them.
+                </p>
+            </div>
+        </div>
+
+        <!-- FILTER AND BUTTONS -->
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6 d-flex align-items-center mb-2 mb-md-0">
+                <label for="filterStatus" class="form-label fw-semibold me-2 mb-0">Filter Accounts:</label>
+                <select class="form-select w-auto" id="filterStatus" onchange="filterAccounts()">
+                    <option value="">All</option>
+                    <option value="enabled">Enabled</option>
+                    <option value="disabled">Disabled</option>
+                </select>
+            </div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success me-2" onclick="showModal('addAccountModal')">
+                    <i class="bi bi-plus-circle me-1"></i> Add Account
+                </button>
+                <button class="btn btn-warning" onclick="showModal('transferAccountModal')">
+                    <i class="bi bi-arrow-left-right me-1"></i> Transfer
+                </button>
+            </div>
+        </div>
+
+        <!-- ACCOUNT LIST TABLE -->
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody id="accountTableBody">
+                <!-- Accounts will be rendered here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ADD ACCOUNT MODAL -->
+    <div class="modal fade" id="addAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="addAccountForm" onsubmit="addAccount(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Add New Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="accountName" class="form-label fw-semibold">Account Name</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="accountName"
+                                    placeholder="e.g., My Savings"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="initialBalance" class="form-label fw-semibold">Initial Balance</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="initialBalance"
+                                    placeholder="e.g., 1000"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="currency" class="form-label fw-semibold">Currency</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="currency"
+                                    value="ILS"
+                                    readonly
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add Account</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT ACCOUNT MODAL -->
+    <div class="modal fade" id="editAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="editAccountForm" onsubmit="updateAccount(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Edit Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Hidden field to store account ID -->
+                        <input type="hidden" id="editAccountId"/>
+
+                        <div class="mb-3">
+                            <label for="editAccountName" class="form-label fw-semibold">Account Name</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="editAccountName"
+                                    placeholder="Enter a new name"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAccountCurrency" class="form-label fw-semibold">Currency</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="editAccountCurrency"
+                                    placeholder="e.g., ILS"
+                                    required
+                            >
+                        </div>
+                        <!-- (Optional) If you want to allow editing the balance directly, add a field here: -->
+                        <div class="mb-3">
+                            <label for="editAccountBalance" class="form-label fw-semibold">Balance</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="editAccountBalance"
+                                    placeholder="e.g., 1500"
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSFER BETWEEN ACCOUNTS MODAL -->
+    <div class="modal fade" id="transferAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="transferAccountForm" onsubmit="transferBetweenAccounts(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Transfer Between Accounts</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="fromAccount" class="form-label fw-semibold">From Account</label>
+                            <select class="form-select" id="fromAccount" required>
+                                <!-- Options loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="toAccount" class="form-label fw-semibold">To Account</label>
+                            <select class="form-select" id="toAccount" required>
+                                <!-- Options loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transferAmount" class="form-label fw-semibold">Amount</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="transferAmount"
+                                    placeholder="e.g., 500"
+                                    required
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE SCRIPTS -->
+    <script>
+        // Load accounts from API with optional filter
+        function loadAccounts(filter = '') {
+            fetch(`/api/account/${filter}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('accountTableBody');
+                    const fromAccountSelect = document.getElementById('fromAccount');
+                    const toAccountSelect = document.getElementById('toAccount');
+
+                    tableBody.innerHTML = '';
+                    fromAccountSelect.innerHTML = '<option value="">Select Account</option>';
+                    toAccountSelect.innerHTML = '<option value="">Select Account</option>';
+
+                    data.accounts.forEach(account => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                       <td><i class="bi bi-wallet2 me-2"></i>${account.name}</td>
+                       <td><i class="bi bi-currency-dollar me-2"></i>${account.balance}</td>
+                       <td>${account.currency}</td>
+                       <td class="text-center">
+                           ${
+                            account.disabled
+                                ? `<button class="btn btn-sm btn-primary me-1" onclick="confirmEnableAccount(${account.id})">
+                                        <i class="bi bi-unlock"></i> Enable
+                                      </button>`
+                                : `<button class="btn btn-sm btn-warning me-1" onclick="confirmDisableAccount(${account.id})">
+                                        <i class="bi bi-lock"></i> Disable
+                                      </button>`
+                        }
+                           <button class="btn btn-sm btn-info me-1" onclick="showEditAccountModal(${account.id})">
+                               <i class="bi bi-pencil"></i> Edit
+                           </button>
+                           <button class="btn btn-sm btn-danger" onclick="confirmDeleteAccount(${account.id})">
+                               <i class="bi bi-trash"></i> Delete
+                           </button>
+                       </td>
+                   `;
+                        tableBody.appendChild(row);
+
+                        const option = `<option value="${account.id}">${account.name} (${account.currency})</option>`;
+                        fromAccountSelect.innerHTML += option;
+                        toAccountSelect.innerHTML += option;
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading accounts:', err);
+                    showToast('Error fetching accounts from the server.', 'danger');
+                });
+        }
+
+        // Filter accounts by status
+        function filterAccounts() {
+            const filter = document.getElementById('filterStatus').value;
+            loadAccounts(filter);
+        }
+
+        // Show edit account modal
+        function showEditAccountModal(accountId) {
+            // Fetch the account details from the server
+            fetch(`/api/account/${accountId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const account = data.account;
+                    // Populate the edit form fields
+                    document.getElementById('editAccountId').value = account.id;
+                    document.getElementById('editAccountName').value = account.name;
+                    document.getElementById('editAccountCurrency').value = account.currency;
+                    document.getElementById('editAccountBalance').value = account.balance;
+
+                    // Show the modal
+                    showModal('editAccountModal');
+                })
+                .catch(err => {
+                    console.error('Error fetching account details:', err);
+                    showToast('Error fetching account details.', 'danger');
+                });
+        }
+
+        // Update account
+        function updateAccount(event) {
+            event.preventDefault();
+            const accountId = document.getElementById('editAccountId').value;
+            const updatedName = document.getElementById('editAccountName').value;
+            const updatedCurrency = document.getElementById('editAccountCurrency').value;
+            const updatedBalance = document.getElementById('editAccountBalance').value;
+
+            fetch(`/api/account/${accountId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: updatedName,
+                    currency: updatedCurrency,
+                    balance: updatedBalance,
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message || 'Account updated successfully', 'success');
+                    loadAccounts();
+                    bootstrap.Modal.getInstance(document.getElementById('editAccountModal')).hide();
+                })
+                .catch(err => {
+                    console.error('Error updating account:', err);
+                    showToast('An error occurred while updating the account.', 'danger');
+                });
+        }
+
+        // Add new account
+        function addAccount(event) {
+            event.preventDefault();
+            fetch('/api/account/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: document.getElementById('accountName').value,
+                    balance: document.getElementById('initialBalance').value,
+                    currency: document.getElementById('currency').value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message || 'Account added successfully', 'success');
+                    loadAccounts();
+                    bootstrap.Modal.getInstance(document.getElementById('addAccountModal')).hide();
+                })
+                .catch(err => {
+                    console.error('Error adding account:', err);
+                    showToast('An error occurred while adding the account.', 'danger');
+                });
+        }
+
+        // Transfer between accounts
+        function transferBetweenAccounts(event) {
+            event.preventDefault();
+            const fromAccount = document.getElementById('fromAccount').value;
+            const toAccount = document.getElementById('toAccount').value;
+            const amount = document.getElementById('transferAmount').value;
+
+            fetch('/api/account/transfer', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    from_account_id: fromAccount,
+                    to_account_id: toAccount,
+                    amount: amount
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message || 'Transfer completed', 'success');
+                    loadAccounts();
+                    bootstrap.Modal.getInstance(document.getElementById('transferAccountModal')).hide();
+                })
+                .catch(err => {
+                    console.error('Error transferring between accounts:', err);
+                    showToast('An error occurred while transferring.', 'danger');
+                });
+        }
+
+        // Confirm & Delete account
+        function confirmDeleteAccount(accountId) {
+            showCustomConfirm('Delete Account', 'Are you sure you want to delete this account? This action cannot be undone.')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        deleteAccount(accountId);
+                    }
+                });
+        }
+
+        function deleteAccount(accountId) {
+            fetch(`/api/account/${accountId}`, {method: 'DELETE'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                    } else {
+                        showToast(data.message || 'Account deleted successfully.', 'success');
+                        loadAccounts();
+                    }
+                })
+                .catch(err => {
+                    console.error('Error deleting account:', err);
+                    showToast('An error occurred while deleting the account.', 'danger');
+                });
+        }
+
+        // Confirm & Disable account
+        function confirmDisableAccount(id) {
+            showCustomConfirm('Disable Account', 'Are you sure you want to disable this account?')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        disableAccount(id);
+                    }
+                });
+        }
+
+        function disableAccount(id) {
+            fetch(`/api/account/disable/${id}`, {method: 'PUT'})
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message || 'Account disabled', 'success');
+                    loadAccounts();
+                })
+                .catch(err => {
+                    console.error('Error disabling account:', err);
+                    showToast('An error occurred while disabling the account.', 'danger');
+                });
+        }
+
+        // Confirm & Enable account
+        function confirmEnableAccount(id) {
+            showCustomConfirm('Enable Account', 'Are you sure you want to enable this account?')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        enableAccount(id);
+                    }
+                });
+        }
+
+        function enableAccount(id) {
+            fetch(`/api/account/enable/${id}`, {method: 'PUT'})
+                .then(response => response.json())
+                .then(data => {
+                    showToast(data.message || 'Account enabled', 'success');
+                    loadAccounts();
+                })
+                .catch(err => {
+                    console.error('Error enabling account:', err);
+                    showToast('An error occurred while enabling the account.', 'danger');
+                });
+        }
+
+        // Filter on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAccounts(); // load all accounts initially
+        });
+    </script>
+{% endblock %}

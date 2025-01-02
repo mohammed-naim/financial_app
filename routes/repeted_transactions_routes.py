@@ -31,7 +31,8 @@ def add_repeated_transaction():
     try:
         schema = RepeatedTransactionsSchema()
         data = schema.load(data)
-        if data.get('end_date') <= (data.get('start_date') + timedelta(days=data.get('period'))):
+        if data.get('end_date') is not None and data.get('end_date') <= (
+                data.get('start_date') + timedelta(days=data.get('period'))):
             raise ValidationError("end date must be greater than start date")
     except ValidationError as e:
         return jsonify({'error': 'Missing required fields'}), 400

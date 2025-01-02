@@ -131,6 +131,19 @@ def disable_account(account_id: int):
     return jsonify({'message': 'Account Disabled Successfully'}), 200
 
 
+@account_bp.delete('/<int:account_id>')
+@login_required
+def delete_account(account_id: int):
+    account = current_user.accounts.filter_by(id=account_id).first()
+    if not account:
+        return jsonify({'error': 'Account not found or access denied'}), 404
+    if account.transactions.first() or account.debts.first() or account.debts_payments.first() or account.investments.first():
+        return jsonify({"error": "There are operations associated with this account."}), 400
+    db.session.delete(account)
+    db.session.commit()
+    return jsonify({'message': 'Account Deleted Successfully'}), 200
+
+
 # Transfer between accounts
 @account_bp.post('/transfer')
 @login_required
