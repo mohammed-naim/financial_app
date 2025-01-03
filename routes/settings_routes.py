@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
-from models import db
 from flask_login import login_required, current_user
+
+from models import db
 
 settings_bp = Blueprint('settings', __name__, url_prefix='/api/settings')
 
