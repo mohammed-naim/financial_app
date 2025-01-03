@@ -1,7 +1,6 @@
 logs/
 *.log
 
-templates/*
 __pycache__/
 .env
 

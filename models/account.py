@@ -16,6 +16,7 @@ class Account(db.Model):
     transactions = db.relationship('Transaction', backref='account', lazy='dynamic')
     debts = db.relationship('Debt', backref='account', lazy='dynamic')
     debts_payments = db.relationship('DebtPayments', backref='account', lazy='dynamic')
+    investments = db.relationship('Investment', backref='account', lazy='dynamic')
 
     def __init__(self, user_id, name, balance=0.0, currency="ILS"):
         self.user_id = user_id
@@ -40,7 +41,8 @@ class Account(db.Model):
             'name': self.name,
             'balance': str(self.balance),  # Convert to string for JSON serialization
             'currency': self.currency,
-            'disabled': self.disabled
+            'disabled': self.disabled,
+            'deletable': True if self.debts.count() == 0 and self.transactions.count() == 0 else False
         }
 
     def __repr__(self):

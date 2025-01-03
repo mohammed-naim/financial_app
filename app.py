@@ -33,6 +33,16 @@ def make_session_permanent():
         session.modified = True  # Update the session to extend its lifetime
 
 
+@app.get('/signup')
+def signup_page():
+    return render_template('signup.html')
+
+
+@app.get('/login')
+def login_page():
+    return render_template('login.html')
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -60,6 +70,18 @@ def categories():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/debts')
+@login_required
+def debts():
+    return render_template('debts.html')
+
+
+@app.route('/investments')
+@login_required
+def investments():
+    return render_template('investments.html')
 
 
 # Register routes

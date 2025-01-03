@@ -20,7 +20,7 @@ class Investment(db.Model):
     reference_currency = db.Column(db.String(3), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     date = db.Column(db.Date, nullable=False)
-    sold = db.Column(db.Boolean, default=False, nullable=False)
+    sold = db.Column(db.Boolean, default=False, nullable=True)
     sell_price = db.Column(db.Numeric(10, 2), nullable=True)
 
     def __init__(self, user_id, account_id, amount_invested, currency, purchase_price,

@@ -7,9 +7,9 @@ category_bp = Blueprint('category', __name__, url_prefix='/api/category')
 
 
 def validate_type(value):
-    allowed_currencies = ["income", "expense"]
-    if value not in allowed_currencies:
-        raise ValidationError("Invalid currency")
+    allowed_types = ["income", "expense"]
+    if value not in allowed_types:
+        raise ValidationError("Invalid types")
 
 
 class CategorySchema(Schema):
@@ -123,3 +123,16 @@ def disable_category(category_id):
     category.disabled = True
     db.session.commit()
     return jsonify({'message': 'Category Disable successfully'}), 200
+
+
+@category_bp.delete('/<int:category_id>')
+@login_required
+def delete_account(category_id: int):
+    category = current_user.categories.filter_by(id=category_id).first()
+    if not category:
+        return jsonify({'error': 'Account not found or access denied'}), 404
+    if category.transactions.first():
+        return jsonify({"error": "There are operations associated with this category."}), 400
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({'message': 'Category Deleted Successfully'}), 200

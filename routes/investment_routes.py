@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, request, jsonify
 from models import Investment, db
 from flask_login import login_required, current_user
@@ -48,7 +50,7 @@ def add_investment():
     purchase_price = data.get('purchase_price')
     reference_currency = data.get('reference_currency')
     description = data.get('description')
-    date = data.get('date')
+    date = data.get('date') if data.get('date') else datetime.datetime.now()
     account = current_user.accounts.filter_by(id=account_id).first()
     if account is None:
         return jsonify({'error': 'Account not found or Access denied'}), 404

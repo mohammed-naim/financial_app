@@ -83,9 +83,15 @@ def add_payment():
         return jsonify({'error': 'request body is empty or some data lost'}), 400
     # based on the debt type add or remove the amount from the account
     account = current_user.accounts.filter_by(id=data.get('account_id')).first()
-    debt = current_user.debts.query.filter_by(id=data.get('debt_id')).first()
+    debt = current_user.debts.filter_by(id=data.get('debt_id')).first()
     if not account or not debt:
         return jsonify({'error': 'Account or Debt not found or access denied'}), 404
+
+    if debt.paid >= debt.amount:
+        return jsonify({'error': 'You have paid all the debts'}), 400
+    if data['amount'] > debt.remaining:
+        return jsonify({'error': 'You cannot pay more than the remaining amount'}), 400
+
     new_payment = DebtPayments(
         amount=data['amount'],
         description=data.get('description'),

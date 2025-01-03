@@ -1,0 +1,961 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        body {
+            background-color: #f8fcf9; /* Slightly lighter green background */
+        }
+
+        /* Section heading styles */
+        .section-heading {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        /* Table heading colors */
+        .table-transactions thead {
+            background-color: #d1f7d9; /* Light green for transactions header */
+        }
+
+        .table-repeated thead {
+            background-color: #d1eff7; /* Light teal for repeated transactions header */
+        }
+
+        /* Filter row styling */
+        .filter-row {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive Account Cards */
+        .account-card {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .account-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Button spacing */
+        .btn-filter {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ---- Tab Styling Overrides ---- */
+        .nav-tabs .nav-link {
+            color: #333 !important; /* Default text color */
+            background-color: #f8f9fa !important; /* Light gray background */
+            border: 1px solid #dee2e6;
+            margin-right: 2px;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #ffffff !important; /* White text on hover */
+            background-color: #28a745 !important; /* Green hover */
+            border-color: #28a745 !important;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #ffffff !important; /* White text for active tab */
+            background-color: #28a745 !important; /* Green active tab */
+            border-color: #28a745 !important;
+        }
+    </style>
+
+    <div class="container-fluid mt-4">
+        <ul class="nav nav-tabs mb-4" id="transactionTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button
+                        class="nav-link active"
+                        id="transactions-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#transactionsTab"
+                        type="button"
+                        role="tab"
+                        aria-controls="transactionsTab"
+                        aria-selected="true">
+                    Transactions
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button
+                        class="nav-link"
+                        id="repeated-transactions-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#repeatedTransactionsTab"
+                        type="button"
+                        role="tab"
+                        aria-controls="repeatedTransactionsTab"
+                        aria-selected="false">
+                    Repeated Transactions
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="transactionTabsContent">
+            <!-- TRANSACTIONS TAB -->
+            <div
+                    class="tab-pane fade show active"
+                    id="transactionsTab"
+                    role="tabpanel"
+                    aria-labelledby="transactions-tab"
+            >
+                <h1 class="section-heading text-success text-center">Transactions</h1>
+
+                <!-- Filter + Add Buttons Row -->
+                <div class="filter-row d-flex flex-wrap align-items-center justify-content-between">
+                    <!-- Filters -->
+                    <div class="d-flex flex-wrap align-items-center">
+                        <div class="me-3 mb-2 mb-sm-0">
+                            <label for="filterCategory" class="form-label fw-semibold mb-0 me-1">Category</label>
+                            <select class="form-select d-inline-block w-auto" id="filterCategory"
+                                    onchange="applyFilters()">
+                                <option value="">All</option>
+                                <!-- Categories will be dynamically populated -->
+                            </select>
+                        </div>
+                        <div class="me-3 mb-2 mb-sm-0">
+                            <label for="filterAccount" class="form-label fw-semibold mb-0 me-1">Account</label>
+                            <select class="form-select d-inline-block w-auto" id="filterAccount"
+                                    onchange="applyFilters()">
+                                <option value="">All</option>
+                                <!-- Accounts will be dynamically populated -->
+                            </select>
+                        </div>
+                        <div class="me-3 mb-2 mb-sm-0">
+                            <label for="filterStartDate" class="form-label fw-semibold mb-0 me-1">Start Date</label>
+                            <input type="date" class="form-control d-inline-block w-auto" id="filterStartDate"
+                                   onchange="applyFilters()">
+                        </div>
+                        <div class="me-3 mb-2 mb-sm-0">
+                            <label for="filterEndDate" class="form-label fw-semibold mb-0 me-1">End Date</label>
+                            <input type="date" class="form-control d-inline-block w-auto" id="filterEndDate"
+                                   onchange="applyFilters()">
+                        </div>
+                    </div>
+
+                    <!-- Add Buttons -->
+                    <div class="d-flex flex-wrap">
+                        <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
+                            <i class="bi bi-plus-circle"></i> Add Transaction
+                        </button>
+                        <button class="btn btn-info btn-filter" onclick="showModal('addRepeatedTransactionModal')">
+                            <i class="bi bi-calendar-event"></i> Add Repeated
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Account Cards -->
+                <div class="row mb-4" id="accountCards">
+                    <!-- Account cards will be dynamically populated here -->
+                </div>
+
+                <!-- Transaction List -->
+                <div class="table-responsive">
+                    <table class="table table-hover table-transactions shadow-sm rounded">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Account</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="transactionTableBody">
+                        <!-- Transactions will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination Controls -->
+                <nav
+                        id="paginationControls"
+                        aria-label="Transaction pagination"
+                        class="d-flex justify-content-center mt-3"
+                >
+                    <ul class="pagination">
+                        <!-- Pagination buttons will be generated dynamically -->
+                    </ul>
+                </nav>
+
+                <!-- Transaction Count -->
+                <div class="text-center mt-2">
+                    <p>Total Transactions: <span id="transactionCount">0</span></p>
+                </div>
+            </div>
+
+            <!-- REPEATED TRANSACTIONS TAB -->
+            <div
+                    class="tab-pane fade"
+                    id="repeatedTransactionsTab"
+                    role="tabpanel"
+                    aria-labelledby="repeated-transactions-tab"
+            >
+                <h1 class="section-heading text-info text-center">Repeated Transactions</h1>
+                <div class="table-responsive">
+                    <table class="table table-hover table-repeated shadow-sm rounded">
+                        <thead>
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Next Transaction</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Period (Days)</th>
+                            <th>Category</th>
+                            <th>Account</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="repeatedTransactionTableBody">
+                        <!-- Repeated transactions will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD TRANSACTION MODAL -->
+    <div class="modal fade" id="addTransactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addTransactionForm" onsubmit="addTransaction(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success">Add Transaction</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="transactionDescription" class="form-label">Description</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="transactionDescription"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="transactionCategory" class="form-label">Category</label>
+                            <select class="form-select" id="transactionCategory" required>
+                                <!-- Categories will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transactionAmount" class="form-label">Amount</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="transactionAmount"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="transactionAccount" class="form-label">Account</label>
+                            <select class="form-select" id="transactionAccount" required>
+                                <!-- Accounts will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transactionDate" class="form-label">Date</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="transactionDate"
+                                    required
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Add</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT TRANSACTION MODAL -->
+    <div class="modal fade" id="editTransactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editTransactionForm" onsubmit="editTransaction(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-success">Edit Transaction</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editTransactionId"/>
+                        <div class="mb-3">
+                            <label for="editTransactionDescription" class="form-label">Description</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="editTransactionDescription"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTransactionCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editTransactionCategory" required>
+                                <!-- Categories will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTransactionAmount" class="form-label">Amount</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="editTransactionAmount"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTransactionAccount" class="form-label">Account</label>
+                            <select class="form-select" id="editTransactionAccount" required>
+                                <!-- Accounts will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTransactionDate" class="form-label">Date</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="editTransactionDate"
+                                    required
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD REPEATED TRANSACTION MODAL -->
+    <div class="modal fade" id="addRepeatedTransactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addRepeatedTransactionForm" onsubmit="addRepeatedTransaction(event)">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-info">Add Repeated Transaction</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="repeatedDescription" class="form-label">Description</label>
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    id="repeatedDescription"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedCategory" class="form-label">Category</label>
+                            <select class="form-select" id="repeatedCategory" required>
+                                <!-- Categories will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedAmount" class="form-label">Amount</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="repeatedAmount"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedAccount" class="form-label">Account</label>
+                            <select class="form-select" id="repeatedAccount" required>
+                                <!-- Accounts will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedStartDate" class="form-label">Start Date</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="repeatedStartDate"
+                                    required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedEndDate" class="form-label">End Date</label>
+                            <input
+                                    type="date"
+                                    class="form-control"
+                                    id="repeatedEndDate"
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatedPeriod" class="form-label">Period (Days)</label>
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    id="repeatedPeriod"
+                                    value="30"
+                                    required
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Add Repeated</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE SCRIPTS -->
+    <script>
+        // Pagination
+        let currentPage = 1;
+        let itemsPerPage = 10;
+        let totalTransactions = 0;
+        let totalPages = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAccounts();
+            loadCategories();
+            loadTransactions();
+            loadRepeatedTransactions();
+        });
+
+        /* ======================
+           1) LOAD ACCOUNTS
+        ====================== */
+        function loadAccounts() {
+            fetch('/api/account/enabled')
+                .then(response => response.json())
+                .then(data => {
+                    const accountCards = document.getElementById('accountCards');
+                    const addAccountSelect = document.getElementById('transactionAccount');
+                    const editAccountSelect = document.getElementById('editTransactionAccount');
+                    const repeatedAccountSelect = document.getElementById('repeatedAccount');
+                    const filterAccountSelect = document.getElementById('filterAccount');
+
+                    [accountCards, addAccountSelect, editAccountSelect, repeatedAccountSelect].forEach(el => el.innerHTML = '');
+                    filterAccountSelect.innerHTML = '<option value="">All</option>'; // default
+
+                    data.accounts.forEach(account => {
+                        // Card
+                        const cardHTML = `
+                        <div class="col-md-3 mb-3 account-card shadow-sm border-success rounded">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success">${account.name}</h5>
+                                    <p class="card-text fw-bold">${account.balance}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                        accountCards.insertAdjacentHTML('beforeend', cardHTML);
+
+                        // <option>
+                        const option = `<option value="${account.id}">${account.name}</option>`;
+                        addAccountSelect.insertAdjacentHTML('beforeend', option);
+                        editAccountSelect.insertAdjacentHTML('beforeend', option);
+                        repeatedAccountSelect.insertAdjacentHTML('beforeend', option);
+                        filterAccountSelect.insertAdjacentHTML('beforeend', option);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading accounts:', err);
+                    showToast('Error loading accounts.', 'danger');
+                });
+        }
+
+        /* ======================
+           2) LOAD CATEGORIES
+        ====================== */
+        function loadCategories() {
+            fetch('/api/category/enabled')
+                .then(response => response.json())
+                .then(data => {
+                    const addCategorySelect = document.getElementById('transactionCategory');
+                    const editCategorySelect = document.getElementById('editTransactionCategory');
+                    const repeatedCategorySelect = document.getElementById('repeatedCategory');
+                    const filterCategorySelect = document.getElementById('filterCategory');
+
+                    [addCategorySelect, editCategorySelect, repeatedCategorySelect].forEach(el => el.innerHTML = '');
+                    filterCategorySelect.innerHTML = '<option value="">All</option>';
+
+                    data.categories.forEach(cat => {
+                        const option = `<option value="${cat.id}">${cat.name}</option>`;
+                        addCategorySelect.insertAdjacentHTML('beforeend', option);
+                        editCategorySelect.insertAdjacentHTML('beforeend', option);
+                        repeatedCategorySelect.insertAdjacentHTML('beforeend', option);
+                        filterCategorySelect.insertAdjacentHTML('beforeend', option);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading categories:', err);
+                    showToast('Error loading categories.', 'danger');
+                });
+        }
+
+        /* ======================
+           3) LOAD TRANSACTIONS
+        ====================== */
+        function loadTransactions(filters = {}) {
+            const {
+                categoryId,
+                accountId,
+                startDate,
+                endDate
+            } = filters;
+
+            let url = `/api/transaction/?page=${currentPage}&limit=${itemsPerPage}`;
+            if (categoryId) url += `&category_id=${categoryId}`;
+            if (accountId) url += `&account_id=${accountId}`;
+            if (startDate) url += `&start_date=${startDate}`;
+            if (endDate) url += `&end_date=${endDate}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    const transactionTableBody = document.getElementById('transactionTableBody');
+                    transactionTableBody.innerHTML = '';
+
+                    const transactions = data.transactions || [];
+                    totalTransactions = data.totalItems || data.total || transactions.length;
+                    totalPages = data.totalPages || 1;
+
+                    transactions.forEach(tx => {
+                        const row = `
+                        <tr>
+                            <td>${tx.date}</td>
+                            <td>${tx.description || ''}</td>
+                            <td>${tx.category_name}</td>
+                            <td>${tx.amount}</td>
+                            <td>${tx.type}</td>
+                            <td>${tx.account_name}</td>
+                            <td>${tx.status}</td>
+                            <td>
+                                ${
+                            tx.status === 'processing'
+                                ? `<button
+                                          class="btn btn-sm btn-secondary me-2"
+                                          onclick="confirmProcessTransaction(${tx.id})"
+                                       >
+                                          Process
+                                       </button>`
+                                : ''
+                        }
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    onclick="openEditTransactionModal(
+                                        ${tx.id},
+                                        '${tx.description || ''}',
+                                        '${tx.category_id}',
+                                        '${tx.amount}',
+                                        '${tx.account_id}',
+                                        '${tx.date}'
+                                    )"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    onclick="confirmDeleteTransaction(${tx.id})"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        transactionTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+
+                    document.getElementById('transactionCount').textContent = totalTransactions;
+                    setupPagination();
+                })
+                .catch(err => {
+                    console.error('Error loading transactions:', err);
+                    showToast('Error loading transactions.', 'danger');
+                });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const categoryId = document.getElementById('filterCategory').value;
+            const accountId = document.getElementById('filterAccount').value;
+            const startDate = document.getElementById('filterStartDate').value;
+            const endDate = document.getElementById('filterEndDate').value;
+            loadTransactions({categoryId, accountId, startDate, endDate});
+        }
+
+        // Setup Pagination
+        function setupPagination() {
+            const paginationControls = document.getElementById('paginationControls').querySelector('.pagination');
+            paginationControls.innerHTML = '';
+
+            const maxPagesToShow = 5;
+            const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+            const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+            // "First" button
+            if (startPage > 1) {
+                paginationControls.innerHTML += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="changePage(1)">First</a>
+                </li>`;
+            }
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                paginationControls.insertAdjacentHTML('beforeend', `
+                <li class="page-item ${i === currentPage ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
+                </li>
+            `);
+            }
+            // "Last" button
+            if (endPage < totalPages) {
+                paginationControls.innerHTML += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="changePage(${totalPages})">Last</a>
+                </li>`;
+            }
+        }
+
+        function changePage(pageNum) {
+            currentPage = pageNum;
+            applyFilters();
+        }
+
+        /* ================================
+           4) ADD / EDIT / DELETE
+           TRANSACTIONS
+        ================================ */
+        function addTransaction(event) {
+            event.preventDefault();
+            const body = {
+                description: document.getElementById('transactionDescription').value,
+                amount: document.getElementById('transactionAmount').value,
+                category_id: document.getElementById('transactionCategory').value,
+                account_id: document.getElementById('transactionAccount').value,
+                transaction_date: document.getElementById('transactionDate').value
+            };
+            fetch('/api/transaction/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Transaction created successfully', 'success');
+                    loadTransactions();
+                    loadAccounts(); // In case account balance changed
+                    bootstrap.Modal.getInstance(document.getElementById('addTransactionModal')).hide();
+                    document.getElementById('addTransactionForm').reset();
+                })
+                .catch(err => {
+                    console.error('Error adding transaction:', err);
+                    showToast('An error occurred while adding the transaction.', 'danger');
+                });
+        }
+
+        function openEditTransactionModal(id, description, categoryId, amount, accountId, date) {
+            document.getElementById('editTransactionId').value = id;
+            document.getElementById('editTransactionDescription').value = description;
+            document.getElementById('editTransactionCategory').value = categoryId;
+            document.getElementById('editTransactionAmount').value = amount;
+            document.getElementById('editTransactionAccount').value = accountId;
+            document.getElementById('editTransactionDate').value = date;
+            showModal('editTransactionModal');
+        }
+
+        function editTransaction(event) {
+            event.preventDefault();
+            const transactionId = document.getElementById('editTransactionId').value;
+            const body = {
+                description: document.getElementById('editTransactionDescription').value,
+                amount: document.getElementById('editTransactionAmount').value,
+                category_id: document.getElementById('editTransactionCategory').value,
+                account_id: document.getElementById('editTransactionAccount').value,
+                date: document.getElementById('editTransactionDate').value
+            };
+            fetch(`/api/transaction/${transactionId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Transaction updated successfully', 'success');
+                    loadTransactions();
+                    loadAccounts();
+                    bootstrap.Modal.getInstance(document.getElementById('editTransactionModal')).hide();
+                })
+                .catch(err => {
+                    console.error('Error editing transaction:', err);
+                    showToast('An error occurred while updating the transaction.', 'danger');
+                });
+        }
+
+        function confirmDeleteTransaction(transactionId) {
+            showCustomConfirm('Delete Transaction', 'Are you sure you want to delete this transaction?')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        deleteTransaction(transactionId);
+                    }
+                });
+        }
+
+        function deleteTransaction(transactionId) {
+            fetch(`/api/transaction/${transactionId}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Transaction deleted successfully', 'success');
+                    loadTransactions();
+                    loadAccounts();
+                })
+                .catch(err => {
+                    console.error('Error deleting transaction:', err);
+                    showToast('An error occurred while deleting the transaction.', 'danger');
+                });
+        }
+
+        function confirmProcessTransaction(transactionId) {
+            showCustomConfirm('Process Transaction', 'This transaction is currently processing. Do you want to finalize it now?')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        processTransaction(transactionId);
+                    }
+                });
+        }
+
+        function processTransaction(transactionId) {
+            fetch(`/api/transaction/process/${transactionId}`, {method: 'PUT'})
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Transaction processed successfully', 'success');
+                    loadTransactions();
+                    loadAccounts();
+                })
+                .catch(err => {
+                    console.error('Error processing transaction:', err);
+                    showToast('An error occurred while processing the transaction.', 'danger');
+                });
+        }
+
+        /* ================================
+           5) REPEATED TRANSACTIONS
+        ================================ */
+        function loadRepeatedTransactions() {
+            fetch('/api/repeated_transactions/')
+                .then(res => res.json())
+                .then(data => {
+                    const repeatedTransactionTableBody = document.getElementById('repeatedTransactionTableBody');
+                    repeatedTransactionTableBody.innerHTML = '';
+                    data.repeated_transactions.forEach(rt => {
+                        const endDateDisplay = (rt.end_date && rt.end_date !== 'forever')
+                            ? rt.end_date.split('T')[0]
+                            : 'Forever';
+                        const nextTxDate = rt.next_transaction_date
+                            ? rt.next_transaction_date.split('T')[0]
+                            : '';
+
+                        const row = `
+                        <tr>
+                            <td>${rt.start_date.split('T')[0]}</td>
+                            <td>${endDateDisplay}</td>
+                            <td>${nextTxDate}</td>
+                            <td>${rt.description}</td>
+                            <td>${rt.amount}</td>
+                            <td>${rt.period}</td>
+                            <td>${rt.category_name}</td>
+                            <td>${rt.account_name}</td>
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-warning me-2"
+                                    onclick="openEditRepeatedTransactionModal(${rt.id})"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    onclick="confirmDeleteRepeatedTransaction(${rt.id})"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                        repeatedTransactionTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading repeated transactions:', err);
+                    showToast('Error loading repeated transactions.', 'danger');
+                });
+        }
+
+        function addRepeatedTransaction(event) {
+            event.preventDefault();
+            const body = {
+                description: document.getElementById('repeatedDescription').value,
+                amount: document.getElementById('repeatedAmount').value,
+                category_id: document.getElementById('repeatedCategory').value,
+                account_id: document.getElementById('repeatedAccount').value,
+                start_date: document.getElementById('repeatedStartDate').value,
+                period: document.getElementById('repeatedPeriod').value
+            };
+            if (document.getElementById('repeatedEndDate').value) {
+                body.end_date = document.getElementById('repeatedEndDate').value;
+            }
+            fetch('/api/repeated_transactions/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Repeated transaction created successfully', 'success');
+                    bootstrap.Modal.getInstance(document.getElementById('addRepeatedTransactionModal')).hide();
+                    document.getElementById('addRepeatedTransactionForm').reset();
+                    loadRepeatedTransactions();
+                })
+                .catch(err => {
+                    console.error('Error adding repeated transaction:', err);
+                    showToast('An error occurred while adding repeated transaction.', 'danger');
+                });
+        }
+
+        function openEditRepeatedTransactionModal(id) {
+            fetch(`/api/repeated_transactions/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    const rt = data.repeated_transaction;
+                    // For a simpler UX, consider a separate "Edit Repeated Transaction" modal
+                    // but we'll reuse the "Add" form for demo
+
+                    document.getElementById('repeatedDescription').value = rt.description;
+                    document.getElementById('repeatedAmount').value = rt.amount;
+                    document.getElementById('repeatedCategory').value = rt.category_id;
+                    document.getElementById('repeatedAccount').value = rt.account_id;
+                    document.getElementById('repeatedStartDate').value = rt.start_date.split('T')[0];
+                    document.getElementById('repeatedEndDate').value = rt.end_date === 'forever'
+                        ? ''
+                        : rt.end_date.split('T')[0];
+                    document.getElementById('repeatedPeriod').value = rt.period;
+
+                    document.getElementById('addRepeatedTransactionForm').onsubmit = function (e) {
+                        e.preventDefault();
+                        editRepeatedTransaction(rt.id);
+                    };
+
+                    showModal('addRepeatedTransactionModal');
+                })
+                .catch(err => {
+                    console.error('Error fetching repeated transaction:', err);
+                    showToast('An error occurred while fetching repeated transaction.', 'danger');
+                });
+        }
+
+        function editRepeatedTransaction(rtId) {
+            const body = {
+                description: document.getElementById('repeatedDescription').value,
+                amount: document.getElementById('repeatedAmount').value,
+                category_id: document.getElementById('repeatedCategory').value,
+                account_id: document.getElementById('repeatedAccount').value,
+                start_date: document.getElementById('repeatedStartDate').value,
+                end_date: document.getElementById('repeatedEndDate').value || null,
+                period: document.getElementById('repeatedPeriod').value
+            };
+            fetch(`/api/repeated_transactions/${rtId}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Repeated transaction updated successfully', 'success');
+                    document.getElementById('addRepeatedTransactionForm').onsubmit = addRepeatedTransaction;
+                    bootstrap.Modal.getInstance(document.getElementById('addRepeatedTransactionModal')).hide();
+                    document.getElementById('addRepeatedTransactionForm').reset();
+                    loadRepeatedTransactions();
+                })
+                .catch(err => {
+                    console.error('Error editing repeated transaction:', err);
+                    showToast('An error occurred while editing repeated transaction.', 'danger');
+                });
+        }
+
+        function confirmDeleteRepeatedTransaction(rtId) {
+            showCustomConfirm('Delete Repeated Transaction', 'Are you sure you want to delete this repeated transaction?')
+                .then(userConfirmed => {
+                    if (userConfirmed) {
+                        deleteRepeatedTransaction(rtId);
+                    }
+                });
+        }
+
+        function deleteRepeatedTransaction(rtId) {
+            fetch(`/api/repeated_transactions/${rtId}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        showToast(data.error, 'danger');
+                        return;
+                    }
+                    showToast(data.message || 'Repeated transaction deleted successfully', 'success');
+                    loadRepeatedTransactions();
+                })
+                .catch(err => {
+                    console.error('Error deleting repeated transaction:', err);
+                    showToast('An error occurred while deleting repeated transaction.', 'danger');
+                });
+        }
+    </script>
+{% endblock %}
