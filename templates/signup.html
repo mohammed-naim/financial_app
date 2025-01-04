@@ -1,67 +1,173 @@
 <!-- signup.html template -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <title>Signup Page</title>
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            background: linear-gradient(to right, #ff7e5f, #feb47b); /* Two color gradient background */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-        }
+      body {
+        height: 100vh;
+        display: flex;
+        background: linear-gradient(
+          to right,
+          #ff7e5f,
+          #feb47b
+        ); /* Two color gradient background */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+      }
 
+      .signup-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        width: 300px; /* Default width for larger screens */
+      }
+
+      @media (max-width: 768px) {
         .signup-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            width: 300px; /* Default width for larger screens */
+          width: 90%; /* Use more width on smaller screens */
         }
-
-        @media (max-width: 768px) {
-            .signup-container {
-                width: 90%; /* Use more width on smaller screens */
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="signup-container">
+      <h2 class="text-center mb-4">Sign Up</h2>
+      <!-- ERROR ALERT -->
+      <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
 
-<div class="signup-container">
-    <h2 class="text-center mb-4">Sign Up</h2>
-    <form method="POST" action="{{ url_for('auth.signup') }}">
+      <form id="signupForm">
         <div class="mb-3">
-            <label for="username" class="form-label">USERNAME</label>
-            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name"
-                   required>
+          <label for="fullName" class="form-label">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+            required
+          />
         </div>
         <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"
-                   required>
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
         </div>
         <div class="mb-3">
-            <label for="confirm_password" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
-                   placeholder="Confirm your password" required>
+          <label for="confirm_password" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Confirm your password"
+            required
+          />
         </div>
         <button type="submit" class="btn btn-success w-100">Sign Up</button>
-    </form>
-    <p class="text-center mt-3">
+      </form>
+      <p class="text-center mt-3">
         <a href="{{ url_for('auth.login') }}">Already have an account? Login</a>
-    </p>
-</div>
+      </p>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const signupForm = document.getElementById("signupForm");
+        const errorAlert = document.getElementById("errorAlert");
+
+        // Helper function to show error messages
+        function showError(message) {
+          errorAlert.textContent = message;
+          errorAlert.classList.remove("d-none");
+        }
+
+        // Helper to hide error
+        function hideError() {
+          errorAlert.classList.add("d-none");
+          errorAlert.textContent = "";
+        }
+
+        signupForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          hideError(); // Hide any old error message
+
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value.trim();
+          const name = document.getElementById("fullName").value.trim();
+          // Basic client-side validation
+          if (!email || !password) {
+            showError("Email and password are required.");
+            return;
+          }
+
+          // Prepare request body
+          const requestBody = {
+            email: email,
+            password: password,
+          };
+          if (name) {
+            requestBody.fullName = name;
+          }
+
+          fetch("/auth/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          })
+            .then(async (response) => {
+              const data = await response.json();
+              if (!response.ok) {
+                // Server responded with an error (4xx or 5xx)
+                const errorMessage =
+                  data.error || data.errors || "Signup failed.";
+                throw new Error(errorMessage);
+              }
+              // If Signup is successful, check for "next" param in URL
+              const urlParams = new URLSearchParams(window.location.search);
+              const next = urlParams.get("next");
+              if (next) {
+                window.location.href = next;
+              } else {
+                window.location.href = "/dashboard";
+              }
+            })
+            .catch((err) => {
+              // Display server or fetch error
+              showError(err.message);
+            });
+        });
+      });
+    </script>
+  </body>
 </html>

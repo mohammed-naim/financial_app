@@ -9,7 +9,7 @@ notification_bp = Blueprint('notification', __name__, url_prefix='/api/notificat
 @notification_bp.get('/')
 @login_required
 def get_notifications():
-    notifications = [n.to_dict() for n in current_user.notifications.all()]
+    notifications = [n.to_dict() for n in current_user.notifications.filter_by(is_seen=False).all()]
     return jsonify({'notifications': notifications}), 200
 
 

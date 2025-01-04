@@ -7,7 +7,7 @@ from decimal import Decimal
 
 account_bp = Blueprint('account', __name__, url_prefix='/api/account')
 
-
+  
 def validate_currency(value):
     allowed_currencies = ["ILS"]
     if value not in allowed_currencies:

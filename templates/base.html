@@ -1,236 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Money App</title>
     <!-- Bootstrap CSS -->
     <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    >
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    >
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
     <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
-    >
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+    />
     {% block head %}{% endblock %}
     <style>
-        :root {
-            --primary-color: #4CAF50; /* Green for growth and money */
-            --secondary-color: #F9F871; /* Yellow for attention and highlights */
-            --background-color: #F4F4F4; /* Neutral background */
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --text-color: #333333; /* Dark text */
-        }
+      :root {
+        --primary-color: #4caf50; /* Green for growth and money */
+        --secondary-color: #f9f871; /* Yellow for attention and highlights */
+        --background-color: #f4f4f4; /* Neutral background */
+        --success-color: #27ae60;
+        --danger-color: #e74c3c;
+        --text-color: #333333; /* Dark text */
+      }
 
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-family: Arial, sans-serif;
-            padding-top: 56px;
-        }
+      body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-family: Arial, sans-serif;
+        padding-top: 56px;
+      }
 
-        .navbar {
-            background-color: var(--primary-color);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1030;
-        }
+      .navbar {
+        background-color: var(--primary-color);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1030;
+      }
 
-        .navbar-brand, .nav-link {
-            color: #FFFFFF !important;
-        }
+      .navbar-brand,
+      .nav-link {
+        color: #ffffff !important;
+      }
 
-        .nav-link:hover {
-            background-color: var(--secondary-color);
-            color: var(--text-color) !important;
-        }
+      .nav-link:hover {
+        background-color: var(--secondary-color);
+        color: var(--text-color) !important;
+      }
 
-        footer {
-            background-color: var(--primary-color);
-            color: #FFFFFF;
-            text-align: center;
-            padding: 1rem 0;
-            position: relative;
-            width: 100%;
-        }
+      footer {
+        background-color: var(--primary-color);
+        color: #ffffff;
+        text-align: center;
+        padding: 1rem 0;
+        position: relative;
+        width: 100%;
+      }
 
-        html, body {
-            height: 100%;
-        }
+      html,
+      body {
+        height: 100%;
+      }
 
-        #content {
-            min-height: calc(100vh - 112px); /* Adjust for navbar and footer height */
-        }
+      #content {
+        min-height: calc(
+          100vh - 112px
+        ); /* Adjust for navbar and footer height */
+      }
+
+      .notification-item {
+        cursor: pointer;
+      }
+
+      .notification-item.seen {
+        opacity: 0.6;
+      }
     </style>
-</head>
-<body>
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fas fa-coins"></i> Money App</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"
+          ><i class="fas fa-coins"></i> Money App</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/accounts"><i class="fas fa-wallet"></i> Accounts</a>
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/accounts"
+                ><i class="fas fa-wallet"></i> Accounts</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/categories"
+                ><i class="fas fa-list"></i> Categories</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/transactions"
+                ><i class="fas fa-exchange-alt"></i> Transactions</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/debts"
+                ><i class="fas fa-hand-holding-usd"></i> Debts</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/investments"
+                ><i class="fas fa-chart-line"></i> Investments</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard"
+                ><i class="fas fa-chart-pie"></i> Dashboard</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="notificationDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-bell"></i>
+                <span id="notificationBadge" class="badge bg-danger">0</span>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="notificationDropdown"
+                id="notificationsList"
+              >
+                <li>
+                  <a class="dropdown-item text-center" href="#"
+                    >No new notifications</a
+                  >
                 </li>
-                <li class="nav-item"><a class="nav-link" href="/categories"><i class="fas fa-list"></i> Categories</a>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="languageDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-globe"></i> Language
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="languageDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="changeLanguage('en')"
+                    >English</a
+                  >
                 </li>
-                <li class="nav-item"><a class="nav-link" href="/transactions"><i class="fas fa-exchange-alt"></i>
-                    Transactions</a></li>
-                <li class="nav-item"><a class="nav-link" href="/debts"><i class="fas fa-hand-holding-usd"></i> Debts</a>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    onclick="changeLanguage('ar')"
+                    >Arabic</a
+                  >
                 </li>
-                <li class="nav-item"><a class="nav-link" href="/investments"><i class="fas fa-chart-line"></i>
-                    Investments</a></li>
-                <li class="nav-item"><a class="nav-link" href="/dashboard"><i class="fas fa-chart-pie"></i>
-                    Dashboard</a></li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-globe"></i> Language
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="#" onclick="changeLanguage('en')">English</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="changeLanguage('ar')">Arabic</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="logoutUser()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="logoutUser()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
+    </nav>
+
+    <!-- Content Area -->
+    <div id="content" class="container mt-5">
+      {% block content %}
+      <!-- Page-specific content goes here -->
+      {% endblock %}
     </div>
-</nav>
 
-<!-- Content Area -->
-<div id="content" class="container mt-5">
-    {% block content %}
-        <!-- Page-specific content goes here -->
-    {% endblock %}
-</div>
+    <!-- Footer -->
+    <footer>© {{ year }} Money App. All Rights Reserved.</footer>
 
-<!-- Footer -->
-<footer>
-    &copy; {{ year }} Money App. All Rights Reserved.
-</footer>
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- BOOTSTRAP JS -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
-</script>
+    <!-- TOAST CONTAINER (CUSTOM ALERT) -->
+    <div
+      id="toastContainer"
+      class="position-fixed top-0 end-0 p-3"
+      style="z-index: 1055"
+    ></div>
 
-<!-- TOAST CONTAINER (CUSTOM ALERT) -->
-<div id="toastContainer"
-     class="position-fixed top-0 end-0 p-3"
-     style="z-index: 1055;">
-</div>
-
-<!-- CUSTOM CONFIRM MODAL -->
-<div
-        class="modal fade"
-        id="customConfirmModal"
-        tabindex="-1"
-        aria-hidden="true"
->
-    <div class="modal-dialog modal-dialog-centered">
+    <!-- CUSTOM CONFIRM MODAL -->
+    <div
+      class="modal fade"
+      id="customConfirmModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 id="customConfirmTitle" class="modal-title fw-bold">Confirm</h5>
-                <button type="button" class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <p id="customConfirmMessage"></p>
-            </div>
-            <div class="modal-footer">
-                <button id="customConfirmCancel"
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button id="customConfirmOk"
-                        type="button"
-                        class="btn btn-primary">
-                    OK
-                </button>
-            </div>
+          <div class="modal-header">
+            <h5 id="customConfirmTitle" class="modal-title fw-bold">Confirm</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="customConfirmMessage"></p>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="customConfirmCancel"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button id="customConfirmOk" type="button" class="btn btn-primary">
+              OK
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-    // =======================
-    // 1) LANGUAGE CHANGER
-    // =======================
-    function changeLanguage(language) {
+    <script>
+      // =======================
+      // 1) LANGUAGE CHANGER
+      // =======================
+      function changeLanguage(language) {
         fetch(`/api/settings/${language}`, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'}
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    showToast(data.error, 'danger');
-                } else {
-                    showToast(data.message, 'success');
-                    location.reload();
-                }
-            })
-            .catch(err => {
-                console.error('Error changing language:', err);
-                showToast('An error occurred while changing language.', 'danger');
-            });
-    }
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              showToast(data.error, "danger");
+            } else {
+              showToast(data.message, "success");
+              location.reload();
+            }
+          })
+          .catch((err) => {
+            console.error("Error changing language:", err);
+            showToast("An error occurred while changing language.", "danger");
+          });
+      }
 
-    // =======================
-    // 2) LOGOUT USER
-    // =======================
-    function logoutUser() {
-        fetch('/auth/logout', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'}
+      // =======================
+      // 2) LOGOUT USER
+      // =======================
+      function logoutUser() {
+        fetch("/auth/logout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    showToast(data.message, 'success');
-                    window.location.href = '/auth/login';
-                } else {
-                    showToast('An error occurred while logging out.', 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Logout failed:', error);
-                showToast('An error occurred while logging out.', 'danger');
-            });
-    }
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.message) {
+              showToast(data.message, "success");
+              window.location.href = "/auth/login";
+            } else {
+              showToast("An error occurred while logging out.", "danger");
+            }
+          })
+          .catch((error) => {
+            console.error("Logout failed:", error);
+            showToast("An error occurred while logging out.", "danger");
+          });
+      }
 
-    // =======================
-    // 3) CUSTOM BOOTSTRAP TOAST
-    // =======================
-    /**
-     * Displays a Bootstrap toast with a given message and type.
-     * @param {string} message - The text to display.
-     * @param {string} type - The Bootstrap color type ('success', 'danger', 'info', etc.).
-     */
-    function showToast(message, type = 'success') {
+      // =======================
+      // 3) CUSTOM BOOTSTRAP TOAST
+      // =======================
+      /**
+       * Displays a Bootstrap toast with a given message and type.
+       * @param {string} message - The text to display.
+       * @param {string} type - The Bootstrap color type ('success', 'danger', 'info', etc.).
+       */
+      function showToast(message, type = "success") {
         const toastContainer = document.getElementById("toastContainer");
         // Create toast element
         const toastEl = document.createElement("div");
@@ -253,60 +337,150 @@
         // Initialize and show
         const bootstrapToast = new bootstrap.Toast(toastEl);
         bootstrapToast.show();
-    }
+      }
 
-    // =======================
-    // 4) CUSTOM CONFIRM DIALOG
-    // =======================
-    let customConfirmResolve;
-    // Set up the event listeners for modal buttons
-    document.getElementById('customConfirmOk').addEventListener('click', () => {
-        customConfirmResolve(true);
-        hideCustomConfirm();
-    });
-    document.getElementById('customConfirmCancel').addEventListener('click', () => {
-        customConfirmResolve(false);
-        hideCustomConfirm();
-    });
-
-    /**
-     * Shows a custom Bootstrap modal-based confirm dialog.
-     * Returns a Promise that resolves to true/false depending on user action.
-     * @param {string} title - The title of the confirm dialog.
-     * @param {string} message - The message or question.
-     * @returns {Promise<boolean>} - true if 'OK' is clicked, otherwise false.
-     */
-    function showCustomConfirm(title, message) {
-        return new Promise((resolve) => {
-            // Store the resolver so we can call it on button clicks
-            customConfirmResolve = resolve;
-
-            // Set the title/message
-            document.getElementById('customConfirmTitle').textContent = title;
-            document.getElementById('customConfirmMessage').textContent = message;
-
-            // Show the modal
-            const confirmModal = new bootstrap.Modal(document.getElementById('customConfirmModal'));
-            confirmModal.show();
+      // =======================
+      // 4) CUSTOM CONFIRM DIALOG
+      // =======================
+      let customConfirmResolve;
+      // Set up the event listeners for modal buttons
+      document
+        .getElementById("customConfirmOk")
+        .addEventListener("click", () => {
+          customConfirmResolve(true);
+          hideCustomConfirm();
         });
-    }
+      document
+        .getElementById("customConfirmCancel")
+        .addEventListener("click", () => {
+          customConfirmResolve(false);
+          hideCustomConfirm();
+        });
 
-    function hideCustomConfirm() {
-        const confirmModalElement = document.getElementById('customConfirmModal');
+      /**
+       * Shows a custom Bootstrap modal-based confirm dialog.
+       * Returns a Promise that resolves to true/false depending on user action.
+       * @param {string} title - The title of the confirm dialog.
+       * @param {string} message - The message or question.
+       * @returns {Promise<boolean>} - true if 'OK' is clicked, otherwise false.
+       */
+      function showCustomConfirm(title, message) {
+        return new Promise((resolve) => {
+          // Store the resolver so we can call it on button clicks
+          customConfirmResolve = resolve;
+
+          // Set the title/message
+          document.getElementById("customConfirmTitle").textContent = title;
+          document.getElementById("customConfirmMessage").textContent = message;
+
+          // Show the modal
+          const confirmModal = new bootstrap.Modal(
+            document.getElementById("customConfirmModal")
+          );
+          confirmModal.show();
+        });
+      }
+
+      function hideCustomConfirm() {
+        const confirmModalElement =
+          document.getElementById("customConfirmModal");
         const bootstrapModal = bootstrap.Modal.getInstance(confirmModalElement);
         if (bootstrapModal) {
-            bootstrapModal.hide();
+          bootstrapModal.hide();
         }
-    }
+      }
 
-    // Show a Bootstrap modal by ID
-    function showModal(modalId) {
+      // Show a Bootstrap modal by ID
+      function showModal(modalId) {
         const modalEl = document.getElementById(modalId);
         const modalInstance = new bootstrap.Modal(modalEl);
         modalInstance.show();
-    }
+      }
 
-</script>
-{% block scripts %}{% endblock %}
-</body>
+      // =======================
+      // 5) NOTIFICATION FUNCTIONALITY
+      // =======================
+      const notificationBadge = document.getElementById("notificationBadge");
+      const notificationsList = document.getElementById("notificationsList");
+
+      function fetchNotifications() {
+        fetch("/api/notification/")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            updateNotifications(data.notifications);
+          })
+          .catch((error) => {
+            console.error("Error fetching notifications:", error);
+          });
+      }
+
+      function updateNotifications(notifications) {
+        notificationsList.innerHTML = ""; // Clear existing notifications
+        let unreadCount = 0;
+
+        if (notifications.length === 0) {
+          notificationsList.innerHTML =
+            '<li><a class="dropdown-item text-center" href="#">No new notifications</a></li>';
+        } else {
+          notifications.forEach((notification) => {
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.classList.add("dropdown-item", "notification-item");
+            if (notification.is_seen) {
+              link.classList.add("seen");
+            } else {
+              unreadCount++;
+            }
+            link.href = "#"; // Add a relevant link if needed
+            link.textContent = notification.message;
+            link.addEventListener("click", () =>
+              markAsRead(notification.id, link)
+            );
+            listItem.appendChild(link);
+            notificationsList.appendChild(listItem);
+          });
+        }
+
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display =
+          unreadCount > 0 ? "inline-block" : "none";
+      }
+
+      function markAsRead(notificationId, listItem) {
+        fetch(`/api/notification/${notificationId}`, {
+          method: "PUT",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            listItem.classList.add("seen");
+            // Update the badge count
+            const currentCount = parseInt(notificationBadge.textContent);
+            if (currentCount > 0) {
+              notificationBadge.textContent = currentCount - 1;
+              if (parseInt(notificationBadge.textContent) === 0) {
+                notificationBadge.style.display = "none";
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error marking notification as read:", error);
+            showToast("Error marking notification as read", "danger");
+          });
+      }
+
+      // Fetch notifications on page load and periodically
+      document.addEventListener("DOMContentLoaded", () => {
+        fetchNotifications();
+        setInterval(fetchNotifications, 60000); // Fetch every 60 seconds
+      });
+    </script>
+    {% block scripts %}{% endblock %}
+  </body>
 </html>
