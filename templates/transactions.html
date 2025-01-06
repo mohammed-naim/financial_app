@@ -695,7 +695,7 @@
                 amount: document.getElementById('editTransactionAmount').value,
                 category_id: document.getElementById('editTransactionCategory').value,
                 account_id: document.getElementById('editTransactionAccount').value,
-                date: document.getElementById('editTransactionDate').value
+                transaction_date: document.getElementById('editTransactionDate').value
             };
             fetch(`/api/transaction/${transactionId}`, {
                 method: 'PUT',
