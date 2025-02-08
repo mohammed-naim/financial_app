@@ -2,86 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <title>Finance Tracker Login</title>
     <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login.css') }}"
     />
-    <title>Login Page</title>
-    <style>
-        body {
-            height: 100vh;
-            display: flex;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            width: 300px;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                width: 90%;
-            }
-        }
-    </style>
 </head>
 <body>
-<div class="login-container">
-    <h2 class="text-center mb-4">Login</h2>
+<div class="container-wrapper">
+    <!-- Line Art Graphics Side -->
+    <div class="graphics-side">
+        <svg class="financial-illustration" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <!-- Abstract financial line art -->
+            <path class="line-art" d="M50 450 L150 300 L250 400 L350 200 L450 350"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="line-art" d="M50 200 Q275 100 450 250"
+                  stroke-dasharray="4 4" opacity="0.5"/>
+            <!-- Currency symbols -->
+            <path class="line-art" d="M100 100 L120 80 L140 100 L120 120 Z"
+                  stroke-width="1.5"/>
+            <path class="line-art" d="M400 80 Q420 60 440 80 T400 100"
+                  stroke-width="1.5"/>
+            <!-- Circular elements -->
+            <circle class="line-art" cx="300" cy="150" r="30"
+                    stroke-width="1.5"/>
+            <circle class="line-art" cx="200" cy="80" r="20"
+                    stroke-width="1.5"/>
+        </svg>
+    </div>
 
-    <!-- ERROR ALERT -->
-    <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
-
-    <!-- LOGIN FORM -->
-    <form id="loginForm">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-            />
+    <!-- Login Side -->
+    <div class="login-side">
+        <div class="text-center mb-4">
+            <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+            <h2>Financial Growth</h2>
+            <p class="text-muted">Track your financial journey</p>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-            />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-    </form>
 
-    <p class="text-center mt-3">
-        <a href="{{ url_for('auth.signup') }}">Don't have an account? Sign up</a>
-    </p>
+        <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+
+        <form id="loginForm">
+            <div class="mb-3 position-relative">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required/>
+                <i class="fas fa-envelope input-icon text-success"></i>
+            </div>
+            <div class="mb-4 position-relative">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" required/>
+                <i class="fas fa-lock input-icon text-success"></i>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 py-2 text-white">
+                Login <i class="fas fa-arrow-right ms-2"></i>
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('auth.signup') }}" class="text-decoration-none text-success">
+                Start Growing <i class="fas fa-seedling ms-1"></i>
+            </a>
+        </div>
+    </div>
 </div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-<!-- BOOTSTRAP JS -->
-<script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
-></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
-></script>
-
+<!-- Keep existing form submission script -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const loginForm = document.getElementById('loginForm');

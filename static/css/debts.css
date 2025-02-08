@@ -1,0 +1,48 @@
+:root {
+    --light-bg: #f8f9fa;
+}
+
+body {
+    background-color: var(--light-bg);
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.debt-card {
+    margin-bottom: 20px;
+}
+
+.debt-card .badge {
+    font-size: 0.9em;
+    padding: 8px 12px;
+}
+
+.modal-content {
+    border-radius: 15px;
+}
+
+.filter-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 5px;
+}

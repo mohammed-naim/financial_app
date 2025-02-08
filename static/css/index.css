@@ -1,0 +1,32 @@
+body {
+        background-color: #f8f9fa;
+      }
+
+.header {
+background-color: #4caf50; /* Green */
+color: white;
+padding: 20px;
+text-align: center;
+}
+
+.feature {
+background-color: #e7f5e1; /* Light green */
+border: 1px solid #4caf50;
+border-radius: 8px;
+padding: 15px;
+margin: 15px 0;
+}
+
+.feature img {
+max-width: 100%;
+border-radius: 8px;
+}
+
+.auth-buttons {
+text-align: center;
+margin-top: 30px;
+}
+
+.auth-buttons a {
+        margin: 0 10px;
+      }
