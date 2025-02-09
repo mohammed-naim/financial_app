@@ -6,12 +6,14 @@ from models.user import User
 from services import register_check_repeated_transactions, register_investment_service
 from flask_migrate import Migrate
 from config import Config
+from flask_babel import Babel, gettext
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
 init_db(app)
 migrate = Migrate(app, db)
+babel = Babel(app)
 # Setup Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
