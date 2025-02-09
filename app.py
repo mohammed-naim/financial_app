@@ -13,12 +13,17 @@ app = Flask(__name__)
 app.config.from_object(Config)
 init_db(app)
 migrate = Migrate(app, db)
-babel = Babel(app)
 # Setup Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
+# Language selector
+def get_locale():
+    return current_user.language
+app.jinja_env.globals['get_locale'] = get_locale
+
+babel = Babel(app, locale_selector=get_locale)
 
 # User loader callback for Flask-Login
 @login_manager.user_loader
