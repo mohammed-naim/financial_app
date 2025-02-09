@@ -5,37 +5,41 @@
         <!-- PAGE HEADER -->
         <div class="row mb-4">
             <div class="col-12">
-                <h1 class="text-center text-primary fw-bold" style="font-family: 'Poppins', sans-serif;">Accounts</h1>
+                <h1 class="text-center text-success fw-bold" style="font-family: 'Poppins', sans-serif;">Accounts</h1>
                 <p class="text-center text-muted" style="font-family: 'Roboto', sans-serif;">
                     Manage your accounts efficiently. Add, edit, or transfer funds between them.
                 </p>
             </div>
         </div>
-
-        <!-- FILTER AND BUTTONS -->
-        <div class="row align-items-center mb-4">
-            <div class="col-md-6 d-flex align-items-center mb-2 mb-md-0">
-                <label for="filterStatus" class="form-label fw-semibold me-2 mb-0">Filter Accounts:</label>
+        {#        test card #}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
+                <!-- Filter by Type -->
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+                    <label for="filterStatus" class="form-label fw-semibold me-2 mb-0">Filter Accounts:</label>
                 <select class="form-select w-auto" id="filterStatus" onchange="filterAccounts()">
                     <option value="">All</option>
                     <option value="enabled">Enabled</option>
                     <option value="disabled">Disabled</option>
                 </select>
-            </div>
-            <div class="col-md-6 text-end">
-                <button class="btn btn-success me-2" onclick="showModal('addAccountModal')">
-                    <i class="bi bi-plus-circle me-1"></i> Add Account
-                </button>
-                <button class="btn btn-warning" onclick="showModal('transferAccountModal')">
-                    <i class="bi bi-arrow-left-right me-1"></i> Transfer
-                </button>
+                </div>
+
+                <!-- Add Category Button -->
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-success me-2" onclick="showModal('addAccountModal')">
+                        <i class="bi bi-plus-circle me-1"></i> Add Account
+                    </button>
+                    <button class="btn btn-outline-success" onclick="showModal('transferAccountModal')">
+                        <i class="bi bi-arrow-left-right me-1"></i> Transfer
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- ACCOUNT LIST TABLE -->
         <div class="table-responsive shadow-sm rounded">
             <table class="table table-hover align-middle">
-                <thead class="table-dark">
+                <thead class="table-success">
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Balance</th>
@@ -194,7 +198,8 @@
             </div>
         </div>
     </div>
-
+{% endblock %}
+{% block scripts %}
     <!-- PAGE SCRIPTS -->
     <script>
         // Load accounts from API with optional filter
