@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-09 23:39+0200\n"
+"POT-Creation-Date: 2025-02-10 13:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/accounts.html:8
+#: templates/accounts.html:8 templates/base.html:28
 msgid "Accounts"
 msgstr ""
 
@@ -31,15 +31,15 @@ msgstr ""
 msgid "Filter Accounts"
 msgstr ""
 
-#: templates/accounts.html:22
+#: templates/accounts.html:22 templates/categories.html:20
 msgid "All"
 msgstr ""
 
-#: templates/accounts.html:23
+#: templates/accounts.html:23 templates/categories.html:169
 msgid "Enabled"
 msgstr ""
 
-#: templates/accounts.html:24
+#: templates/accounts.html:24 templates/categories.html:170
 msgid "Disabled"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: templates/accounts.html:45
+#: templates/accounts.html:45 templates/categories.html:53
 msgid "Name"
 msgstr ""
 
@@ -64,7 +64,7 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: templates/accounts.html:48
+#: templates/accounts.html:48 templates/categories.html:56
 msgid "Actions"
 msgstr ""
 
@@ -73,7 +73,8 @@ msgid "Add New Account"
 msgstr ""
 
 #: templates/accounts.html:66 templates/accounts.html:102
-#: templates/accounts.html:140
+#: templates/accounts.html:140 templates/base.html:126 templates/base.html:148
+#: templates/categories.html:75
 msgid "Close"
 msgstr ""
 
@@ -94,7 +95,8 @@ msgid "e.g., 1000"
 msgstr ""
 
 #: templates/accounts.html:87 templates/accounts.html:125
-#: templates/accounts.html:164
+#: templates/accounts.html:164 templates/base.html:134
+#: templates/categories.html:101 templates/categories.html:143
 msgid "Cancel"
 msgstr ""
 
@@ -114,7 +116,7 @@ msgstr ""
 msgid "e.g., 1500"
 msgstr ""
 
-#: templates/accounts.html:123
+#: templates/accounts.html:123 templates/categories.html:140
 msgid "Save Changes"
 msgstr ""
 
@@ -209,19 +211,19 @@ msgstr ""
 msgid "An error occurred while enabling the account."
 msgstr ""
 
-#: templates/accounts.html:220
+#: templates/accounts.html:220 templates/categories.html:172
 msgid "Enable"
 msgstr ""
 
-#: templates/accounts.html:223
+#: templates/accounts.html:223 templates/categories.html:173
 msgid "Disable"
 msgstr ""
 
-#: templates/accounts.html:226
+#: templates/accounts.html:226 templates/categories.html:171
 msgid "Edit"
 msgstr ""
 
-#: templates/accounts.html:229
+#: templates/accounts.html:229 templates/categories.html:174
 msgid "Delete"
 msgstr ""
 
@@ -235,5 +237,208 @@ msgstr ""
 
 #: templates/accounts.html:405
 msgid "Enable Account"
+msgstr ""
+
+#: templates/base.html:6 templates/base.html:20
+msgid "Money App"
+msgstr ""
+
+#: templates/base.html:33 templates/categories.html:7
+msgid "Categories"
+msgstr ""
+
+#: templates/base.html:38
+msgid "Transactions"
+msgstr ""
+
+#: templates/base.html:43
+msgid "Debts"
+msgstr ""
+
+#: templates/base.html:48
+msgid "Investments"
+msgstr ""
+
+#: templates/base.html:53
+msgid "Dashboard"
+msgstr ""
+
+#: templates/base.html:68 templates/base.html:149
+msgid "No new notifications"
+msgstr ""
+
+#: templates/base.html:76
+msgid "Language"
+msgstr ""
+
+#: templates/base.html:81
+msgid "English"
+msgstr ""
+
+#: templates/base.html:86
+msgid "Arabic"
+msgstr ""
+
+#: templates/base.html:93
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:110
+msgid "Money App. All Rights Reserved."
+msgstr ""
+
+#: templates/base.html:124
+msgid "Confirm"
+msgstr ""
+
+#: templates/base.html:137
+msgid "OK"
+msgstr ""
+
+#: templates/base.html:146
+msgid "An error occurred while changing language."
+msgstr ""
+
+#: templates/base.html:147
+msgid "An error occurred while logging out."
+msgstr ""
+
+#: templates/base.html:150
+msgid "Error fetching notifications."
+msgstr ""
+
+#: templates/base.html:151
+msgid "Error marking notification as read."
+msgstr ""
+
+#: templates/categories.html:9
+msgid "Manage your income and expense categories here."
+msgstr ""
+
+#: templates/categories.html:18
+msgid "Filter by Type"
+msgstr ""
+
+#: templates/categories.html:21 templates/categories.html:91
+#: templates/categories.html:132
+msgid "Income"
+msgstr ""
+
+#: templates/categories.html:22 templates/categories.html:92
+#: templates/categories.html:133
+msgid "Expense"
+msgstr ""
+
+#: templates/categories.html:28
+msgid "Sort by"
+msgstr ""
+
+#: templates/categories.html:30
+msgid "Name (A-Z)"
+msgstr ""
+
+#: templates/categories.html:31
+msgid "Name (Z-A)"
+msgstr ""
+
+#: templates/categories.html:32 templates/categories.html:54
+#: templates/categories.html:89 templates/categories.html:130
+msgid "Type"
+msgstr ""
+
+#: templates/categories.html:38 templates/categories.html:74
+msgid "Add Category"
+msgstr ""
+
+#: templates/categories.html:46
+msgid "All Categories"
+msgstr ""
+
+#: templates/categories.html:55
+msgid "Status"
+msgstr ""
+
+#: templates/categories.html:79 templates/categories.html:120
+msgid "Category Name"
+msgstr ""
+
+#: templates/categories.html:84
+msgid "e.g., Food & Dining"
+msgstr ""
+
+#: templates/categories.html:98
+msgid "Add"
+msgstr ""
+
+#: templates/categories.html:115
+msgid "Edit Category"
+msgstr ""
+
+#: templates/categories.html:155
+msgid "Error loading categories."
+msgstr ""
+
+#: templates/categories.html:156
+msgid "An error occurred while disabling the category."
+msgstr ""
+
+#: templates/categories.html:157
+msgid "An error occurred while adding the category."
+msgstr ""
+
+#: templates/categories.html:158
+msgid "An error occurred while updating the category."
+msgstr ""
+
+#: templates/categories.html:159
+msgid "An error occurred while deleting the category."
+msgstr ""
+
+#: templates/categories.html:160
+msgid "An error occurred while enabling the category."
+msgstr ""
+
+#: templates/categories.html:161
+msgid "Are you sure you want to disable this category?"
+msgstr ""
+
+#: templates/categories.html:162
+msgid "Are you sure you want to delete this category?"
+msgstr ""
+
+#: templates/categories.html:163
+msgid "Are you sure you want to enable this category?"
+msgstr ""
+
+#: templates/categories.html:164
+msgid "Category added successfully!"
+msgstr ""
+
+#: templates/categories.html:165
+msgid "Category updated successfully!"
+msgstr ""
+
+#: templates/categories.html:166
+msgid "Category deleted successfully!"
+msgstr ""
+
+#: templates/categories.html:167
+msgid "Category enabled successfully!"
+msgstr ""
+
+#: templates/categories.html:168
+msgid "Category disabled successfully!"
+msgstr ""
+
+#: templates/categories.html:279
+msgid "Disable Category"
+msgstr ""
+
+#: templates/categories.html:365
+msgid "Delete Category"
+msgstr ""
+
+#: templates/categories.html:393
+msgid "Enable Category"
 msgstr ""
 
