@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 13:22+0200\n"
+"POT-Creation-Date: 2025-02-10 16:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/accounts.html:8 templates/base.html:28
+#: templates/accounts.html:8 templates/base.html:29
 msgid "Accounts"
 msgstr ""
 
@@ -32,14 +32,18 @@ msgid "Filter Accounts"
 msgstr ""
 
 #: templates/accounts.html:22 templates/categories.html:20
+#: templates/transactions.html:118 templates/transactions.html:126
+#: templates/transactions.html:454 templates/transactions.html:497
 msgid "All"
 msgstr ""
 
-#: templates/accounts.html:23 templates/categories.html:169
+#: templates/accounts.html:23 templates/categories.html:166
+#: templates/dashboard.html:38
 msgid "Enabled"
 msgstr ""
 
-#: templates/accounts.html:24 templates/categories.html:170
+#: templates/accounts.html:24 templates/categories.html:167
+#: templates/dashboard.html:40
 msgid "Disabled"
 msgstr ""
 
@@ -51,7 +55,7 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: templates/accounts.html:45 templates/categories.html:53
+#: templates/accounts.html:45 templates/categories.html:50
 msgid "Name"
 msgstr ""
 
@@ -60,11 +64,14 @@ msgid "Balance"
 msgstr ""
 
 #: templates/accounts.html:47 templates/accounts.html:80
-#: templates/accounts.html:112
+#: templates/accounts.html:112 templates/investments.html:22
+#: templates/investments.html:93 templates/investments.html:153
 msgid "Currency"
 msgstr ""
 
-#: templates/accounts.html:48 templates/categories.html:56
+#: templates/accounts.html:48 templates/categories.html:53
+#: templates/investments.html:56 templates/transactions.html:170
+#: templates/transactions.html:216
 msgid "Actions"
 msgstr ""
 
@@ -73,8 +80,8 @@ msgid "Add New Account"
 msgstr ""
 
 #: templates/accounts.html:66 templates/accounts.html:102
-#: templates/accounts.html:140 templates/base.html:126 templates/base.html:148
-#: templates/categories.html:75
+#: templates/accounts.html:140 templates/base.html:127 templates/base.html:149
+#: templates/categories.html:72
 msgid "Close"
 msgstr ""
 
@@ -95,8 +102,12 @@ msgid "e.g., 1000"
 msgstr ""
 
 #: templates/accounts.html:87 templates/accounts.html:125
-#: templates/accounts.html:164 templates/base.html:134
-#: templates/categories.html:101 templates/categories.html:143
+#: templates/accounts.html:164 templates/base.html:135
+#: templates/categories.html:98 templates/categories.html:140
+#: templates/debts.html:87 templates/debts.html:172
+#: templates/investments.html:130 templates/investments.html:188
+#: templates/investments.html:220 templates/transactions.html:279
+#: templates/transactions.html:339 templates/transactions.html:416
 msgid "Cancel"
 msgstr ""
 
@@ -116,7 +127,8 @@ msgstr ""
 msgid "e.g., 1500"
 msgstr ""
 
-#: templates/accounts.html:123 templates/categories.html:140
+#: templates/accounts.html:123 templates/categories.html:137
+#: templates/debts.html:174 templates/transactions.html:338
 msgid "Save Changes"
 msgstr ""
 
@@ -137,7 +149,12 @@ msgstr ""
 msgid "To Account"
 msgstr ""
 
-#: templates/accounts.html:156
+#: templates/accounts.html:156 templates/dashboard.html:205
+#: templates/debts.html:64 templates/debts.html:107 templates/debts.html:152
+#: templates/debts.html:267 templates/debts.html:398
+#: templates/transactions.html:166 templates/transactions.html:212
+#: templates/transactions.html:253 templates/transactions.html:313
+#: templates/transactions.html:372
 msgid "Amount"
 msgstr ""
 
@@ -211,19 +228,22 @@ msgstr ""
 msgid "An error occurred while enabling the account."
 msgstr ""
 
-#: templates/accounts.html:220 templates/categories.html:172
+#: templates/accounts.html:220 templates/categories.html:169
 msgid "Enable"
 msgstr ""
 
-#: templates/accounts.html:223 templates/categories.html:173
+#: templates/accounts.html:223 templates/categories.html:170
 msgid "Disable"
 msgstr ""
 
-#: templates/accounts.html:226 templates/categories.html:171
+#: templates/accounts.html:226 templates/categories.html:168
+#: templates/investments.html:373 templates/transactions.html:576
 msgid "Edit"
 msgstr ""
 
-#: templates/accounts.html:229 templates/categories.html:174
+#: templates/accounts.html:229 templates/categories.html:171
+#: templates/investments.html:369 templates/investments.html:379
+#: templates/transactions.html:582
 msgid "Delete"
 msgstr ""
 
@@ -239,75 +259,77 @@ msgstr ""
 msgid "Enable Account"
 msgstr ""
 
-#: templates/base.html:6 templates/base.html:20
+#: templates/base.html:7 templates/base.html:21
 msgid "Money App"
 msgstr ""
 
-#: templates/base.html:33 templates/categories.html:7
+#: templates/base.html:34 templates/categories.html:7
 msgid "Categories"
 msgstr ""
 
-#: templates/base.html:38
+#: templates/base.html:39 templates/transactions.html:82
+#: templates/transactions.html:108
 msgid "Transactions"
 msgstr ""
 
-#: templates/base.html:43
+#: templates/base.html:44 templates/dashboard.html:49 templates/debts.html:14
 msgid "Debts"
 msgstr ""
 
-#: templates/base.html:48
+#: templates/base.html:49 templates/dashboard.html:63
+#: templates/investments.html:13
 msgid "Investments"
 msgstr ""
 
-#: templates/base.html:53
+#: templates/base.html:54
 msgid "Dashboard"
 msgstr ""
 
-#: templates/base.html:68 templates/base.html:149
+#: templates/base.html:69 templates/base.html:150
 msgid "No new notifications"
 msgstr ""
 
-#: templates/base.html:76
+#: templates/base.html:77
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgid "English"
 msgstr ""
 
-#: templates/base.html:86
+#: templates/base.html:87
 msgid "Arabic"
 msgstr ""
 
-#: templates/base.html:93
+#: templates/base.html:94
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Money App. All Rights Reserved."
 msgstr ""
 
-#: templates/base.html:124
+#: templates/base.html:125
 msgid "Confirm"
 msgstr ""
 
-#: templates/base.html:137
+#: templates/base.html:138
 msgid "OK"
 msgstr ""
 
-#: templates/base.html:146
+#: templates/base.html:147
 msgid "An error occurred while changing language."
 msgstr ""
 
-#: templates/base.html:147
+#: templates/base.html:148
 msgid "An error occurred while logging out."
 msgstr ""
 
-#: templates/base.html:150
+#: templates/base.html:151
 msgid "Error fetching notifications."
 msgstr ""
 
-#: templates/base.html:151
+#: templates/base.html:152
 msgid "Error marking notification as read."
 msgstr ""
 
@@ -319,13 +341,14 @@ msgstr ""
 msgid "Filter by Type"
 msgstr ""
 
-#: templates/categories.html:21 templates/categories.html:91
-#: templates/categories.html:132
+#: templates/categories.html:21 templates/categories.html:88
+#: templates/categories.html:129 templates/dashboard.html:19
+#: templates/dashboard.html:203
 msgid "Income"
 msgstr ""
 
-#: templates/categories.html:22 templates/categories.html:92
-#: templates/categories.html:133
+#: templates/categories.html:22 templates/categories.html:89
+#: templates/categories.html:130
 msgid "Expense"
 msgstr ""
 
@@ -341,104 +364,654 @@ msgstr ""
 msgid "Name (Z-A)"
 msgstr ""
 
-#: templates/categories.html:32 templates/categories.html:54
-#: templates/categories.html:89 templates/categories.html:130
+#: templates/categories.html:32 templates/categories.html:51
+#: templates/categories.html:86 templates/categories.html:127
+#: templates/debts.html:21 templates/debts.html:68
+#: templates/transactions.html:167
 msgid "Type"
 msgstr ""
 
-#: templates/categories.html:38 templates/categories.html:74
+#: templates/categories.html:38 templates/categories.html:71
 msgid "Add Category"
 msgstr ""
 
-#: templates/categories.html:46
-msgid "All Categories"
-msgstr ""
-
-#: templates/categories.html:55
+#: templates/categories.html:52 templates/transactions.html:169
 msgid "Status"
 msgstr ""
 
-#: templates/categories.html:79 templates/categories.html:120
+#: templates/categories.html:76 templates/categories.html:117
 msgid "Category Name"
 msgstr ""
 
-#: templates/categories.html:84
+#: templates/categories.html:81
 msgid "e.g., Food & Dining"
 msgstr ""
 
-#: templates/categories.html:98
+#: templates/categories.html:95 templates/investments.html:127
+#: templates/transactions.html:278
 msgid "Add"
 msgstr ""
 
-#: templates/categories.html:115
+#: templates/categories.html:112
 msgid "Edit Category"
 msgstr ""
 
-#: templates/categories.html:155
+#: templates/categories.html:152 templates/transactions.html:509
 msgid "Error loading categories."
 msgstr ""
 
-#: templates/categories.html:156
+#: templates/categories.html:153
 msgid "An error occurred while disabling the category."
 msgstr ""
 
-#: templates/categories.html:157
+#: templates/categories.html:154
 msgid "An error occurred while adding the category."
 msgstr ""
 
-#: templates/categories.html:158
+#: templates/categories.html:155
 msgid "An error occurred while updating the category."
 msgstr ""
 
-#: templates/categories.html:159
+#: templates/categories.html:156
 msgid "An error occurred while deleting the category."
 msgstr ""
 
-#: templates/categories.html:160
+#: templates/categories.html:157
 msgid "An error occurred while enabling the category."
 msgstr ""
 
-#: templates/categories.html:161
+#: templates/categories.html:158
 msgid "Are you sure you want to disable this category?"
 msgstr ""
 
-#: templates/categories.html:162
+#: templates/categories.html:159
 msgid "Are you sure you want to delete this category?"
 msgstr ""
 
-#: templates/categories.html:163
+#: templates/categories.html:160
 msgid "Are you sure you want to enable this category?"
 msgstr ""
 
-#: templates/categories.html:164
+#: templates/categories.html:161
 msgid "Category added successfully!"
 msgstr ""
 
-#: templates/categories.html:165
+#: templates/categories.html:162
 msgid "Category updated successfully!"
 msgstr ""
 
-#: templates/categories.html:166
+#: templates/categories.html:163
 msgid "Category deleted successfully!"
 msgstr ""
 
-#: templates/categories.html:167
+#: templates/categories.html:164
 msgid "Category enabled successfully!"
 msgstr ""
 
-#: templates/categories.html:168
+#: templates/categories.html:165
 msgid "Category disabled successfully!"
 msgstr ""
 
-#: templates/categories.html:279
+#: templates/categories.html:276
 msgid "Disable Category"
 msgstr ""
 
-#: templates/categories.html:365
+#: templates/categories.html:362
 msgid "Delete Category"
 msgstr ""
 
-#: templates/categories.html:393
+#: templates/categories.html:390
 msgid "Enable Category"
+msgstr ""
+
+#: templates/dashboard.html:11
+msgid "Statistics"
+msgstr ""
+
+#: templates/dashboard.html:28 templates/dashboard.html:203
+msgid "Expenses"
+msgstr ""
+
+#: templates/dashboard.html:37
+msgid "Account Balances"
+msgstr ""
+
+#: templates/dashboard.html:50 templates/debts.html:24 templates/debts.html:70
+msgid "Creditor"
+msgstr ""
+
+#: templates/dashboard.html:52 templates/debts.html:25 templates/debts.html:71
+msgid "Debtor"
+msgstr ""
+
+#: templates/dashboard.html:64
+msgid "Total Invested"
+msgstr ""
+
+#: templates/dashboard.html:65
+msgid "Total Profit"
+msgstr ""
+
+#: templates/dashboard.html:77
+msgid "Income vs. Expenses"
+msgstr ""
+
+#: templates/dashboard.html:89
+msgid "Category Summary"
+msgstr ""
+
+#: templates/dashboard.html:103
+msgid "Cash Flow Over Time"
+msgstr ""
+
+#: templates/dashboard.html:109 templates/transactions.html:131
+#: templates/transactions.html:208 templates/transactions.html:387
+msgid "Start Date"
+msgstr ""
+
+#: templates/dashboard.html:113 templates/transactions.html:136
+#: templates/transactions.html:209 templates/transactions.html:396
+msgid "End Date"
+msgstr ""
+
+#: templates/dashboard.html:117
+msgid "Interval"
+msgstr ""
+
+#: templates/dashboard.html:119
+msgid "Daily"
+msgstr ""
+
+#: templates/dashboard.html:120
+msgid "Weekly"
+msgstr ""
+
+#: templates/dashboard.html:121
+msgid "Monthly"
+msgstr ""
+
+#: templates/dashboard.html:126
+msgid "Apply Filter"
+msgstr ""
+
+#: templates/debts.html:17 templates/debts.html:60
+msgid "Person Name"
+msgstr ""
+
+#: templates/debts.html:23
+msgid "All Types"
+msgstr ""
+
+#: templates/debts.html:30
+msgid "Apply Filters"
+msgstr ""
+
+#: templates/debts.html:36
+msgid "Add Debt"
+msgstr ""
+
+#: templates/debts.html:53 templates/debts.html:299
+msgid "Add New Debt"
+msgstr ""
+
+#: templates/debts.html:75 templates/debts.html:115 templates/debts.html:160
+#: templates/debts.html:266 templates/investments.html:86
+#: templates/transactions.html:123 templates/transactions.html:168
+#: templates/transactions.html:215 templates/transactions.html:262
+#: templates/transactions.html:322 templates/transactions.html:381
+msgid "Account"
+msgstr ""
+
+#: templates/debts.html:88
+msgid "Save"
+msgstr ""
+
+#: templates/debts.html:99
+msgid "Debt Payments"
+msgstr ""
+
+#: templates/debts.html:111 templates/debts.html:156 templates/debts.html:399
+#: templates/transactions.html:163 templates/transactions.html:268
+#: templates/transactions.html:328
+msgid "Date"
+msgstr ""
+
+#: templates/debts.html:121 templates/debts.html:166
+#: templates/investments.html:121 templates/investments.html:179
+#: templates/transactions.html:164 templates/transactions.html:211
+#: templates/transactions.html:239 templates/transactions.html:298
+#: templates/transactions.html:357
+msgid "Description"
+msgstr ""
+
+#: templates/debts.html:126
+msgid "Add Payment"
+msgstr ""
+
+#: templates/debts.html:144
+msgid "Edit Payment"
+msgstr ""
+
+#: templates/debts.html:209 templates/transactions.html:480
+msgid "Error loading accounts."
+msgstr ""
+
+#: templates/debts.html:242
+msgid "Error loading debts."
+msgstr ""
+
+#: templates/debts.html:266
+msgid "Unknown"
+msgstr ""
+
+#: templates/debts.html:268
+msgid "Paid"
+msgstr ""
+
+#: templates/debts.html:269
+msgid "Remaining"
+msgstr ""
+
+#: templates/debts.html:278
+msgid "Payments"
+msgstr ""
+
+#: templates/debts.html:312
+msgid "Edit Debt"
+msgstr ""
+
+#: templates/debts.html:337
+msgid "Debt saved successfully."
+msgstr ""
+
+#: templates/debts.html:340
+msgid "Error saving debt."
+msgstr ""
+
+#: templates/debts.html:345
+msgid "Delete Debt"
+msgstr ""
+
+#: templates/debts.html:345
+msgid "Are you sure you want to delete this debt?"
+msgstr ""
+
+#: templates/debts.html:359
+msgid "Error deleting debt."
+msgstr ""
+
+#: templates/debts.html:384
+msgid "Error loading payments."
+msgstr ""
+
+#: templates/debts.html:390
+msgid "No payments yet"
+msgstr ""
+
+#: templates/debts.html:400
+msgid "No description"
+msgstr ""
+
+#: templates/debts.html:463
+msgid "Error loading payment for edit."
+msgstr ""
+
+#: templates/debts.html:489
+msgid "Payment updated successfully."
+msgstr ""
+
+#: templates/debts.html:492
+msgid "Error updating payment."
+msgstr ""
+
+#: templates/debts.html:498
+msgid "Delete Payment"
+msgstr ""
+
+#: templates/debts.html:498
+msgid "Are you sure you want to delete this payment?"
+msgstr ""
+
+#: templates/debts.html:511
+msgid "Payment deleted successfully."
+msgstr ""
+
+#: templates/debts.html:514
+msgid "Error deleting payment."
+msgstr ""
+
+#: templates/investments.html:18
+msgid "Current Exchange Rates"
+msgstr ""
+
+#: templates/investments.html:23
+msgid "Rate to ILS"
+msgstr ""
+
+#: templates/investments.html:37
+msgid "Show/Hide Exchange Rates"
+msgstr ""
+
+#: templates/investments.html:42 templates/investments.html:80
+msgid "Add Investment"
+msgstr ""
+
+#: templates/investments.html:51
+msgid "Asset Currency"
+msgstr ""
+
+#: templates/investments.html:52 templates/investments.html:104
+#: templates/investments.html:162
+msgid "Amount Invested"
+msgstr ""
+
+#: templates/investments.html:53 templates/investments.html:167
+msgid "Purchase Price"
+msgstr ""
+
+#: templates/investments.html:54
+msgid "Profit / Loss"
+msgstr ""
+
+#: templates/investments.html:55
+msgid "Sold?"
+msgstr ""
+
+#: templates/investments.html:96 templates/investments.html:155
+msgid "USD"
+msgstr ""
+
+#: templates/investments.html:97 templates/investments.html:156
+msgid "EUR"
+msgstr ""
+
+#: templates/investments.html:98 templates/investments.html:157
+msgid "JOD"
+msgstr ""
+
+#: templates/investments.html:109
+msgid "Purchase Price (ILS)"
+msgstr ""
+
+#: templates/investments.html:114 templates/investments.html:172
+msgid "Reference Currency"
+msgstr ""
+
+#: templates/investments.html:116 templates/investments.html:174
+msgid "ILS"
+msgstr ""
+
+#: templates/investments.html:145
+msgid "Edit Investment"
+msgstr ""
+
+#: templates/investments.html:185
+msgid "Update"
+msgstr ""
+
+#: templates/investments.html:203
+msgid "Sell Investment"
+msgstr ""
+
+#: templates/investments.html:210
+msgid "Sell Price (ILS)"
+msgstr ""
+
+#: templates/investments.html:213
+msgid "This defaults to the current price if available, but you can override."
+msgstr ""
+
+#: templates/investments.html:217 templates/investments.html:376
+msgid "Sell"
+msgstr ""
+
+#: templates/investments.html:264
+msgid "Could not load exchange rates."
+msgstr ""
+
+#: templates/investments.html:321
+msgid "Could not load accounts."
+msgstr ""
+
+#: templates/investments.html:339
+msgid "Error loading investments."
+msgstr ""
+
+#: templates/investments.html:348
+msgid "Yes"
+msgstr ""
+
+#: templates/investments.html:348
+msgid "No"
+msgstr ""
+
+#: templates/investments.html:434
+msgid "Error adding investment."
+msgstr ""
+
+#: templates/investments.html:458
+msgid "Error loading investment."
+msgstr ""
+
+#: templates/investments.html:483
+msgid "Investment updated successfully!"
+msgstr ""
+
+#: templates/investments.html:490
+msgid "Error updating investment."
+msgstr ""
+
+#: templates/investments.html:496
+msgid "Delete Investment"
+msgstr ""
+
+#: templates/investments.html:496
+msgid "Are you sure you want to delete this investment?"
+msgstr ""
+
+#: templates/investments.html:509
+msgid "Investment deleted successfully!"
+msgstr ""
+
+#: templates/investments.html:515
+msgid "Error deleting investment."
+msgstr ""
+
+#: templates/investments.html:538
+msgid "Error loading investment info."
+msgstr ""
+
+#: templates/investments.html:557
+msgid "Investment sold successfully!"
+msgstr ""
+
+#: templates/investments.html:564
+msgid "Error selling investment."
+msgstr ""
+
+#: templates/login.html:41
+msgid "Financial Growth"
+msgstr ""
+
+#: templates/login.html:42
+msgid "Track your financial journey"
+msgstr ""
+
+#: templates/login.html:49 templates/signup.html:153
+msgid "Email"
+msgstr ""
+
+#: templates/login.html:54 templates/signup.html:158
+msgid "Password"
+msgstr ""
+
+#: templates/login.html:65 templates/signup.html:140
+msgid "Start Growing"
+msgstr ""
+
+#: templates/login.html:101 templates/signup.html:208
+msgid "Email and password are required."
+msgstr ""
+
+#: templates/signup.html:141
+msgid "Begin your financial journey"
+msgstr ""
+
+#: templates/signup.html:148
+msgid "Full Name"
+msgstr ""
+
+#: templates/signup.html:163
+msgid "Confirm Password"
+msgstr ""
+
+#: templates/signup.html:168
+msgid "Create Account"
+msgstr ""
+
+#: templates/signup.html:174
+msgid "Existing User? Sign In"
+msgstr ""
+
+#: templates/signup.html:233
+msgid "Signup failed."
+msgstr ""
+
+#: templates/transactions.html:95 templates/transactions.html:203
+msgid "Repeated Transactions"
+msgstr ""
+
+#: templates/transactions.html:115 templates/transactions.html:165
+#: templates/transactions.html:214 templates/transactions.html:247
+#: templates/transactions.html:307 templates/transactions.html:366
+msgid "Category"
+msgstr ""
+
+#: templates/transactions.html:145 templates/transactions.html:234
+msgid "Add Transaction"
+msgstr ""
+
+#: templates/transactions.html:148 templates/transactions.html:415
+msgid "Add Repeated"
+msgstr ""
+
+#: templates/transactions.html:182
+msgid "Transaction pagination"
+msgstr ""
+
+#: templates/transactions.html:192
+msgid "Total Transactions"
+msgstr ""
+
+#: templates/transactions.html:210
+msgid "Next Transaction"
+msgstr ""
+
+#: templates/transactions.html:213 templates/transactions.html:404
+msgid "Period (Days)"
+msgstr ""
+
+#: templates/transactions.html:292
+msgid "Edit Transaction"
+msgstr ""
+
+#: templates/transactions.html:352
+msgid "Add Repeated Transaction"
+msgstr ""
+
+#: templates/transactions.html:561
+msgid "Process"
+msgstr ""
+
+#: templates/transactions.html:621
+msgid "First"
+msgstr ""
+
+#: templates/transactions.html:636
+msgid "Last"
+msgstr ""
+
+#: templates/transactions.html:670
+msgid "Transaction created successfully"
+msgstr ""
+
+#: templates/transactions.html:678
+msgid "An error occurred while adding the transaction."
+msgstr ""
+
+#: templates/transactions.html:713
+msgid "Transaction updated successfully"
+msgstr ""
+
+#: templates/transactions.html:725
+msgid "Delete Transaction"
+msgstr ""
+
+#: templates/transactions.html:725
+msgid "Are you sure you want to delete this transaction?"
+msgstr ""
+
+#: templates/transactions.html:743
+msgid "Transaction deleted successfully"
+msgstr ""
+
+#: templates/transactions.html:749
+msgid "An error occurred while deleting the transaction."
+msgstr ""
+
+#: templates/transactions.html:754
+msgid "Process Transaction"
+msgstr ""
+
+#: templates/transactions.html:754
+msgid "This transaction is currently processing. Do you want to finalize it now?"
+msgstr ""
+
+#: templates/transactions.html:770
+msgid "Transaction processed successfully"
+msgstr ""
+
+#: templates/transactions.html:776
+msgid "An error occurred while processing the transaction."
+msgstr ""
+
+#: templates/transactions.html:828
+msgid "Error loading repeated transactions."
+msgstr ""
+
+#: templates/transactions.html:856
+msgid "Repeated transaction created successfully"
+msgstr ""
+
+#: templates/transactions.html:863
+msgid "An error occurred while adding repeated transaction."
+msgstr ""
+
+#: templates/transactions.html:898
+msgid "An error occurred while fetching repeated transaction."
+msgstr ""
+
+#: templates/transactions.html:923
+msgid "Repeated transaction updated successfully"
+msgstr ""
+
+#: templates/transactions.html:931
+msgid "An error occurred while editing repeated transaction."
+msgstr ""
+
+#: templates/transactions.html:936
+msgid "Delete Repeated Transaction"
+msgstr ""
+
+#: templates/transactions.html:936
+msgid "Are you sure you want to delete this repeated transaction?"
+msgstr ""
+
+#: templates/transactions.html:954
+msgid "Repeated transaction deleted successfully"
+msgstr ""
+
+#: templates/transactions.html:959
+msgid "An error occurred while deleting repeated transaction."
 msgstr ""
 

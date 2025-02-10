@@ -20,7 +20,12 @@ login_manager.login_view = 'auth.login'
 
 # Language selector
 def get_locale():
-    return current_user.language
+    lang = 'en'
+    try:
+        lang = current_user.language
+    except AttributeError:
+        pass
+    return lang
 app.jinja_env.globals['get_locale'] = get_locale
 
 babel = Babel(app, locale_selector=get_locale)

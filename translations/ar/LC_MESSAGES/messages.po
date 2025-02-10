@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 13:22+0200\n"
-"PO-Revision-Date: 2025-02-09 23:40+0200\n"
+"POT-Creation-Date: 2025-02-10 16:32+0200\n"
+"PO-Revision-Date: 2025-02-10 15:54+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
 "Language-Team: ar <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: templates/accounts.html:8 templates/base.html:28
+#: templates/accounts.html:8 templates/base.html:29
 msgid "Accounts"
 msgstr "الحسابات"
 
@@ -27,23 +27,27 @@ msgstr "الحسابات"
 msgid ""
 "Manage your accounts efficiently. Add, edit, or transfer funds between "
 "them."
-msgstr "إدارة حساباتك بكفاءة. إضافة أو تعديل أو تحويل الأموال فيما بينهم."
+msgstr "قم بإدارة حساباتك بكفاءة. أضف، عدل، أو انقل الأموال بينها."
 
 #: templates/accounts.html:20
 msgid "Filter Accounts"
 msgstr "تصفية الحسابات"
 
 #: templates/accounts.html:22 templates/categories.html:20
+#: templates/transactions.html:118 templates/transactions.html:126
+#: templates/transactions.html:454 templates/transactions.html:497
 msgid "All"
 msgstr "الكل"
 
-#: templates/accounts.html:23 templates/categories.html:169
+#: templates/accounts.html:23 templates/categories.html:166
+#: templates/dashboard.html:38
 msgid "Enabled"
-msgstr "الفعالة"
+msgstr "مفعل"
 
-#: templates/accounts.html:24 templates/categories.html:170
+#: templates/accounts.html:24 templates/categories.html:167
+#: templates/dashboard.html:40
 msgid "Disabled"
-msgstr "المعطلة"
+msgstr "معطل"
 
 #: templates/accounts.html:31 templates/accounts.html:85
 msgid "Add Account"
@@ -53,7 +57,7 @@ msgstr "إضافة حساب"
 msgid "Transfer"
 msgstr "تحويل"
 
-#: templates/accounts.html:45 templates/categories.html:53
+#: templates/accounts.html:45 templates/categories.html:50
 msgid "Name"
 msgstr "الاسم"
 
@@ -62,11 +66,14 @@ msgid "Balance"
 msgstr "الرصيد"
 
 #: templates/accounts.html:47 templates/accounts.html:80
-#: templates/accounts.html:112
+#: templates/accounts.html:112 templates/investments.html:22
+#: templates/investments.html:93 templates/investments.html:153
 msgid "Currency"
 msgstr "العملة"
 
-#: templates/accounts.html:48 templates/categories.html:56
+#: templates/accounts.html:48 templates/categories.html:53
+#: templates/investments.html:56 templates/transactions.html:170
+#: templates/transactions.html:216
 msgid "Actions"
 msgstr "الإجراءات"
 
@@ -75,32 +82,36 @@ msgid "Add New Account"
 msgstr "إضافة حساب جديد"
 
 #: templates/accounts.html:66 templates/accounts.html:102
-#: templates/accounts.html:140 templates/base.html:126 templates/base.html:148
-#: templates/categories.html:75
+#: templates/accounts.html:140 templates/base.html:127 templates/base.html:149
+#: templates/categories.html:72
 msgid "Close"
 msgstr "إغلاق"
 
 #: templates/accounts.html:70 templates/accounts.html:107
 msgid "Account Name"
-msgstr "أسم الحساب"
+msgstr "اسم الحساب"
 
 #: templates/accounts.html:72
 msgid "e.g., My Savings"
-msgstr "مثال, حساب توفير"
+msgstr "مثال: مدخراتي"
 
 #: templates/accounts.html:75
 msgid "Initial Balance"
-msgstr "الرصيد الأولي"
+msgstr "الرصيد الابتدائي"
 
 #: templates/accounts.html:77
 msgid "e.g., 1000"
-msgstr "مثال, 1000"
+msgstr "مثال: 1000"
 
 #: templates/accounts.html:87 templates/accounts.html:125
-#: templates/accounts.html:164 templates/base.html:134
-#: templates/categories.html:101 templates/categories.html:143
+#: templates/accounts.html:164 templates/base.html:135
+#: templates/categories.html:98 templates/categories.html:140
+#: templates/debts.html:87 templates/debts.html:172
+#: templates/investments.html:130 templates/investments.html:188
+#: templates/investments.html:220 templates/transactions.html:279
+#: templates/transactions.html:339 templates/transactions.html:416
 msgid "Cancel"
-msgstr "إغلاق"
+msgstr "إلغاء"
 
 #: templates/accounts.html:100
 msgid "Edit Account"
@@ -108,19 +119,20 @@ msgstr "تعديل الحساب"
 
 #: templates/accounts.html:109
 msgid "Enter a new name"
-msgstr "ادخل اسم جديد"
+msgstr "أدخل اسمًا جديدًا"
 
 #: templates/accounts.html:114
 msgid "e.g., ILS"
-msgstr "مثال, ILS"
+msgstr "مثال: شيكل"
 
 #: templates/accounts.html:119
 msgid "e.g., 1500"
-msgstr "مثال, 1500"
+msgstr "مثال: 1500"
 
-#: templates/accounts.html:123 templates/categories.html:140
+#: templates/accounts.html:123 templates/categories.html:137
+#: templates/debts.html:174 templates/transactions.html:338
 msgid "Save Changes"
-msgstr "حفظ التغيرات"
+msgstr "حفظ التغييرات"
 
 #: templates/accounts.html:138
 msgid "Transfer Between Accounts"
@@ -128,24 +140,29 @@ msgstr "تحويل بين الحسابات"
 
 #: templates/accounts.html:144
 msgid "From Account"
-msgstr "من حساب"
+msgstr "من الحساب"
 
 #: templates/accounts.html:146 templates/accounts.html:152
 #: templates/accounts.html:208 templates/accounts.html:209
 msgid "Select Account"
-msgstr "حدد الحساب"
+msgstr "اختر حسابًا"
 
 #: templates/accounts.html:150
 msgid "To Account"
-msgstr "الحساب المرسل اليه"
+msgstr "إلى الحساب"
 
-#: templates/accounts.html:156
+#: templates/accounts.html:156 templates/dashboard.html:205
+#: templates/debts.html:64 templates/debts.html:107 templates/debts.html:152
+#: templates/debts.html:267 templates/debts.html:398
+#: templates/transactions.html:166 templates/transactions.html:212
+#: templates/transactions.html:253 templates/transactions.html:313
+#: templates/transactions.html:372
 msgid "Amount"
-msgstr "مبلغ"
+msgstr "المبلغ"
 
 #: templates/accounts.html:158
 msgid "e.g., 500"
-msgstr "مثال, 500"
+msgstr "مثال: 500"
 
 #: templates/accounts.html:177
 msgid ""
@@ -171,7 +188,7 @@ msgstr "تمت إضافة الحساب بنجاح"
 
 #: templates/accounts.html:184
 msgid "Transfer completed"
-msgstr "اكتملت الحوالة"
+msgstr "تم التحويل بنجاح"
 
 #: templates/accounts.html:185
 msgid "Account deleted successfully."
@@ -183,7 +200,7 @@ msgstr "تم تعطيل الحساب"
 
 #: templates/accounts.html:187
 msgid "Account enabled"
-msgstr "تم تفعيل الحساب"
+msgstr "تم تمكين الحساب"
 
 #: templates/accounts.html:190
 msgid "Error fetching accounts from the server."
@@ -213,19 +230,22 @@ msgstr "حدث خطأ أثناء تعطيل الحساب."
 msgid "An error occurred while enabling the account."
 msgstr "حدث خطأ أثناء تمكين الحساب."
 
-#: templates/accounts.html:220 templates/categories.html:172
+#: templates/accounts.html:220 templates/categories.html:169
 msgid "Enable"
 msgstr "تمكين"
 
-#: templates/accounts.html:223 templates/categories.html:173
+#: templates/accounts.html:223 templates/categories.html:170
 msgid "Disable"
 msgstr "تعطيل"
 
-#: templates/accounts.html:226 templates/categories.html:171
+#: templates/accounts.html:226 templates/categories.html:168
+#: templates/investments.html:373 templates/transactions.html:576
 msgid "Edit"
 msgstr "تعديل"
 
-#: templates/accounts.html:229 templates/categories.html:174
+#: templates/accounts.html:229 templates/categories.html:171
+#: templates/investments.html:369 templates/investments.html:379
+#: templates/transactions.html:582
 msgid "Delete"
 msgstr "حذف"
 
@@ -241,100 +261,98 @@ msgstr "تعطيل الحساب"
 msgid "Enable Account"
 msgstr "تمكين الحساب"
 
-#: templates/base.html:6 templates/base.html:20
+#: templates/base.html:7 templates/base.html:21
 msgid "Money App"
-msgstr "Money App"
+msgstr "تطبيق المال"
 
-#: templates/base.html:33 templates/categories.html:7
+#: templates/base.html:34 templates/categories.html:7
 msgid "Categories"
-msgstr "التصنيفات"
+msgstr "الفئات"
 
-#: templates/base.html:38
-#, fuzzy
+#: templates/base.html:39 templates/transactions.html:82
+#: templates/transactions.html:108
 msgid "Transactions"
-msgstr "العمليات"
+msgstr "المعاملات"
 
-#: templates/base.html:43
+#: templates/base.html:44 templates/dashboard.html:49 templates/debts.html:14
 msgid "Debts"
 msgstr "الديون"
 
-#: templates/base.html:48
+#: templates/base.html:49 templates/dashboard.html:63
+#: templates/investments.html:13
 msgid "Investments"
-msgstr "الإستثمارات"
+msgstr "الاستثمارات"
 
-#: templates/base.html:53
+#: templates/base.html:54
 msgid "Dashboard"
-msgstr "إحصائيات"
+msgstr "لوحة التحكم"
 
-#: templates/base.html:68 templates/base.html:149
+#: templates/base.html:69 templates/base.html:150
 msgid "No new notifications"
-msgstr "لا يوجد إشعارات"
+msgstr "لا توجد إشعارات جديدة"
 
-#: templates/base.html:76
+#: templates/base.html:77
 msgid "Language"
 msgstr "اللغة"
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgid "English"
-msgstr "English"
+msgstr "الإنجليزية"
 
-#: templates/base.html:86
+#: templates/base.html:87
 msgid "Arabic"
-msgstr "عربي"
+msgstr "العربية"
 
-#: templates/base.html:93
+#: templates/base.html:94
 msgid "Logout"
-msgstr "تسجيل خروج"
+msgstr "تسجيل الخروج"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Money App. All Rights Reserved."
-msgstr "Money App. كل الحقوق محفوظة."
+msgstr "تطبيق المال. جميع الحقوق محفوظة."
 
-#: templates/base.html:124
+#: templates/base.html:125
 msgid "Confirm"
 msgstr "تأكيد"
 
-#: templates/base.html:137
+#: templates/base.html:138
 msgid "OK"
-msgstr "حسناً"
-
-#: templates/base.html:146
-#, fuzzy
-msgid "An error occurred while changing language."
-msgstr "حدث خطأ أثناء التحويل."
+msgstr "موافق"
 
 #: templates/base.html:147
-#, fuzzy
+msgid "An error occurred while changing language."
+msgstr "حدث خطأ أثناء تغيير اللغة."
+
+#: templates/base.html:148
 msgid "An error occurred while logging out."
 msgstr "حدث خطأ أثناء تسجيل الخروج."
 
-#: templates/base.html:150
-#, fuzzy
+#: templates/base.html:151
 msgid "Error fetching notifications."
 msgstr "حدث خطأ أثناء جلب الإشعارات."
 
-#: templates/base.html:151
+#: templates/base.html:152
 msgid "Error marking notification as read."
 msgstr "حدث خطأ أثناء تعليم الإشعار كمقروء."
 
 #: templates/categories.html:9
 msgid "Manage your income and expense categories here."
-msgstr "إدارة فئات الدخل والنفقات الخاصة بك هنا."
+msgstr "قم بإدارة فئات الدخل والمصروفات هنا."
 
 #: templates/categories.html:18
 msgid "Filter by Type"
-msgstr "التصفية حسب الفئة"
+msgstr "تصفية حسب النوع"
 
-#: templates/categories.html:21 templates/categories.html:91
-#: templates/categories.html:132
-#, fuzzy
+#: templates/categories.html:21 templates/categories.html:88
+#: templates/categories.html:129 templates/dashboard.html:19
+#: templates/dashboard.html:203
 msgid "Income"
-msgstr "دخل"
+msgstr "الدخل"
 
-#: templates/categories.html:22 templates/categories.html:92
-#: templates/categories.html:133
+#: templates/categories.html:22 templates/categories.html:89
+#: templates/categories.html:130
 msgid "Expense"
-msgstr "نفقات"
+msgstr "المصروف"
 
 #: templates/categories.html:28
 msgid "Sort by"
@@ -348,124 +366,657 @@ msgstr "الاسم (أ-ي)"
 msgid "Name (Z-A)"
 msgstr "الاسم (ي-أ)"
 
-#: templates/categories.html:32 templates/categories.html:54
-#: templates/categories.html:89 templates/categories.html:130
+#: templates/categories.html:32 templates/categories.html:51
+#: templates/categories.html:86 templates/categories.html:127
+#: templates/debts.html:21 templates/debts.html:68
+#: templates/transactions.html:167
 msgid "Type"
-msgstr "الفئة"
+msgstr "النوع"
 
-#: templates/categories.html:38 templates/categories.html:74
-#, fuzzy
+#: templates/categories.html:38 templates/categories.html:71
 msgid "Add Category"
-msgstr "إضافة تصنيف"
+msgstr "إضافة فئة"
 
-#: templates/categories.html:46
-#, fuzzy
-msgid "All Categories"
-msgstr "التصنيفات"
-
-#: templates/categories.html:55
+#: templates/categories.html:52 templates/transactions.html:169
 msgid "Status"
 msgstr "الحالة"
 
-#: templates/categories.html:79 templates/categories.html:120
-#, fuzzy
+#: templates/categories.html:76 templates/categories.html:117
 msgid "Category Name"
-msgstr "التصنيفات"
+msgstr "اسم الفئة"
 
-#: templates/categories.html:84
+#: templates/categories.html:81
 msgid "e.g., Food & Dining"
-msgstr "على سبيل المثال، الطعام وتناول الطعام"
+msgstr "مثال: الطعام والمطاعم"
 
-#: templates/categories.html:98
+#: templates/categories.html:95 templates/investments.html:127
+#: templates/transactions.html:278
 msgid "Add"
 msgstr "إضافة"
 
-#: templates/categories.html:115
-#, fuzzy
+#: templates/categories.html:112
 msgid "Edit Category"
-msgstr "تعديل التصنيف"
+msgstr "تعديل الفئة"
 
-#: templates/categories.html:155
+#: templates/categories.html:152 templates/transactions.html:509
 msgid "Error loading categories."
 msgstr "حدث خطأ أثناء تحميل الفئات."
 
-#: templates/categories.html:156
-#, fuzzy
+#: templates/categories.html:153
 msgid "An error occurred while disabling the category."
 msgstr "حدث خطأ أثناء تعطيل الفئة."
 
-#: templates/categories.html:157
-#, fuzzy
+#: templates/categories.html:154
 msgid "An error occurred while adding the category."
 msgstr "حدث خطأ أثناء إضافة الفئة."
 
-#: templates/categories.html:158
-#, fuzzy
+#: templates/categories.html:155
 msgid "An error occurred while updating the category."
 msgstr "حدث خطأ أثناء تحديث الفئة."
 
-#: templates/categories.html:159
-#, fuzzy
+#: templates/categories.html:156
 msgid "An error occurred while deleting the category."
 msgstr "حدث خطأ أثناء حذف الفئة."
 
-#: templates/categories.html:160
-#, fuzzy
+#: templates/categories.html:157
 msgid "An error occurred while enabling the category."
 msgstr "حدث خطأ أثناء تمكين الفئة."
 
-#: templates/categories.html:161
-#, fuzzy
+#: templates/categories.html:158
 msgid "Are you sure you want to disable this category?"
 msgstr "هل أنت متأكد أنك تريد تعطيل هذه الفئة؟"
 
-#: templates/categories.html:162
-#, fuzzy
+#: templates/categories.html:159
 msgid "Are you sure you want to delete this category?"
 msgstr "هل أنت متأكد أنك تريد حذف هذه الفئة؟"
 
-#: templates/categories.html:163
-#, fuzzy
+#: templates/categories.html:160
 msgid "Are you sure you want to enable this category?"
 msgstr "هل أنت متأكد أنك تريد تمكين هذه الفئة؟"
 
-#: templates/categories.html:164
-#, fuzzy
+#: templates/categories.html:161
 msgid "Category added successfully!"
-msgstr "تمت إضافة الفئة بنجاح"
+msgstr "تمت إضافة الفئة بنجاح!"
+
+#: templates/categories.html:162
+msgid "Category updated successfully!"
+msgstr "تم تحديث الفئة بنجاح!"
+
+#: templates/categories.html:163
+msgid "Category deleted successfully!"
+msgstr "تم حذف الفئة بنجاح!"
+
+#: templates/categories.html:164
+msgid "Category enabled successfully!"
+msgstr "تم تمكين الفئة بنجاح!"
 
 #: templates/categories.html:165
-#, fuzzy
-msgid "Category updated successfully!"
-msgstr "تم تحديث الفئة بنجاح"
-
-#: templates/categories.html:166
-#, fuzzy
-msgid "Category deleted successfully!"
-msgstr "تم حذف الفئة بنجاح."
-
-#: templates/categories.html:167
-#, fuzzy
-msgid "Category enabled successfully!"
-msgstr "تمت تفعيل الفئة بنجاح"
-
-#: templates/categories.html:168
-#, fuzzy
 msgid "Category disabled successfully!"
-msgstr "تم تعطيل الفئة بنجاح."
+msgstr "تم تعطيل الفئة بنجاح!"
 
-#: templates/categories.html:279
-#, fuzzy
+#: templates/categories.html:276
 msgid "Disable Category"
 msgstr "تعطيل الفئة"
 
-#: templates/categories.html:365
-#, fuzzy
+#: templates/categories.html:362
 msgid "Delete Category"
 msgstr "حذف الفئة"
 
-#: templates/categories.html:393
-#, fuzzy
+#: templates/categories.html:390
 msgid "Enable Category"
 msgstr "تمكين الفئة"
+
+#: templates/dashboard.html:11
+msgid "Statistics"
+msgstr "الإحصائيات"
+
+#: templates/dashboard.html:28 templates/dashboard.html:203
+msgid "Expenses"
+msgstr "المصروفات"
+
+#: templates/dashboard.html:37
+msgid "Account Balances"
+msgstr "أرصدة الحسابات"
+
+#: templates/dashboard.html:50 templates/debts.html:24 templates/debts.html:70
+msgid "Creditor"
+msgstr "الدائن"
+
+#: templates/dashboard.html:52 templates/debts.html:25 templates/debts.html:71
+msgid "Debtor"
+msgstr "المدين"
+
+#: templates/dashboard.html:64
+msgid "Total Invested"
+msgstr "إجمالي المستثمر"
+
+#: templates/dashboard.html:65
+msgid "Total Profit"
+msgstr "إجمالي الربح"
+
+#: templates/dashboard.html:77
+msgid "Income vs. Expenses"
+msgstr "الدخل مقابل المصروفات"
+
+#: templates/dashboard.html:89
+msgid "Category Summary"
+msgstr "ملخص الفئات"
+
+#: templates/dashboard.html:103
+msgid "Cash Flow Over Time"
+msgstr "التدفق النقدي عبر الزمن"
+
+#: templates/dashboard.html:109 templates/transactions.html:131
+#: templates/transactions.html:208 templates/transactions.html:387
+msgid "Start Date"
+msgstr "تاريخ البدء"
+
+#: templates/dashboard.html:113 templates/transactions.html:136
+#: templates/transactions.html:209 templates/transactions.html:396
+msgid "End Date"
+msgstr "تاريخ الانتهاء"
+
+#: templates/dashboard.html:117
+msgid "Interval"
+msgstr "الفترة"
+
+#: templates/dashboard.html:119
+msgid "Daily"
+msgstr "يومي"
+
+#: templates/dashboard.html:120
+msgid "Weekly"
+msgstr "أسبوعي"
+
+#: templates/dashboard.html:121
+msgid "Monthly"
+msgstr "شهري"
+
+#: templates/dashboard.html:126
+msgid "Apply Filter"
+msgstr "تطبيق الفلتر"
+
+#: templates/debts.html:17 templates/debts.html:60
+msgid "Person Name"
+msgstr "اسم الشخص"
+
+#: templates/debts.html:23
+msgid "All Types"
+msgstr "جميع الأنواع"
+
+#: templates/debts.html:30
+msgid "Apply Filters"
+msgstr "تطبيق الفلاتر"
+
+#: templates/debts.html:36
+msgid "Add Debt"
+msgstr "إضافة دين"
+
+#: templates/debts.html:53 templates/debts.html:299
+msgid "Add New Debt"
+msgstr "إضافة دين جديد"
+
+#: templates/debts.html:75 templates/debts.html:115 templates/debts.html:160
+#: templates/debts.html:266 templates/investments.html:86
+#: templates/transactions.html:123 templates/transactions.html:168
+#: templates/transactions.html:215 templates/transactions.html:262
+#: templates/transactions.html:322 templates/transactions.html:381
+msgid "Account"
+msgstr "الحساب"
+
+#: templates/debts.html:88
+msgid "Save"
+msgstr "حفظ"
+
+#: templates/debts.html:99
+msgid "Debt Payments"
+msgstr "دفعات الدين"
+
+#: templates/debts.html:111 templates/debts.html:156 templates/debts.html:399
+#: templates/transactions.html:163 templates/transactions.html:268
+#: templates/transactions.html:328
+msgid "Date"
+msgstr "التاريخ"
+
+#: templates/debts.html:121 templates/debts.html:166
+#: templates/investments.html:121 templates/investments.html:179
+#: templates/transactions.html:164 templates/transactions.html:211
+#: templates/transactions.html:239 templates/transactions.html:298
+#: templates/transactions.html:357
+msgid "Description"
+msgstr "الوصف"
+
+#: templates/debts.html:126
+msgid "Add Payment"
+msgstr "إضافة دفعة"
+
+#: templates/debts.html:144
+msgid "Edit Payment"
+msgstr "تعديل الدفعة"
+
+#: templates/debts.html:209 templates/transactions.html:480
+msgid "Error loading accounts."
+msgstr "خطأ في تحميل الحسابات."
+
+#: templates/debts.html:242
+msgid "Error loading debts."
+msgstr "خطأ في تحميل الديون."
+
+#: templates/debts.html:266
+msgid "Unknown"
+msgstr "غير معروف"
+
+#: templates/debts.html:268
+msgid "Paid"
+msgstr "مدفوع"
+
+#: templates/debts.html:269
+msgid "Remaining"
+msgstr "متبقي"
+
+#: templates/debts.html:278
+msgid "Payments"
+msgstr "الدفعات"
+
+#: templates/debts.html:312
+msgid "Edit Debt"
+msgstr "تعديل الدين"
+
+#: templates/debts.html:337
+msgid "Debt saved successfully."
+msgstr "تم حفظ الدين بنجاح."
+
+#: templates/debts.html:340
+msgid "Error saving debt."
+msgstr "خطأ في حفظ الدين."
+
+#: templates/debts.html:345
+msgid "Delete Debt"
+msgstr "حذف الدين"
+
+#: templates/debts.html:345
+msgid "Are you sure you want to delete this debt?"
+msgstr "هل أنت متأكد أنك تريد حذف هذا الدين؟"
+
+#: templates/debts.html:359
+msgid "Error deleting debt."
+msgstr "خطأ في حذف الدين."
+
+#: templates/debts.html:384
+msgid "Error loading payments."
+msgstr "خطأ في تحميل الدفعات."
+
+#: templates/debts.html:390
+msgid "No payments yet"
+msgstr "لا توجد دفعات حتى الآن"
+
+#: templates/debts.html:400
+msgid "No description"
+msgstr "لا يوجد وصف"
+
+#: templates/debts.html:463
+msgid "Error loading payment for edit."
+msgstr "خطأ في تحميل الدفعة للتعديل."
+
+#: templates/debts.html:489
+msgid "Payment updated successfully."
+msgstr "تم تحديث الدفعة بنجاح."
+
+#: templates/debts.html:492
+msgid "Error updating payment."
+msgstr "خطأ في تحديث الدفعة."
+
+#: templates/debts.html:498
+msgid "Delete Payment"
+msgstr "حذف الدفعة"
+
+#: templates/debts.html:498
+msgid "Are you sure you want to delete this payment?"
+msgstr "هل أنت متأكد أنك تريد حذف هذه الدفعة؟"
+
+#: templates/debts.html:511
+msgid "Payment deleted successfully."
+msgstr "تم حذف الدفعة بنجاح."
+
+#: templates/debts.html:514
+msgid "Error deleting payment."
+msgstr "خطأ في حذف الدفعة."
+
+#: templates/investments.html:18
+msgid "Current Exchange Rates"
+msgstr "أسعار الصرف الحالية"
+
+#: templates/investments.html:23
+msgid "Rate to ILS"
+msgstr "سعر الصرف إلى الشيكل الإسرائيلي"
+
+#: templates/investments.html:37
+msgid "Show/Hide Exchange Rates"
+msgstr "إظهار/إخفاء أسعار الصرف"
+
+#: templates/investments.html:42 templates/investments.html:80
+msgid "Add Investment"
+msgstr "إضافة استثمار"
+
+#: templates/investments.html:51
+msgid "Asset Currency"
+msgstr "عملة الأصل"
+
+#: templates/investments.html:52 templates/investments.html:104
+#: templates/investments.html:162
+msgid "Amount Invested"
+msgstr "المبلغ المستثمر"
+
+#: templates/investments.html:53 templates/investments.html:167
+msgid "Purchase Price"
+msgstr "سعر الشراء"
+
+#: templates/investments.html:54
+msgid "Profit / Loss"
+msgstr "الربح / الخسارة"
+
+#: templates/investments.html:55
+msgid "Sold?"
+msgstr "هل تم البيع؟"
+
+#: templates/investments.html:96 templates/investments.html:155
+msgid "USD"
+msgstr "دولار أمريكي"
+
+#: templates/investments.html:97 templates/investments.html:156
+msgid "EUR"
+msgstr "يورو"
+
+#: templates/investments.html:98 templates/investments.html:157
+msgid "JOD"
+msgstr "دينار أردني"
+
+#: templates/investments.html:109
+msgid "Purchase Price (ILS)"
+msgstr "سعر الشراء (شيكل)"
+
+#: templates/investments.html:114 templates/investments.html:172
+msgid "Reference Currency"
+msgstr "عملة المرجع"
+
+#: templates/investments.html:116 templates/investments.html:174
+msgid "ILS"
+msgstr "شيكل إسرائيلي"
+
+#: templates/investments.html:145
+msgid "Edit Investment"
+msgstr "تعديل الاستثمار"
+
+#: templates/investments.html:185
+msgid "Update"
+msgstr "تحديث"
+
+#: templates/investments.html:203
+msgid "Sell Investment"
+msgstr "بيع الاستثمار"
+
+#: templates/investments.html:210
+msgid "Sell Price (ILS)"
+msgstr "سعر البيع (شيكل)"
+
+#: templates/investments.html:213
+msgid "This defaults to the current price if available, but you can override."
+msgstr "يتم افتراضياً استخدام السعر الحالي إذا كان متاحاً، ولكن يمكنك تغييره."
+
+#: templates/investments.html:217 templates/investments.html:376
+msgid "Sell"
+msgstr "بيع"
+
+#: templates/investments.html:264
+msgid "Could not load exchange rates."
+msgstr "تعذر تحميل أسعار الصرف."
+
+#: templates/investments.html:321
+msgid "Could not load accounts."
+msgstr "تعذر تحميل الحسابات."
+
+#: templates/investments.html:339
+msgid "Error loading investments."
+msgstr "خطأ في تحميل الاستثمارات."
+
+#: templates/investments.html:348
+msgid "Yes"
+msgstr "نعم"
+
+#: templates/investments.html:348
+msgid "No"
+msgstr "لا"
+
+#: templates/investments.html:434
+msgid "Error adding investment."
+msgstr "خطأ في إضافة الاستثمار."
+
+#: templates/investments.html:458
+msgid "Error loading investment."
+msgstr "خطأ في تحميل الاستثمار."
+
+#: templates/investments.html:483
+msgid "Investment updated successfully!"
+msgstr "تم تحديث الاستثمار بنجاح!"
+
+#: templates/investments.html:490
+msgid "Error updating investment."
+msgstr "خطأ في تحديث الاستثمار."
+
+#: templates/investments.html:496
+msgid "Delete Investment"
+msgstr "حذف الاستثمار"
+
+#: templates/investments.html:496
+msgid "Are you sure you want to delete this investment?"
+msgstr "هل أنت متأكد أنك تريد حذف هذا الاستثمار؟"
+
+#: templates/investments.html:509
+msgid "Investment deleted successfully!"
+msgstr "تم حذف الاستثمار بنجاح!"
+
+#: templates/investments.html:515
+msgid "Error deleting investment."
+msgstr "خطأ في حذف الاستثمار."
+
+#: templates/investments.html:538
+msgid "Error loading investment info."
+msgstr "خطأ في تحميل معلومات الاستثمار."
+
+#: templates/investments.html:557
+msgid "Investment sold successfully!"
+msgstr "تم بيع الاستثمار بنجاح!"
+
+#: templates/investments.html:564
+msgid "Error selling investment."
+msgstr "خطأ في بيع الاستثمار."
+
+#: templates/login.html:41
+msgid "Financial Growth"
+msgstr "النمو المالي"
+
+#: templates/login.html:42
+msgid "Track your financial journey"
+msgstr "تتبع رحلتك المالية"
+
+#: templates/login.html:49 templates/signup.html:153
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: templates/login.html:54 templates/signup.html:158
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: templates/login.html:65 templates/signup.html:140
+msgid "Start Growing"
+msgstr "ابدأ بالنمو"
+
+#: templates/login.html:101 templates/signup.html:208
+msgid "Email and password are required."
+msgstr "البريد الإلكتروني وكلمة المرور مطلوبان."
+
+#: templates/signup.html:141
+msgid "Begin your financial journey"
+msgstr "ابدأ رحلتك المالية"
+
+#: templates/signup.html:148
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: templates/signup.html:163
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+#: templates/signup.html:168
+msgid "Create Account"
+msgstr "إنشاء حساب"
+
+#: templates/signup.html:174
+msgid "Existing User? Sign In"
+msgstr "مستخدم حالي؟ تسجيل الدخول"
+
+#: templates/signup.html:233
+msgid "Signup failed."
+msgstr "فشل التسجيل."
+
+#: templates/transactions.html:95 templates/transactions.html:203
+msgid "Repeated Transactions"
+msgstr "المعاملات المتكررة"
+
+#: templates/transactions.html:115 templates/transactions.html:165
+#: templates/transactions.html:214 templates/transactions.html:247
+#: templates/transactions.html:307 templates/transactions.html:366
+msgid "Category"
+msgstr "الفئة"
+
+#: templates/transactions.html:145 templates/transactions.html:234
+msgid "Add Transaction"
+msgstr "إضافة معاملة"
+
+#: templates/transactions.html:148 templates/transactions.html:415
+msgid "Add Repeated"
+msgstr "إضافة متكرر"
+
+#: templates/transactions.html:182
+msgid "Transaction pagination"
+msgstr "ترقيم صفحات المعاملات"
+
+#: templates/transactions.html:192
+msgid "Total Transactions"
+msgstr "إجمالي المعاملات"
+
+#: templates/transactions.html:210
+msgid "Next Transaction"
+msgstr "المعاملة التالية"
+
+#: templates/transactions.html:213 templates/transactions.html:404
+msgid "Period (Days)"
+msgstr "الفترة (أيام)"
+
+#: templates/transactions.html:292
+msgid "Edit Transaction"
+msgstr "تعديل المعاملة"
+
+#: templates/transactions.html:352
+msgid "Add Repeated Transaction"
+msgstr "إضافة معاملة متكررة"
+
+#: templates/transactions.html:561
+msgid "Process"
+msgstr "معالجة"
+
+#: templates/transactions.html:621
+msgid "First"
+msgstr "الأول"
+
+#: templates/transactions.html:636
+msgid "Last"
+msgstr "الاخير"
+
+#: templates/transactions.html:670
+msgid "Transaction created successfully"
+msgstr "تم إنشاء المعاملة بنجاح"
+
+#: templates/transactions.html:678
+msgid "An error occurred while adding the transaction."
+msgstr "حدث خطأ أثناء إضافة المعاملة."
+
+#: templates/transactions.html:713
+msgid "Transaction updated successfully"
+msgstr "تم تحديث المعاملة بنجاح"
+
+#: templates/transactions.html:725
+msgid "Delete Transaction"
+msgstr "حذف المعاملة"
+
+#: templates/transactions.html:725
+msgid "Are you sure you want to delete this transaction?"
+msgstr "هل أنت متأكد أنك تريد حذف هذه المعاملة؟"
+
+#: templates/transactions.html:743
+msgid "Transaction deleted successfully"
+msgstr "تم حذف المعاملة بنجاح"
+
+#: templates/transactions.html:749
+msgid "An error occurred while deleting the transaction."
+msgstr "حدث خطأ أثناء حذف المعاملة."
+
+#: templates/transactions.html:754
+msgid "Process Transaction"
+msgstr "معالجة المعاملة"
+
+#: templates/transactions.html:754
+msgid "This transaction is currently processing. Do you want to finalize it now?"
+msgstr "المعاملة قيد المعالجة حاليًا. هل تريد إنهائها الآن؟"
+
+#: templates/transactions.html:770
+msgid "Transaction processed successfully"
+msgstr "تمت معالجة المعاملة بنجاح"
+
+#: templates/transactions.html:776
+msgid "An error occurred while processing the transaction."
+msgstr "حدث خطأ أثناء معالجة المعاملة."
+
+#: templates/transactions.html:828
+msgid "Error loading repeated transactions."
+msgstr "خطأ في تحميل المعاملات المتكررة."
+
+#: templates/transactions.html:856
+msgid "Repeated transaction created successfully"
+msgstr "تم إنشاء المعاملة المتكررة بنجاح"
+
+#: templates/transactions.html:863
+msgid "An error occurred while adding repeated transaction."
+msgstr "حدث خطأ أثناء إضافة معاملة متكررة."
+
+#: templates/transactions.html:898
+msgid "An error occurred while fetching repeated transaction."
+msgstr "حدث خطأ أثناء جلب المعاملة المتكررة."
+
+#: templates/transactions.html:923
+msgid "Repeated transaction updated successfully"
+msgstr "تم تحديث المعاملة المتكررة بنجاح"
+
+#: templates/transactions.html:931
+msgid "An error occurred while editing repeated transaction."
+msgstr "حدث خطأ أثناء تعديل المعاملة المتكررة."
+
+#: templates/transactions.html:936
+msgid "Delete Repeated Transaction"
+msgstr "حذف المعاملة المتكررة"
+
+#: templates/transactions.html:936
+msgid "Are you sure you want to delete this repeated transaction?"
+msgstr "هل أنت متأكد أنك تريد حذف هذه المعاملة المتكررة؟"
+
+#: templates/transactions.html:954
+msgid "Repeated transaction deleted successfully"
+msgstr "تم حذف المعاملة المتكررة بنجاح"
+
+#: templates/transactions.html:959
+msgid "An error occurred while deleting repeated transaction."
+msgstr "حدث خطأ أثناء حذف المعاملة المتكررة."
+
+#~ msgid "Login failed."
+#~ msgstr "فشل تسجيل الدخول."
 

@@ -137,41 +137,41 @@
     <div class="signup-side">
         <div class="text-center mb-4">
             <i class="fas fa-seedling fa-3x text-success mb-3"></i>
-            <h2>Start Growing</h2>
-            <p class="text-muted">Begin your financial journey</p>
+            <h2>{{ _('Start Growing')}}</h2>
+            <p class="text-muted">{{ _('Begin your financial journey')}}</p>
         </div>
 
         <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
 
         <form id="signupForm">
             <div class="mb-3 position-relative">
-                <label for="fullName" class="form-label">Full Name</label>
+                <label for="fullName" class="form-label">{{ _('Full Name')}}</label>
                 <input type="text" class="form-control" id="fullName" required/>
                 <i class="fas fa-user input-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-                <label for="email" class="form-label">Email</label>
+                <label for="email" class="form-label">{{ _('Email') }}</label>
                 <input type="email" class="form-control" id="email" required/>
                 <i class="fas fa-envelope input-icon"></i>
             </div>
             <div class="mb-3 position-relative">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">{{ _('Password') }}</label>
                 <input type="password" class="form-control" id="password" required/>
                 <i class="fas fa-lock input-icon"></i>
             </div>
             <div class="mb-4 position-relative">
-                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <label for="confirm_password" class="form-label">{{ _('Confirm Password')}}</label>
                 <input type="password" class="form-control" id="confirm_password" required/>
                 <i class="fas fa-lock input-icon"></i>
             </div>
             <button type="submit" class="btn btn-success w-100 py-2 text-white">
-                Create Account <i class="fas fa-leaf ms-2"></i>
+                {{ _('Create Account')}} <i class="fas fa-leaf ms-2"></i>
             </button>
         </form>
 
         <div class="text-center mt-4">
             <a href="{{ url_for('auth.login') }}" class="text-decoration-none text-success">
-                Existing User? Sign In <i class="fas fa-arrow-right ms-1"></i>
+                {{ _('Existing User? Sign In')}} <i class="fas fa-arrow-right ms-1"></i>
             </a>
         </div>
     </div>
@@ -205,7 +205,7 @@
           const name = document.getElementById("fullName").value.trim();
           // Basic client-side validation
           if (!email || !password) {
-            showError("Email and password are required.");
+            showError({{_("Email and password are required.")}});
             return;
           }
 
@@ -230,7 +230,7 @@
               if (!response.ok) {
                 // Server responded with an error (4xx or 5xx)
                 const errorMessage =
-                  data.error || data.errors || "Signup failed.";
+                  data.error || data.errors || {{_("Signup failed.")}};
                 throw new Error(errorMessage);
               }
               // If Signup is successful, check for "next" param in URL

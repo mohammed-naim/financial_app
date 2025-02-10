@@ -79,7 +79,7 @@
                         role="tab"
                         aria-controls="transactionsTab"
                         aria-selected="true">
-                    Transactions
+                    {{ _('Transactions') }}
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -92,7 +92,7 @@
                         role="tab"
                         aria-controls="repeatedTransactionsTab"
                         aria-selected="false">
-                    Repeated Transactions
+                    {{ _('Repeated Transactions') }}
                 </button>
             </li>
         </ul>
@@ -105,35 +105,35 @@
                     role="tabpanel"
                     aria-labelledby="transactions-tab"
             >
-                <h1 class="section-heading text-success text-center">Transactions</h1>
+                <h1 class="section-heading text-success text-center">{{ _('Transactions') }}</h1>
 
                 <!-- Filter + Add Buttons Row -->
                 <div class="filter-row d-flex flex-wrap align-items-center justify-content-between">
                     <!-- Filters -->
                     <div class="d-flex flex-wrap align-items-center">
                         <div class="me-3 mb-2 mb-sm-0">
-                            <label for="filterCategory" class="form-label fw-semibold mb-0 me-1">Category</label>
+                            <label for="filterCategory" class="form-label fw-semibold mb-0 me-1">{{ _('Category') }}</label>
                             <select class="form-select d-inline-block w-auto" id="filterCategory"
                                     onchange="applyFilters()">
-                                <option value="">All</option>
+                                <option value="">{{ _('All') }}</option>
                                 <!-- Categories will be dynamically populated -->
                             </select>
                         </div>
                         <div class="me-3 mb-2 mb-sm-0">
-                            <label for="filterAccount" class="form-label fw-semibold mb-0 me-1">Account</label>
+                            <label for="filterAccount" class="form-label fw-semibold mb-0 me-1">{{ _('Account') }}</label>
                             <select class="form-select d-inline-block w-auto" id="filterAccount"
                                     onchange="applyFilters()">
-                                <option value="">All</option>
+                                <option value="">{{ _('All') }}</option>
                                 <!-- Accounts will be dynamically populated -->
                             </select>
                         </div>
                         <div class="me-3 mb-2 mb-sm-0">
-                            <label for="filterStartDate" class="form-label fw-semibold mb-0 me-1">Start Date</label>
+                            <label for="filterStartDate" class="form-label fw-semibold mb-0 me-1">{{ _('Start Date') }}</label>
                             <input type="date" class="form-control d-inline-block w-auto" id="filterStartDate"
                                    onchange="applyFilters()">
                         </div>
                         <div class="me-3 mb-2 mb-sm-0">
-                            <label for="filterEndDate" class="form-label fw-semibold mb-0 me-1">End Date</label>
+                            <label for="filterEndDate" class="form-label fw-semibold mb-0 me-1">{{ _('End Date') }}</label>
                             <input type="date" class="form-control d-inline-block w-auto" id="filterEndDate"
                                    onchange="applyFilters()">
                         </div>
@@ -142,10 +142,10 @@
                     <!-- Add Buttons -->
                     <div class="d-flex flex-wrap">
                         <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
-                            <i class="bi bi-plus-circle"></i> Add Transaction
+                            <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
                         </button>
                         <button class="btn btn-info btn-filter" onclick="showModal('addRepeatedTransactionModal')">
-                            <i class="bi bi-calendar-event"></i> Add Repeated
+                            <i class="bi bi-calendar-event"></i> {{ _('Add Repeated') }}
                         </button>
                     </div>
                 </div>
@@ -160,14 +160,14 @@
                     <table class="table table-hover table-transactions shadow-sm rounded">
                         <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            <th>Account</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{{ _('Date') }}</th>
+                            <th>{{ _('Description') }}</th>
+                            <th>{{ _('Category') }}</th>
+                            <th>{{ _('Amount') }}</th>
+                            <th>{{ _('Type') }}</th>
+                            <th>{{ _('Account') }}</th>
+                            <th>{{ _('Status') }}</th>
+                            <th>{{ _('Actions') }}</th>
                         </tr>
                         </thead>
                         <tbody id="transactionTableBody">
@@ -179,7 +179,7 @@
                 <!-- Pagination Controls -->
                 <nav
                         id="paginationControls"
-                        aria-label="Transaction pagination"
+                        aria-label="{{ _('Transaction pagination') }}"
                         class="d-flex justify-content-center mt-3"
                 >
                     <ul class="pagination">
@@ -189,7 +189,7 @@
 
                 <!-- Transaction Count -->
                 <div class="text-center mt-2">
-                    <p>Total Transactions: <span id="transactionCount">0</span></p>
+                    <p>{{ _('Total Transactions') }}: <span id="transactionCount">0</span></p>
                 </div>
             </div>
 
@@ -200,20 +200,20 @@
                     role="tabpanel"
                     aria-labelledby="repeated-transactions-tab"
             >
-                <h1 class="section-heading text-info text-center">Repeated Transactions</h1>
+                <h1 class="section-heading text-info text-center">{{ _('Repeated Transactions') }}</h1>
                 <div class="table-responsive">
                     <table class="table table-hover table-repeated shadow-sm rounded">
                         <thead>
                         <tr>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Next Transaction</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Period (Days)</th>
-                            <th>Category</th>
-                            <th>Account</th>
-                            <th>Actions</th>
+                            <th>{{ _('Start Date') }}</th>
+                            <th>{{ _('End Date') }}</th>
+                            <th>{{ _('Next Transaction') }}</th>
+                            <th>{{ _('Description') }}</th>
+                            <th>{{ _('Amount') }}</th>
+                            <th>{{ _('Period (Days)') }}</th>
+                            <th>{{ _('Category') }}</th>
+                            <th>{{ _('Account') }}</th>
+                            <th>{{ _('Actions') }}</th>
                         </tr>
                         </thead>
                         <tbody id="repeatedTransactionTableBody">
@@ -231,12 +231,12 @@
             <div class="modal-content">
                 <form id="addTransactionForm" onsubmit="addTransaction(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title text-success">Add Transaction</h5>
+                        <h5 class="modal-title text-success">{{ _('Add Transaction') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="transactionDescription" class="form-label">Description</label>
+                            <label for="transactionDescription" class="form-label">{{ _('Description') }}</label>
                             <input
                                     type="text"
                                     class="form-control"
@@ -244,13 +244,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="transactionCategory" class="form-label">Category</label>
+                            <label for="transactionCategory" class="form-label">{{ _('Category') }}</label>
                             <select class="form-select" id="transactionCategory" required>
                                 <!-- Categories will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="transactionAmount" class="form-label">Amount</label>
+                            <label for="transactionAmount" class="form-label">{{ _('Amount') }}</label>
                             <input
                                     type="number"
                                     class="form-control"
@@ -259,13 +259,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="transactionAccount" class="form-label">Account</label>
+                            <label for="transactionAccount" class="form-label">{{ _('Account') }}</label>
                             <select class="form-select" id="transactionAccount" required>
                                 <!-- Accounts will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="transactionDate" class="form-label">Date</label>
+                            <label for="transactionDate" class="form-label">{{ _('Date') }}</label>
                             <input
                                     type="date"
                                     class="form-control"
@@ -275,8 +275,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Add</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">{{ _('Add') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
@@ -289,13 +289,13 @@
             <div class="modal-content">
                 <form id="editTransactionForm" onsubmit="editTransaction(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title text-success">Edit Transaction</h5>
+                        <h5 class="modal-title text-success">{{ _('Edit Transaction') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="editTransactionId"/>
                         <div class="mb-3">
-                            <label for="editTransactionDescription" class="form-label">Description</label>
+                            <label for="editTransactionDescription" class="form-label">{{ _('Description') }}</label>
                             <input
                                     type="text"
                                     class="form-control"
@@ -304,13 +304,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="editTransactionCategory" class="form-label">Category</label>
+                            <label for="editTransactionCategory" class="form-label">{{ _('Category') }}</label>
                             <select class="form-select" id="editTransactionCategory" required>
                                 <!-- Categories will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="editTransactionAmount" class="form-label">Amount</label>
+                            <label for="editTransactionAmount" class="form-label">{{ _('Amount') }}</label>
                             <input
                                     type="number"
                                     class="form-control"
@@ -319,13 +319,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="editTransactionAccount" class="form-label">Account</label>
+                            <label for="editTransactionAccount" class="form-label">{{ _('Account') }}</label>
                             <select class="form-select" id="editTransactionAccount" required>
                                 <!-- Accounts will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="editTransactionDate" class="form-label">Date</label>
+                            <label for="editTransactionDate" class="form-label">{{ _('Date') }}</label>
                             <input
                                     type="date"
                                     class="form-control"
@@ -335,8 +335,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success">{{ _('Save Changes') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
@@ -349,12 +349,12 @@
             <div class="modal-content">
                 <form id="addRepeatedTransactionForm" onsubmit="addRepeatedTransaction(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title text-info">Add Repeated Transaction</h5>
+                        <h5 class="modal-title text-info">{{ _('Add Repeated Transaction') }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="repeatedDescription" class="form-label">Description</label>
+                            <label for="repeatedDescription" class="form-label">{{ _('Description') }}</label>
                             <input
                                     type="text"
                                     class="form-control"
@@ -363,13 +363,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedCategory" class="form-label">Category</label>
+                            <label for="repeatedCategory" class="form-label">{{ _('Category') }}</label>
                             <select class="form-select" id="repeatedCategory" required>
                                 <!-- Categories will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedAmount" class="form-label">Amount</label>
+                            <label for="repeatedAmount" class="form-label">{{ _('Amount') }}</label>
                             <input
                                     type="number"
                                     class="form-control"
@@ -378,13 +378,13 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedAccount" class="form-label">Account</label>
+                            <label for="repeatedAccount" class="form-label">{{ _('Account') }}</label>
                             <select class="form-select" id="repeatedAccount" required>
                                 <!-- Accounts will be populated dynamically -->
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedStartDate" class="form-label">Start Date</label>
+                            <label for="repeatedStartDate" class="form-label">{{ _('Start Date') }}</label>
                             <input
                                     type="date"
                                     class="form-control"
@@ -393,7 +393,7 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedEndDate" class="form-label">End Date</label>
+                            <label for="repeatedEndDate" class="form-label">{{ _('End Date') }}</label>
                             <input
                                     type="date"
                                     class="form-control"
@@ -401,7 +401,7 @@
                             >
                         </div>
                         <div class="mb-3">
-                            <label for="repeatedPeriod" class="form-label">Period (Days)</label>
+                            <label for="repeatedPeriod" class="form-label">{{ _('Period (Days)') }}</label>
                             <input
                                     type="number"
                                     class="form-control"
@@ -412,14 +412,16 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">Add Repeated</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info">{{ _('Add Repeated') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
+{% endblock %}
+{% block scripts %}
     <!-- PAGE SCRIPTS -->
     <script>
         // Pagination
@@ -449,7 +451,7 @@
                     const filterAccountSelect = document.getElementById('filterAccount');
 
                     [accountCards, addAccountSelect, editAccountSelect, repeatedAccountSelect].forEach(el => el.innerHTML = '');
-                    filterAccountSelect.innerHTML = '<option value="">All</option>'; // default
+                    filterAccountSelect.innerHTML = '<option value="">{{ _('All') }}</option>'; // default
 
                     data.accounts.forEach(account => {
                         // Card
@@ -462,7 +464,7 @@
                                 </div>
                             </div>
                         </div>
-                    `;
+                        `;
                         accountCards.insertAdjacentHTML('beforeend', cardHTML);
 
                         // <option>
@@ -475,7 +477,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading accounts:', err);
-                    showToast('Error loading accounts.', 'danger');
+                    showToast('{{ _('Error loading accounts.') }}', 'danger');
                 });
         }
 
@@ -492,7 +494,7 @@
                     const filterCategorySelect = document.getElementById('filterCategory');
 
                     [addCategorySelect, editCategorySelect, repeatedCategorySelect].forEach(el => el.innerHTML = '');
-                    filterCategorySelect.innerHTML = '<option value="">All</option>';
+                    filterCategorySelect.innerHTML = '<option value="">{{ _('All') }}</option>';
 
                     data.categories.forEach(cat => {
                         const option = `<option value="${cat.id}">${cat.name}</option>`;
@@ -504,7 +506,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading categories:', err);
-                    showToast('Error loading categories.', 'danger');
+                    showToast('{{ _('Error loading categories.') }}', 'danger');
                 });
         }
 
@@ -541,47 +543,47 @@
 
                     transactions.forEach(tx => {
                         const row = `
-                        <tr>
-                            <td>${tx.date}</td>
-                            <td>${tx.description || ''}</td>
-                            <td>${tx.category_name}</td>
-                            <td>${tx.amount}</td>
-                            <td>${tx.type}</td>
-                            <td>${tx.account_name}</td>
-                            <td>${tx.status}</td>
-                            <td>
-                                ${
+                <tr>
+                    <td>${tx.date}</td>
+                    <td>${tx.description || ''}</td>
+                    <td>${tx.category_name}</td>
+                    <td>${tx.amount}</td>
+                    <td>${tx.type}</td>
+                    <td>${tx.account_name}</td>
+                    <td>${tx.status}</td>
+                    <td>
+                        ${
                             tx.status === 'processing'
                                 ? `<button
-                                          class="btn btn-sm btn-secondary me-2"
-                                          onclick="confirmProcessTransaction(${tx.id})"
-                                       >
-                                          Process
-                                       </button>`
+                                        class="btn btn-sm btn-secondary me-2"
+                                        onclick="confirmProcessTransaction(${tx.id})"
+                                    >
+                                        {{ _('Process') }}
+                                    </button>`
                                 : ''
                         }
-                                <button
-                                    class="btn btn-sm btn-warning me-2"
-                                    onclick="openEditTransactionModal(
-                                        ${tx.id},
-                                        '${tx.description || ''}',
-                                        '${tx.category_id}',
-                                        '${tx.amount}',
-                                        '${tx.account_id}',
-                                        '${tx.date}'
-                                    )"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    class="btn btn-sm btn-danger"
-                                    onclick="confirmDeleteTransaction(${tx.id})"
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+                        <button
+                            class="btn btn-sm btn-warning me-2"
+                            onclick="openEditTransactionModal(
+                                ${tx.id},
+                                '${tx.description || ''}',
+                                '${tx.category_id}',
+                                '${tx.amount}',
+                                '${tx.account_id}',
+                                '${tx.date}'
+                            )"
+                        >
+                            {{ _('Edit') }}
+                        </button>
+                        <button
+                            class="btn btn-sm btn-danger"
+                            onclick="confirmDeleteTransaction(${tx.id})"
+                        >
+                            {{ _('Delete') }}
+                        </button>
+                    </td>
+                </tr>
+                `;
                         transactionTableBody.insertAdjacentHTML('beforeend', row);
                     });
 
@@ -616,7 +618,7 @@
             if (startPage > 1) {
                 paginationControls.innerHTML += `
                 <li class="page-item">
-                    <a class="page-link" href="#" onclick="changePage(1)">First</a>
+                    <a class="page-link" href="#" onclick="changePage(1)">{{_('First')}}</a>
                 </li>`;
             }
             // Page numbers
@@ -631,7 +633,7 @@
             if (endPage < totalPages) {
                 paginationControls.innerHTML += `
                 <li class="page-item">
-                    <a class="page-link" href="#" onclick="changePage(${totalPages})">Last</a>
+                    <a class="page-link" href="#" onclick="changePage(${totalPages})">{{_('Last')}}</a>
                 </li>`;
             }
         }
@@ -665,7 +667,7 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Transaction created successfully', 'success');
+                    showToast(data.message || {{ _('Transaction created successfully')|tojson}}, 'success');
                     loadTransactions();
                     loadAccounts(); // In case account balance changed
                     bootstrap.Modal.getInstance(document.getElementById('addTransactionModal')).hide();
@@ -673,7 +675,7 @@
                 })
                 .catch(err => {
                     console.error('Error adding transaction:', err);
-                    showToast('An error occurred while adding the transaction.', 'danger');
+                    showToast({{_('An error occurred while adding the transaction.')|tojson}}, 'danger');
                 });
         }
 
@@ -708,7 +710,7 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Transaction updated successfully', 'success');
+                    showToast(data.message || {{_('Transaction updated successfully')|tojson}}, 'success');
                     loadTransactions();
                     loadAccounts();
                     bootstrap.Modal.getInstance(document.getElementById('editTransactionModal')).hide();
@@ -720,7 +722,7 @@
         }
 
         function confirmDeleteTransaction(transactionId) {
-            showCustomConfirm('Delete Transaction', 'Are you sure you want to delete this transaction?')
+            showCustomConfirm({{_('Delete Transaction')|tojson}}, {{_('Are you sure you want to delete this transaction?')|tojson}})
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         deleteTransaction(transactionId);
@@ -738,18 +740,18 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Transaction deleted successfully', 'success');
+                    showToast(data.message || {{ _('Transaction deleted successfully')|tojson}}, 'success');
                     loadTransactions();
                     loadAccounts();
                 })
                 .catch(err => {
                     console.error('Error deleting transaction:', err);
-                    showToast('An error occurred while deleting the transaction.', 'danger');
+                    showToast({{_('An error occurred while deleting the transaction.')|tojson}}, 'danger');
                 });
         }
 
         function confirmProcessTransaction(transactionId) {
-            showCustomConfirm('Process Transaction', 'This transaction is currently processing. Do you want to finalize it now?')
+            showCustomConfirm({{_('Process Transaction')|tojson}}, {{_('This transaction is currently processing. Do you want to finalize it now?')|tojson}} )
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         processTransaction(transactionId);
@@ -765,13 +767,13 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Transaction processed successfully', 'success');
+                    showToast(data.message || {{_('Transaction processed successfully')|tojson}}, 'success');
                     loadTransactions();
                     loadAccounts();
                 })
                 .catch(err => {
                     console.error('Error processing transaction:', err);
-                    showToast('An error occurred while processing the transaction.', 'danger');
+                    showToast({{_('An error occurred while processing the transaction.')|tojson}}, 'danger');
                 });
         }
 
@@ -823,7 +825,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading repeated transactions:', err);
-                    showToast('Error loading repeated transactions.', 'danger');
+                    showToast({{_('Error loading repeated transactions.')|tojson}}, 'danger');
                 });
         }
 
@@ -851,14 +853,14 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Repeated transaction created successfully', 'success');
+                    showToast(data.message || {{_('Repeated transaction created successfully')|tojson}}, 'success');
                     bootstrap.Modal.getInstance(document.getElementById('addRepeatedTransactionModal')).hide();
                     document.getElementById('addRepeatedTransactionForm').reset();
                     loadRepeatedTransactions();
                 })
                 .catch(err => {
                     console.error('Error adding repeated transaction:', err);
-                    showToast('An error occurred while adding repeated transaction.', 'danger');
+                    showToast({{_('An error occurred while adding repeated transaction.')|tojson}}, 'danger');
                 });
         }
 
@@ -893,7 +895,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching repeated transaction:', err);
-                    showToast('An error occurred while fetching repeated transaction.', 'danger');
+                    showToast({{_('An error occurred while fetching repeated transaction.')|tojson}}, 'danger');
                 });
         }
 
@@ -918,7 +920,7 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Repeated transaction updated successfully', 'success');
+                    showToast(data.message || {{_('Repeated transaction updated successfully')|tojson}}, 'success');
                     document.getElementById('addRepeatedTransactionForm').onsubmit = addRepeatedTransaction;
                     bootstrap.Modal.getInstance(document.getElementById('addRepeatedTransactionModal')).hide();
                     document.getElementById('addRepeatedTransactionForm').reset();
@@ -926,12 +928,12 @@
                 })
                 .catch(err => {
                     console.error('Error editing repeated transaction:', err);
-                    showToast('An error occurred while editing repeated transaction.', 'danger');
+                    showToast({{_('An error occurred while editing repeated transaction.')|tojson}}, 'danger');
                 });
         }
 
         function confirmDeleteRepeatedTransaction(rtId) {
-            showCustomConfirm('Delete Repeated Transaction', 'Are you sure you want to delete this repeated transaction?')
+            showCustomConfirm({{_('Delete Repeated Transaction')|tojson}}, {{_('Are you sure you want to delete this repeated transaction?')|tojson}})
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         deleteRepeatedTransaction(rtId);
@@ -949,12 +951,12 @@
                         showToast(data.error, 'danger');
                         return;
                     }
-                    showToast(data.message || 'Repeated transaction deleted successfully', 'success');
+                    showToast(data.message || {{_('Repeated transaction deleted successfully')|tojson}}, 'success');
                     loadRepeatedTransactions();
                 })
                 .catch(err => {
                     console.error('Error deleting repeated transaction:', err);
-                    showToast('An error occurred while deleting repeated transaction.', 'danger');
+                    showToast({{_('An error occurred while deleting repeated transaction.')|tojson}}, 'danger');
                 });
         }
     </script>
