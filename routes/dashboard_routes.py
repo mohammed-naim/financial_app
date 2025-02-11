@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from models import Transaction
 from flask_login import login_required, current_user
 from datetime import datetime, timedelta
-
+from flask_babel import lazy_gettext as _
 dashboard_bp = Blueprint('dashboard', __name__, url_prefix='/api/dashboard')
 
 
@@ -16,7 +16,7 @@ def get_overview():
         start_date = datetime.strptime(start_date, '%Y-%m-%d')
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
     except ValueError:
-        return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+        return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD')}), 400
 
     # Fetch total income and expenses
     transactions = current_user.transactions.filter(Transaction.date >= start_date, Transaction.date <= end_date).all()
@@ -108,10 +108,10 @@ def get_detailed_cash_flow():
         start_date = datetime.strptime(start_date, '%Y-%m-%d')
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
     except (ValueError, TypeError):
-        return jsonify({'error': 'Invalid or missing date format. Use YYYY-MM-DD'}), 400
+        return jsonify({'error': _('Invalid or missing date format. Use YYYY-MM-DD')}), 400
 
     if interval not in ['day', 'week', 'month']:
-        return jsonify({'error': 'Invalid interval. Choose from day, week, or month'}), 400
+        return jsonify({'error': _('Invalid interval. Choose from day, week, or month')}), 400
 
     delta = {
         'day': timedelta(days=1),
@@ -157,7 +157,7 @@ def get_category_summary():
         start_date = datetime.strptime(start_date, '%Y-%m-%d')
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
     except ValueError:
-        return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+        return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD')}), 400
     user_categories = current_user.categories.all()
     transactions = current_user.transactions.filter(Transaction.date >= start_date, Transaction.date <= end_date).all()
     categories = {}

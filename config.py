@@ -14,6 +14,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = True if os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS').lower() == 'true' else False
     LOGIN_DISABLED = True if os.getenv('LOGIN_DISABLED').lower() == 'true' else False
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=60)
+    BABEL_DEFAULT_LOCALE = 'en'  # Default language
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
     # have session and remember cookie be samesite (flask/flask_login)
     REMEMBER_COOKIE_SAMESITE = "strict"
     SESSION_COOKIE_SAMESITE = "strict"

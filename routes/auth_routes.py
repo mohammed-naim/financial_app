@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, session, render_template, redirec
 from models import User, Category, Account, db
 from flask_login import login_required
 from marshmallow import Schema, fields, ValidationError
-
+from flask_babel import lazy_gettext as _
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
@@ -24,7 +24,7 @@ def signup():
     try:
         data = request.get_json()
     except Exception as e:
-        return jsonify({"error": "No data provided"}), 400
+        return jsonify({"error": _("No data provided")}), 400
     finally:
         try:
             schema = UserSchema()
@@ -33,11 +33,11 @@ def signup():
             email = validated_data.get('email')
             password = validated_data.get('password')
         except ValidationError:
-            return jsonify({'error': 'full name, email, and password are required'}), 400
+            return jsonify({'error': _('full name, email, and password are required')}), 400
 
     existing_user = User.query.filter_by(email=email).first()
     if existing_user:
-        return jsonify({'error': 'User with this email already exists'}), 409
+        return jsonify({'error': _('User with this email already exists')}), 409
 
     new_user = User(full_name=full_name, email=email, password=password)
     db.session.add(new_user)
@@ -46,7 +46,7 @@ def signup():
     create_default_account_and_categories(new_user.id)
     session['_user_id'] = new_user.id
 
-    return jsonify({'message': 'User registered successfully'}), 201
+    return jsonify({'message': _('User registered successfully')}), 201
 
 
 def create_default_account_and_categories(user_id):
@@ -80,7 +80,7 @@ def login():
     try:
         data = request.get_json()
     except:
-        return jsonify({"error": "No data provided"}), 400
+        return jsonify({"error": _("No data provided")}), 400
     finally:
         try:
             if not data:
@@ -90,19 +90,19 @@ def login():
             email = validated_data.get('email')
             password = validated_data.get('password')
         except ValidationError:
-            return jsonify({"errors": "Email and password are required"}), 400
+            return jsonify({"errors": _("Email and password are required")}), 400
 
     user = User.query.filter_by(email=email).first()
 
     if user and user.check_password(password):
         session['_user_id'] = user.id
-        return jsonify({'message': 'Login successful'}), 200
+        return jsonify({'message': _('Login successful')}), 200
 
-    return jsonify({'error': 'Invalid email or password'}), 401
+    return jsonify({'error': _('Invalid email or password')}), 401
 
 
 @auth_bp.route('/logout', methods=['POST'])
 @login_required
 def logout():
     session.pop('_user_id', None)
-    return jsonify({'message': 'Logout successful'}), 200
+    return jsonify({'message': _('Logout successful')}), 200

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from flask_babel import lazy_gettext as _
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from marshmallow import Schema, fields, ValidationError
@@ -26,7 +26,7 @@ def add_transaction():
         schema = TransactionsSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': 'Amount, category, and account are required or body format is wrong'}), 400
+        return jsonify({'error': _('Amount, category, and account are required or body format is wrong')}), 400
     amount = data.get('amount')
     category_id = data.get('category_id')
     account_id = data.get('account_id')
@@ -36,7 +36,7 @@ def add_transaction():
     account = current_user.accounts.filter_by(id=account_id).first()
     category = current_user.categories.filter_by(id=category_id).first()
     if not account or not category:
-        return jsonify({'error': 'Account or Category not found or access denied'}), 404
+        return jsonify({'error': _('Account or Category not found or access denied')}), 404
     new_transaction = Transaction(
         amount=amount,
         category_id=category_id,
@@ -48,7 +48,7 @@ def add_transaction():
     db.session.add(new_transaction)
     account.update_balance(amount, category.type)
     db.session.commit()
-    return jsonify({'message': 'Transaction created successfully', 'transaction': new_transaction.to_dict()}), 201
+    return jsonify({'message': _('Transaction created successfully'), 'transaction': new_transaction.to_dict()}), 201
 
 
 # Get filtered transactions with pagination
@@ -79,13 +79,13 @@ def get_transactions():
             start_date = start_date - timedelta(days=1)
             query = query.filter(Transaction.date >= start_date)
         except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD.'}), 400
+            return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD.')}), 400
     if end_date:
         try:
             end_date = datetime.strptime(end_date, '%Y-%m-%d')
             query = query.filter(Transaction.date <= end_date)
         except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD.'}), 400
+            return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD.')}), 400
     # Order by newest to oldest
     query = query.order_by(Transaction.date.desc())
     # Paginate the results
@@ -107,23 +107,23 @@ def get_transactions():
 def update_transaction(transaction_id):
     transaction = current_user.transactions.filter_by(id=transaction_id).first()
     if not transaction:
-        return jsonify({'error': 'Transaction not found or access denied'}), 404
+        return jsonify({'error': _('Transaction not found or access denied')}), 404
 
     data = request.get_json()
     try:
         schema = TransactionsSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': 'Amount, category, and account are required'}), 400
+        return jsonify({'error': _('Amount, category, and account are required')}), 400
     account_id = data.get('account_id', transaction.account_id)
     category_id = data.get('category_id', transaction.category_id)
     account = Account.query.filter_by(id=account_id, user_id=current_user.id).first()
     category = Category.query.filter_by(id=category_id, user_id=current_user.id).first()
     if not account or not category:
-        return jsonify({'error': 'Account or Category not found or access denied'}), 404
+        return jsonify({'error': _('Account or Category not found or access denied')}), 404
     transaction.update(data)
     db.session.commit()
-    return jsonify({'message': 'Transaction updated successfully', 'transaction': transaction.to_dict()}), 200
+    return jsonify({'message': _('Transaction updated successfully'), 'transaction': transaction.to_dict()}), 200
 
 
 # Delete a transaction
@@ -132,13 +132,13 @@ def update_transaction(transaction_id):
 def delete_transaction(transaction_id):
     transaction = current_user.transactions.filter_by(id=transaction_id).first()
     if not transaction:
-        return jsonify({'error': 'Transaction not found or access denied'}), 404
+        return jsonify({'error': _('Transaction not found or access denied')}), 404
     account = Account.query.get(transaction.account_id)
     category = Category.query.get(transaction.category_id)
     account.update_balance(-1 * transaction.amount, category.type)
     db.session.delete(transaction)
     db.session.commit()
-    return jsonify({'message': 'Transaction deleted successfully'}), 200
+    return jsonify({'message': _('Transaction deleted successfully')}), 200
 
 
 @transaction_bp.put('/process/<int:transaction_id>')
@@ -146,9 +146,9 @@ def delete_transaction(transaction_id):
 def process_transaction(transaction_id):
     transaction = current_user.transactions.filter_by(id=transaction_id).first()
     if not transaction:
-        return jsonify({'error': 'Transaction not found or access denied'}), 404
+        return jsonify({'error': _('Transaction not found or access denied')}), 404
     if transaction.status != 'processing':
-        return jsonify({'error': 'Transaction is not in processing status'}), 400
+        return jsonify({'error': _('Transaction is not in processing status')}), 400
 
     # Update the account balance
     account = Account.query.get(transaction.account_id)
@@ -158,4 +158,4 @@ def process_transaction(transaction_id):
     transaction.status = 'done'
     db.session.commit()
 
-    return jsonify({'message': 'Transaction processed successfully'}), 200
+    return jsonify({'message': _('Transaction processed successfully')}), 200

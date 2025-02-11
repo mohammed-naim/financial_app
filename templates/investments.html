@@ -10,17 +10,17 @@
 
     <div class="container mt-4">
         <h1 class="text-center text-success section-heading">
-            <i class="bi bi-graph-up-arrow"></i> Investments
+            <i class="bi bi-graph-up-arrow"></i> {{ _('Investments') }}
         </h1>
 
         <!-- Exchange Rates Display -->
         <div id="exchangeRatesDiv" class="mb-4" style="display:none;">
-            <h5>Current Exchange Rates</h5>
+            <h5>{{ _('Current Exchange Rates')}}</h5>
             <table class="table table-sm table-bordered exchange-rates-table" style="max-width: 300px;">
                 <thead class="table-success">
                 <tr>
-                    <th>Currency</th>
-                    <th>Rate to ILS</th>
+                    <th>{{ _('Currency') }}</th>
+                    <th>{{ _('Rate to ILS')}}</th>
                 </tr>
                 </thead>
                 <tbody id="exchangeRatesBody">
@@ -34,12 +34,12 @@
             <div class="d-flex align-items-center">
                 <!-- Possibly add more filters in the future (like sold/not sold, etc.) -->
                 <button class="btn btn-outline-info me-3" onclick="toggleExchangeRates()">
-                    <i class="bi bi-currency-exchange"></i> Show/Hide Exchange Rates
+                    <i class="bi bi-currency-exchange"></i> {{ _('Show/Hide Exchange Rates')}}
                 </button>
             </div>
             <!-- Add Investment Button -->
             <button class="btn btn-success" onclick="showModal('addInvestmentModal')">
-                <i class="bi bi-plus-circle"></i> Add Investment
+                <i class="bi bi-plus-circle"></i> {{ _('Add Investment')}}
             </button>
         </div>
 
@@ -48,12 +48,12 @@
             <table class="table table-hover table-striped align-middle">
                 <thead class="table-success">
                 <tr>
-                    <th>Asset Currency</th>
-                    <th>Amount Invested</th>
-                    <th>Purchase Price</th>
-                    <th>Profit / Loss</th>
-                    <th>Sold?</th>
-                    <th class="text-center">Actions</th>
+                    <th>{{ _('Asset Currency')}}</th>
+                    <th>{{ _('Amount Invested')}}</th>
+                    <th>{{ _('Purchase Price')}}</th>
+                    <th>{{ _('Profit / Loss') }}</th>
+                    <th>{{ _('Sold?')}}</th>
+                    <th class="text-center">{{ _('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody id="investmentTableBody">
@@ -77,57 +77,57 @@
             <div class="modal-content">
                 <form id="addInvestmentForm" onsubmit="addInvestment(event)">
                     <div class="modal-header bg-success text-white">
-                        <h5 class="modal-title" id="addInvestmentLabel">Add Investment</h5>
+                        <h5 class="modal-title" id="addInvestmentLabel">{{ _('Add Investment')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <!-- Account ID (user picks account) -->
                         <div class="mb-3">
-                            <label for="investmentAccount" class="form-label fw-semibold">Account</label>
+                            <label for="investmentAccount" class="form-label fw-semibold">{{ _('Account') }}</label>
                             <select class="form-select" id="investmentAccount" required>
                                 <!-- Populated dynamically -->
                             </select>
                         </div>
                         <!-- Currency -->
                         <div class="mb-3">
-                            <label for="investmentCurrency" class="form-label fw-semibold">Currency</label>
+                            <label for="investmentCurrency" class="form-label fw-semibold">{{ _('Currency') }}</label>
                             <select class="form-select" id="investmentCurrency" onchange="updateExchangeRate()"
                                     required>
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="JOD">JOD</option>
+                                <option value="USD">{{ _('USD') }}</option>
+                                <option value="EUR">{{ _('EUR') }}</option>
+                                <option value="JOD">{{ _('JOD') }}</option>
                                 <!-- The route only allows USD/EUR/JOD, not ILS as investment currency -->
                             </select>
                         </div>
                         <!-- Amount Invested -->
                         <div class="mb-3">
-                            <label for="amountInvested" class="form-label fw-semibold">Amount Invested</label>
+                            <label for="amountInvested" class="form-label fw-semibold">{{ _('Amount Invested')}}</label>
                             <input type="number" step="0.01" class="form-control" id="amountInvested" required>
                         </div>
                         <!-- Purchase Price -->
                         <div class="mb-3">
-                            <label for="purchasePrice" class="form-label fw-semibold">Purchase Price (ILS)</label>
+                            <label for="purchasePrice" class="form-label fw-semibold">{{ _('Purchase Price (ILS)')}}</label>
                             <input type="number" step="0.01" class="form-control" id="purchasePrice" required>
                         </div>
                         <!-- Reference Currency (e.g. ILS only, per route) -->
                         <div class="mb-3">
-                            <label for="referenceCurrency" class="form-label fw-semibold">Reference Currency</label>
+                            <label for="referenceCurrency" class="form-label fw-semibold">{{ _('Reference Currency')}}</label>
                             <select class="form-select" id="referenceCurrency" required>
-                                <option value="ILS">ILS</option>
+                                <option value="ILS">{{ _('ILS') }}</option>
                             </select>
                         </div>
                         <!-- Description (optional) -->
                         <div class="mb-3">
-                            <label for="investmentDescription" class="form-label fw-semibold">Description</label>
+                            <label for="investmentDescription" class="form-label fw-semibold">{{ _('Description') }}</label>
                             <input type="text" class="form-control" id="investmentDescription" placeholder="Short note">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Add
+                            <i class="bi bi-check-circle"></i> {{ _('Add') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i> Cancel
+                            <i class="bi bi-x-circle"></i> {{ _('Cancel') }}
                         </button>
                     </div>
                 </form>
@@ -142,7 +142,7 @@
             <div class="modal-content">
                 <form id="editInvestmentForm" onsubmit="updateInvestment(event)">
                     <div class="modal-header bg-warning text-white">
-                        <h5 class="modal-title" id="editInvestmentLabel">Edit Investment</h5>
+                        <h5 class="modal-title" id="editInvestmentLabel">{{ _('Edit Investment')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -150,42 +150,42 @@
                         <!-- We do NOT allow changing the account_id per the route code, so no account dropdown here -->
                         <!-- Currency -->
                         <div class="mb-3">
-                            <label for="editInvestmentCurrency" class="form-label fw-semibold">Currency</label>
+                            <label for="editInvestmentCurrency" class="form-label fw-semibold">{{ _('Currency') }}</label>
                             <select class="form-select" id="editInvestmentCurrency" required>
-                                <option value="USD" selected>USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="JOD">JOD</option>
+                                <option value="USD" selected>{{ _('USD') }}</option>
+                                <option value="EUR">{{ _('EUR') }}</option>
+                                <option value="JOD">{{ _('JOD') }}</option>
                             </select>
                         </div>
                         <!-- Amount Invested -->
                         <div class="mb-3">
-                            <label for="editAmountInvested" class="form-label fw-semibold">Amount Invested</label>
+                            <label for="editAmountInvested" class="form-label fw-semibold">{{ _('Amount Invested')}}</label>
                             <input type="number" step="0.01" class="form-control" id="editAmountInvested" required>
                         </div>
                         <!-- Purchase Price -->
                         <div class="mb-3">
-                            <label for="editPurchasePrice" class="form-label fw-semibold">Purchase Price</label>
+                            <label for="editPurchasePrice" class="form-label fw-semibold">{{ _('Purchase Price')}}</label>
                             <input type="number" step="0.01" class="form-control" id="editPurchasePrice" required>
                         </div>
                         <!-- Reference Currency -->
                         <div class="mb-3">
-                            <label for="editReferenceCurrency" class="form-label fw-semibold">Reference Currency</label>
+                            <label for="editReferenceCurrency" class="form-label fw-semibold">{{ _('Reference Currency')}}</label>
                             <select class="form-select" id="editReferenceCurrency" required>
-                                <option value="ILS">ILS</option>
+                                <option value="ILS">{{ _('ILS') }}</option>
                             </select>
                         </div>
                         <!-- Description (Optional) -->
                         <div class="mb-3">
-                            <label for="editDescription" class="form-label fw-semibold">Description</label>
+                            <label for="editDescription" class="form-label fw-semibold">{{ _('Description') }}</label>
                             <input type="text" class="form-control" id="editDescription">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-warning">
-                            <i class="bi bi-check-circle"></i> Update
+                            <i class="bi bi-check-circle"></i> {{ _('Update') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i> Cancel
+                            <i class="bi bi-x-circle"></i> {{ _('Cancel') }}
                         </button>
                     </div>
                 </form>
@@ -200,25 +200,24 @@
             <div class="modal-content">
                 <form id="sellInvestmentForm" onsubmit="sellInvestment(event)">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="sellInvestmentLabel">Sell Investment</h5>
+                        <h5 class="modal-title" id="sellInvestmentLabel">{{ _('Sell Investment')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="sellInvestmentId">
                         <!-- Sell Price (user can override) -->
                         <div class="mb-3">
-                            <label for="sellPriceInput" class="form-label fw-semibold">Sell Price (ILS)</label>
+                            <label for="sellPriceInput" class="form-label fw-semibold">{{ _('Sell Price (ILS)')}}</label>
                             <input type="number" step="0.01" class="form-control" id="sellPriceInput" required>
                         </div>
-                        <small class="text-muted">This defaults to the current price if available, but you can
-                            override.</small>
+                        <small class="text-muted">{{ _('This defaults to the current price if available, but you can override.')}}</small>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-cash-coin"></i> Sell
+                            <i class="bi bi-cash-coin"></i> {{ _('Sell') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-circle"></i> Cancel
+                            <i class="bi bi-x-circle"></i> {{ _('Cancel') }}
                         </button>
                     </div>
                 </form>
@@ -262,7 +261,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching exchange rates:', err);
-                    showToast('Could not load exchange rates.', 'danger');
+                    showToast({{_('Could not load exchange rates.')|tojson}}, 'danger');
                 });
         }
 
@@ -319,7 +318,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading accounts:', err);
-                    showToast('Could not load accounts.', 'danger');
+                    showToast({{_('Could not load accounts.')|tojson}}, 'danger');
                 });
         }
 
@@ -337,7 +336,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching investments:', err);
-                    showToast('Error loading investments.', 'danger');
+                    showToast({{_('Error loading investments.')|tojson}}, 'danger');
                 });
         }
 
@@ -346,7 +345,7 @@
             tableBody.innerHTML = "";
 
             investments.forEach(invest => {
-                const isSold = invest.sold ? 'Yes' : 'No';
+                const isSold = invest.sold ? {{_('Yes')|tojson}} : {{_('No')|tojson}};
                 // Show profit if sold, else '---'
                 const profitDisplay = invest.profit_amount ? invest.profit_amount : '---';
 
@@ -367,17 +366,17 @@
                     invest.sold
                         ? `<!-- Already sold, only Delete or maybe view details? -->
                         <button class="btn btn-sm btn-danger" onclick="confirmDeleteInvestment(${invest.id})">
-                            <i class="bi bi-trash"></i> Delete
+                            <i class="bi bi-trash"></i> {{_('Delete')}}
                         </button>`
                         : `<!-- Not sold, can Edit, Sell, or Delete -->
                         <button class="btn btn-sm btn-warning me-1" onclick="editInvestment(${invest.id})">
-                            <i class="bi bi-pencil-square"></i> Edit
+                            <i class="bi bi-pencil-square"></i> {{_('Edit')}}
                         </button>
                         <button class="btn btn-sm btn-info me-1" onclick="showSellModal(${invest.id})">
-                            <i class="bi bi-cash-coin"></i> Sell
+                            <i class="bi bi-cash-coin"></i> {{_('Sell')}}
                         </button>
                         <button class="btn btn-sm btn-danger" onclick="confirmDeleteInvestment(${invest.id})">
-                            <i class="bi bi-trash"></i> Delete
+                            <i class="bi bi-trash"></i> {{_('Delete')}}
                         </button>`
                 }
             </td>
@@ -425,14 +424,14 @@
                     if (resp.error) {
                         showToast(resp.error, 'danger');
                     } else {
-                        showToast('Investment added successfully!', 'success');
+                        showToast({{_('Investment added successfully!')|tojson}}, 'success');
                         bootstrap.Modal.getInstance(document.getElementById('addInvestmentModal')).hide();
                         getInvestments(currentPage);
                     }
                 })
                 .catch(err => {
                     console.error('Error adding investment:', err);
-                    showToast('Error adding investment.', 'danger');
+                    showToast({{_('Error adding investment.')|tojson}}, 'danger');
                 });
         }
 
@@ -456,7 +455,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching investment:', err);
-                    showToast('Error loading investment.', 'danger');
+                    showToast({{_('Error loading investment.')|tojson}}, 'danger');
                 });
         }
 
@@ -481,20 +480,20 @@
                     if (resp.error) {
                         showToast(resp.error, 'danger');
                     } else {
-                        showToast('Investment updated successfully!', 'success');
+                        showToast({{_('Investment updated successfully!')|tojson}}, 'success');
                         bootstrap.Modal.getInstance(document.getElementById('editInvestmentModal')).hide();
                         getInvestments(currentPage);
                     }
                 })
                 .catch(err => {
                     console.error('Error updating investment:', err);
-                    showToast('Error updating investment.', 'danger');
+                    showToast({{_('Error updating investment.')|tojson}}, 'danger');
                 });
         }
 
         /******************* DELETE INVESTMENT *******************/
         function confirmDeleteInvestment(id) {
-            showCustomConfirm('Delete Investment', 'Are you sure you want to delete this investment?')
+            showCustomConfirm({{_('Delete Investment')|tojson}}, {{_('Are you sure you want to delete this investment?')|tojson}})
                 .then(userConfirmed => {
                     if (userConfirmed) deleteInvestment(id);
                 });
@@ -507,13 +506,13 @@
                     if (resp.error) {
                         showToast(resp.error, 'danger');
                     } else {
-                        showToast('Investment deleted successfully!', 'success');
+                        showToast({{_('Investment deleted successfully!')|tojson}}, 'success');
                         getInvestments(currentPage);
                     }
                 })
                 .catch(err => {
                     console.error('Error deleting investment:', err);
-                    showToast('Error deleting investment.', 'danger');
+                    showToast({{_('Error deleting investment.')|tojson}}, 'danger');
                 });
         }
 
@@ -536,7 +535,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching investment for selling:', err);
-                    showToast('Error loading investment info.', 'danger');
+                    showToast({{_('Error loading investment info.')|tojson}}, 'danger');
                 });
         }
 
@@ -555,14 +554,14 @@
                     if (resp.error) {
                         showToast(resp.error, 'danger');
                     } else {
-                        showToast('Investment sold successfully!', 'success');
+                        showToast({{_('Investment sold successfully!')|tojson}}, 'success');
                         bootstrap.Modal.getInstance(document.getElementById('sellInvestmentModal')).hide();
                         getInvestments(currentPage);
                     }
                 })
                 .catch(err => {
                     console.error('Error selling investment:', err);
-                    showToast('Error selling investment.', 'danger');
+                    showToast({{_('Error selling investment.')|tojson}}, 'danger');
                 });
         }
     </script>

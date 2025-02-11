@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from models import Category, db
 from flask_login import login_required, current_user
 from marshmallow import Schema, fields, ValidationError
+from flask_babel import lazy_gettext as _
 
 category_bp = Blueprint('category', __name__, url_prefix='/api/category')
 
@@ -26,13 +27,13 @@ def add_category():
         schema = CategorySchema()
         data = schema.load(data)
     except ValidationError as err:
-        return jsonify({'error': 'Category name and type are required'}), 400
+        return jsonify({'error': _('Category name and type are required')}), 400
     name = data.get('name')
     category_type = data.get('category_type', 'expense')  # 'income' or 'expense'
     new_category = Category(name=name, type=category_type, user_id=current_user.id)
     db.session.add(new_category)
     db.session.commit()
-    return jsonify({'message': 'Category created successfully', 'category': new_category.to_dict()}), 201
+    return jsonify({'message': _('Category created successfully'), 'category': new_category.to_dict()}), 201
 
 
 # Get all categories for the logged-in user
@@ -49,7 +50,7 @@ def get_categories():
 def get_category_by_id(category_id):
     category = current_user.categories.filter_by(id=category_id).first()
     if not category:
-        return jsonify({'error': 'Category not found or access denied'}), 404
+        return jsonify({'error': _('Category not found or access denied')}), 404
     return jsonify({'category': category.to_dict()}), 200
 
 
@@ -75,7 +76,7 @@ def get_disabled_categories():
 @login_required
 def get_categories_by_type(category_type):
     if category_type not in ['income', 'expense']:
-        return jsonify({'error': 'Invalid category type'}), 400
+        return jsonify({'error': _('Invalid category type')}), 400
     categories = current_user.categories.filter_by(type=category_type).all()
     category_list = [category.to_dict() for category in categories]
     return jsonify({'categories': category_list}), 200
@@ -87,18 +88,18 @@ def get_categories_by_type(category_type):
 def update_category(category_id):
     category = current_user.categories.filter_by(id=category_id).first()
     if not category:
-        return jsonify({'error': 'Category not found or access denied'}), 404
+        return jsonify({'error': _('Category not found or access denied')}), 404
     data = request.get_json()
     try:
         schema = CategorySchema()
         data = schema.load(data)
     except ValidationError as err:
-        return jsonify({'error': 'Category name and type are required'}), 400
+        return jsonify({'error': _('Category name and type are required')}), 400
 
     category.name = data.get('name', category.name)
     # category.type = data.get('type', category.type)
     db.session.commit()
-    return jsonify({'message': 'Category updated successfully', 'category': category.to_dict()}), 200
+    return jsonify({'message': _('Category updated successfully'), 'category': category.to_dict()}), 200
 
 
 # enable a category
@@ -107,10 +108,10 @@ def update_category(category_id):
 def enable_category(category_id):
     category = current_user.categories.filter_by(id=category_id).first()
     if not category:
-        return jsonify({'error': 'Category not found or access denied'}), 404
+        return jsonify({'error': _('Category not found or access denied')}), 404
     category.disabled = False
     db.session.commit()
-    return jsonify({'message': 'Category enabled successfully'.title()}), 200
+    return jsonify({'message': _('Category enabled successfully').title()}), 200
 
 
 # disable a category
@@ -119,10 +120,10 @@ def enable_category(category_id):
 def disable_category(category_id):
     category = current_user.categories.filter_by(id=category_id).first()
     if not category:
-        return jsonify({'error': 'Category not found or access denied'}), 404
+        return jsonify({'error': _('Category not found or access denied')}), 404
     category.disabled = True
     db.session.commit()
-    return jsonify({'message': 'Category Disable successfully'}), 200
+    return jsonify({'message': _('Category Disable successfully')}), 200
 
 
 @category_bp.delete('/<int:category_id>')
@@ -130,9 +131,9 @@ def disable_category(category_id):
 def delete_account(category_id: int):
     category = current_user.categories.filter_by(id=category_id).first()
     if not category:
-        return jsonify({'error': 'Account not found or access denied'}), 404
+        return jsonify({'error': _('Account not found or access denied')}), 404
     if category.transactions.first():
-        return jsonify({"error": "There are operations associated with this category."}), 400
+        return jsonify({"error": _("There are operations associated with this category.")}), 400
     db.session.delete(category)
     db.session.commit()
-    return jsonify({'message': 'Category Deleted Successfully'}), 200
+    return jsonify({'message': _('Category Deleted Successfully')}), 200

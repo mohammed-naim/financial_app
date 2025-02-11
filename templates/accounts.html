@@ -5,32 +5,33 @@
         <!-- PAGE HEADER -->
         <div class="row mb-4">
             <div class="col-12">
-                <h1 class="text-center text-success fw-bold" style="font-family: 'Poppins', sans-serif;">Accounts</h1>
+                <h1 class="text-center text-success fw-bold" style="font-family: 'Poppins', sans-serif;">{{ _('Accounts') }}</h1>
                 <p class="text-center text-muted" style="font-family: 'Roboto', sans-serif;">
-                    Manage your accounts efficiently. Add, edit, or transfer funds between them.
+                    {{ _('Manage your accounts efficiently. Add, edit, or transfer funds between them.') }}
                 </p>
             </div>
         </div>
-        {#        test card #}
+
+        <!-- Filter Card -->
         <div class="card mb-4 shadow-sm">
             <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
                 <!-- Filter by Type -->
                 <div class="d-flex align-items-center mb-3 mb-md-0">
-                    <label for="filterStatus" class="form-label fw-semibold me-2 mb-0">Filter Accounts:</label>
-                <select class="form-select w-auto" id="filterStatus" onchange="filterAccounts()">
-                    <option value="">All</option>
-                    <option value="enabled">Enabled</option>
-                    <option value="disabled">Disabled</option>
-                </select>
+                    <label for="filterStatus" class="form-label fw-semibold me-2 mb-0">{{ _('Filter Accounts') }}:</label>
+                    <select class="form-select w-auto" id="filterStatus" onchange="filterAccounts()">
+                        <option value="">{{ _('All') }}</option>
+                        <option value="enabled">{{ _('Enabled') }}</option>
+                        <option value="disabled">{{ _('Disabled') }}</option>
+                    </select>
                 </div>
 
-                <!-- Add Category Button -->
+                <!-- Action Buttons -->
                 <div class="col-md-6 text-end">
                     <button class="btn btn-success me-2" onclick="showModal('addAccountModal')">
-                        <i class="bi bi-plus-circle me-1"></i> Add Account
+                        <i class="bi bi-plus-circle me-1"></i> {{ _('Add Account') }}
                     </button>
                     <button class="btn btn-outline-success" onclick="showModal('transferAccountModal')">
-                        <i class="bi bi-arrow-left-right me-1"></i> Transfer
+                        <i class="bi bi-arrow-left-right me-1"></i> {{ _('Transfer') }}
                     </button>
                 </div>
             </div>
@@ -41,10 +42,10 @@
             <table class="table table-hover align-middle">
                 <thead class="table-success">
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col">Currency</th>
-                    <th scope="col" class="text-center">Actions</th>
+                    <th scope="col">{{ _('Name') }}</th>
+                    <th scope="col">{{ _('Balance') }}</th>
+                    <th scope="col">{{ _('Currency') }}</th>
+                    <th scope="col" class="text-center">{{ _('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody id="accountTableBody">
@@ -54,145 +55,113 @@
         </div>
     </div>
 
-    <!-- ADD ACCOUNT MODAL -->
+    <!-- MODALS -->
+    <!-- Add Account Modal -->
     <div class="modal fade" id="addAccountModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form id="addAccountForm" onsubmit="addAccount(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title fw-bold">Add New Account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title fw-bold">{{ _('Add New Account') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="accountName" class="form-label fw-semibold">Account Name</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="accountName"
-                                    placeholder="e.g., My Savings"
-                                    required
-                            >
+                            <label for="accountName" class="form-label fw-semibold">{{ _('Account Name') }}</label>
+                            <input type="text" class="form-control" id="accountName"
+                                   placeholder="{{ _('e.g., My Savings') }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="initialBalance" class="form-label fw-semibold">Initial Balance</label>
-                            <input
-                                    type="number"
-                                    class="form-control"
-                                    id="initialBalance"
-                                    placeholder="e.g., 1000"
-                                    required
-                            >
+                            <label for="initialBalance" class="form-label fw-semibold">{{ _('Initial Balance') }}</label>
+                            <input type="number" class="form-control" id="initialBalance"
+                                   placeholder="{{ _('e.g., 1000') }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="currency" class="form-label fw-semibold">Currency</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="currency"
-                                    value="ILS"
-                                    readonly
-                            >
+                            <label for="currency" class="form-label fw-semibold">{{ _('Currency') }}</label>
+                            <input type="text" class="form-control" id="currency" value="ILS" readonly>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add Account</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">{{ _('Add Account') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- EDIT ACCOUNT MODAL -->
+    <!-- Edit Account Modal -->
     <div class="modal fade" id="editAccountModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form id="editAccountForm" onsubmit="updateAccount(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title fw-bold">Edit Account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title fw-bold">{{ _('Edit Account') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="{{ _('Close') }}"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Hidden field to store account ID -->
                         <input type="hidden" id="editAccountId"/>
-
                         <div class="mb-3">
-                            <label for="editAccountName" class="form-label fw-semibold">Account Name</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="editAccountName"
-                                    placeholder="Enter a new name"
-                                    required
-                            >
+                            <label for="editAccountName" class="form-label fw-semibold">{{ _('Account Name') }}</label>
+                            <input type="text" class="form-control" id="editAccountName"
+                                   placeholder="{{ _('Enter a new name') }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editAccountCurrency" class="form-label fw-semibold">Currency</label>
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="editAccountCurrency"
-                                    placeholder="e.g., ILS"
-                                    required
-                            >
+                            <label for="editAccountCurrency" class="form-label fw-semibold">{{ _('Currency') }}</label>
+                            <input type="text" class="form-control" id="editAccountCurrency"
+                                   placeholder="{{ _('e.g., ILS') }}" required>
                         </div>
-                        <!-- (Optional) If you want to allow editing the balance directly, add a field here: -->
                         <div class="mb-3">
-                            <label for="editAccountBalance" class="form-label fw-semibold">Balance</label>
-                            <input
-                                    type="number"
-                                    class="form-control"
-                                    id="editAccountBalance"
-                                    placeholder="e.g., 1500"
-                            >
+                            <label for="editAccountBalance" class="form-label fw-semibold">{{ _('Balance') }}</label>
+                            <input type="number" class="form-control" id="editAccountBalance"
+                                   placeholder="{{ _('e.g., 1500') }}">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">{{ _('Save Changes') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- TRANSFER BETWEEN ACCOUNTS MODAL -->
+    <!-- Transfer Modal -->
     <div class="modal fade" id="transferAccountModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form id="transferAccountForm" onsubmit="transferBetweenAccounts(event)">
                     <div class="modal-header">
-                        <h5 class="modal-title fw-bold">Transfer Between Accounts</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title fw-bold">{{ _('Transfer Between Accounts') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="{{ _('Close') }}"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="fromAccount" class="form-label fw-semibold">From Account</label>
+                            <label for="fromAccount" class="form-label fw-semibold">{{ _('From Account') }}</label>
                             <select class="form-select" id="fromAccount" required>
-                                <!-- Options loaded dynamically -->
+                                <option value="">{{ _('Select Account') }}</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="toAccount" class="form-label fw-semibold">To Account</label>
+                            <label for="toAccount" class="form-label fw-semibold">{{ _('To Account') }}</label>
                             <select class="form-select" id="toAccount" required>
-                                <!-- Options loaded dynamically -->
+                                <option value="">{{ _('Select Account') }}</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="transferAmount" class="form-label fw-semibold">Amount</label>
-                            <input
-                                    type="number"
-                                    class="form-control"
-                                    id="transferAmount"
-                                    placeholder="e.g., 500"
-                                    required
-                            >
+                            <label for="transferAmount" class="form-label fw-semibold">{{ _('Amount') }}</label>
+                            <input type="number" class="form-control" id="transferAmount"
+                                   placeholder="{{ _('e.g., 500') }}" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Transfer</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">{{ _('Transfer') }}</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
             </div>
@@ -202,6 +171,30 @@
 {% block scripts %}
     <!-- PAGE SCRIPTS -->
     <script>
+        // Translation dictionary
+        const translations = {
+            // Confirmation dialogs
+            'deleteConfirm': {{ _('Are you sure you want to delete this account? This action cannot be undone.')|tojson }},
+            'disableConfirm': {{ _('Are you sure you want to disable this account?')|tojson }},
+            'enableConfirm': {{ _('Are you sure you want to enable this account?')|tojson }},
+
+            // Success messages
+            'accountUpdated': {{ _('Account updated successfully')|tojson }},
+            'accountAdded': {{ _('Account added successfully')|tojson }},
+            'transferCompleted': {{ _('Transfer completed')|tojson }},
+            'accountDeleted': {{ _('Account deleted successfully.')|tojson }},
+            'accountDisabled': {{ _('Account disabled')|tojson }},
+            'accountEnabled': {{ _('Account enabled')|tojson }},
+
+            // Error messages
+            'errorFetching': {{ _('Error fetching accounts from the server.')|tojson }},
+            'errorUpdating': {{ _('An error occurred while updating the account.')|tojson }},
+            'errorAdding': {{ _('An error occurred while adding the account.')|tojson }},
+            'errorTransferring': {{ _('An error occurred while transferring.')|tojson }},
+            'errorDeleting': {{ _('An error occurred while deleting the account.')|tojson }},
+            'errorDisabling': {{ _('An error occurred while disabling the account.')|tojson }},
+            'errorEnabling': {{ _('An error occurred while enabling the account.')|tojson }}
+        };
         // Load accounts from API with optional filter
         function loadAccounts(filter = '') {
             fetch(`/api/account/${filter}`)
@@ -212,33 +205,30 @@
                     const toAccountSelect = document.getElementById('toAccount');
 
                     tableBody.innerHTML = '';
-                    fromAccountSelect.innerHTML = '<option value="">Select Account</option>';
-                    toAccountSelect.innerHTML = '<option value="">Select Account</option>';
+                    fromAccountSelect.innerHTML = `<option value="">${ {{ _('Select Account')|tojson }} }</option>`;
+                    toAccountSelect.innerHTML = `<option value="">${ {{ _('Select Account')|tojson }} }</option>`;
 
                     data.accounts.forEach(account => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                       <td><i class="bi bi-wallet2 me-2"></i>${account.name}</td>
-                       <td><i class="bi bi-currency-dollar me-2"></i>${account.balance}</td>
-                       <td>${account.currency}</td>
-                       <td class="text-center">
-                           ${
-                            account.disabled
-                                ? `<button class="btn btn-sm btn-primary me-1" onclick="confirmEnableAccount(${account.id})">
-                                        <i class="bi bi-unlock"></i> Enable
-                                      </button>`
-                                : `<button class="btn btn-sm btn-warning me-1" onclick="confirmDisableAccount(${account.id})">
-                                        <i class="bi bi-lock"></i> Disable
-                                      </button>`
-                        }
-                           <button class="btn btn-sm btn-info me-1" onclick="showEditAccountModal(${account.id})">
-                               <i class="bi bi-pencil"></i> Edit
-                           </button>
-                           <button class="btn btn-sm btn-danger" onclick="confirmDeleteAccount(${account.id})">
-                               <i class="bi bi-trash"></i> Delete
-                           </button>
-                       </td>
-                   `;
+                            <td><i class="bi bi-wallet2 me-2"></i>${account.name}</td>
+                            <td><i class="bi bi-currency-dollar me-2"></i>${account.balance}</td>
+                            <td>${account.currency}</td>
+                            <td class="text-center">
+                                ${account.disabled ? `
+                                    <button class="btn btn-sm btn-primary me-1" onclick="confirmEnableAccount(${account.id})">
+                                        <i class="bi bi-unlock"></i> {{ _('Enable') }}
+                                    </button>` : `
+                                    <button class="btn btn-sm btn-warning me-1" onclick="confirmDisableAccount(${account.id})">
+                                        <i class="bi bi-lock"></i> {{ _('Disable') }}
+                                    </button>`}
+                                <button class="btn btn-sm btn-info me-1" onclick="showEditAccountModal(${account.id})">
+                                    <i class="bi bi-pencil"></i> {{ _('Edit') }}
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="confirmDeleteAccount(${account.id})">
+                                    <i class="bi bi-trash"></i> {{ _('Delete') }}
+                                </button>
+                            </td>`;
                         tableBody.appendChild(row);
 
                         const option = `<option value="${account.id}">${account.name} (${account.currency})</option>`;
@@ -248,10 +238,9 @@
                 })
                 .catch(err => {
                     console.error('Error loading accounts:', err);
-                    showToast('Error fetching accounts from the server.', 'danger');
+                    showToast(translations.errorFetching, 'danger');
                 });
         }
-
         // Filter accounts by status
         function filterAccounts() {
             const filter = document.getElementById('filterStatus').value;
@@ -276,7 +265,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching account details:', err);
-                    showToast('Error fetching account details.', 'danger');
+                    showToast(translations.errorFetching, 'danger');
                 });
         }
 
@@ -284,86 +273,85 @@
         function updateAccount(event) {
             event.preventDefault();
             const accountId = document.getElementById('editAccountId').value;
-            const updatedName = document.getElementById('editAccountName').value;
-            const updatedCurrency = document.getElementById('editAccountCurrency').value;
-            const updatedBalance = document.getElementById('editAccountBalance').value;
+            const updatedData = {
+                name: document.getElementById('editAccountName').value,
+                currency: document.getElementById('editAccountCurrency').value,
+                balance: document.getElementById('editAccountBalance').value
+            };
 
             fetch(`/api/account/${accountId}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: updatedName,
-                    currency: updatedCurrency,
-                    balance: updatedBalance,
-                })
+                body: JSON.stringify(updatedData)
             })
-                .then(response => response.json())
-                .then(data => {
-                    showToast(data.message || 'Account updated successfully', 'success');
-                    loadAccounts();
-                    bootstrap.Modal.getInstance(document.getElementById('editAccountModal')).hide();
-                })
-                .catch(err => {
-                    console.error('Error updating account:', err);
-                    showToast('An error occurred while updating the account.', 'danger');
-                });
+            .then(response => response.json())
+            .then(data => {
+                showToast(translations.accountUpdated, 'success');
+                loadAccounts();
+                bootstrap.Modal.getInstance(document.getElementById('editAccountModal')).hide();
+            })
+            .catch(err => {
+                console.error('Error updating account:', err);
+                showToast(translations.errorUpdating, 'danger');
+            });
         }
 
         // Add new account
         function addAccount(event) {
             event.preventDefault();
+            const newAccount = {
+                name: document.getElementById('accountName').value,
+                balance: document.getElementById('initialBalance').value,
+                currency: document.getElementById('currency').value
+            };
+
             fetch('/api/account/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: document.getElementById('accountName').value,
-                    balance: document.getElementById('initialBalance').value,
-                    currency: document.getElementById('currency').value
-                })
+                body: JSON.stringify(newAccount)
             })
-                .then(response => response.json())
-                .then(data => {
-                    showToast(data.message || 'Account added successfully', 'success');
-                    loadAccounts();
-                    bootstrap.Modal.getInstance(document.getElementById('addAccountModal')).hide();
-                })
-                .catch(err => {
-                    console.error('Error adding account:', err);
-                    showToast('An error occurred while adding the account.', 'danger');
-                });
+            .then(response => response.json())
+            .then(data => {
+                showToast(data.message || translations.accountAdded, 'success');
+                loadAccounts();
+                bootstrap.Modal.getInstance(document.getElementById('addAccountModal')).hide();
+            })
+            .catch(err => {
+                console.error('Error adding account:', err);
+                showToast(translations.errorAdding, 'danger');
+            });
         }
 
         // Transfer between accounts
         function transferBetweenAccounts(event) {
             event.preventDefault();
-            const fromAccount = document.getElementById('fromAccount').value;
-            const toAccount = document.getElementById('toAccount').value;
-            const amount = document.getElementById('transferAmount').value;
+            const transferData = {
+                from_account_id: document.getElementById('fromAccount').value,
+                to_account_id: document.getElementById('toAccount').value,
+                amount: document.getElementById('transferAmount').value
+            };
 
             fetch('/api/account/transfer', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    from_account_id: fromAccount,
-                    to_account_id: toAccount,
-                    amount: amount
-                })
+                body: JSON.stringify(transferData)
             })
-                .then(response => response.json())
-                .then(data => {
-                    showToast(data.message || 'Transfer completed', 'success');
-                    loadAccounts();
-                    bootstrap.Modal.getInstance(document.getElementById('transferAccountModal')).hide();
-                })
-                .catch(err => {
-                    console.error('Error transferring between accounts:', err);
-                    showToast('An error occurred while transferring.', 'danger');
-                });
+            .then(response => response.json())
+            .then(data => {
+                showToast(data.message || translations.transferCompleted, 'success');
+                loadAccounts();
+                bootstrap.Modal.getInstance(document.getElementById('transferAccountModal')).hide();
+            })
+            .catch(err => {
+                console.error('Error transferring between accounts:', err);
+                showToast(translations.errorTransferring, 'danger');
+            });
         }
 
         // Confirm & Delete account
         function confirmDeleteAccount(accountId) {
-            showCustomConfirm('Delete Account', 'Are you sure you want to delete this account? This action cannot be undone.')
+
+            showCustomConfirm({{ _('Delete Account')|tojson }}, translations.deleteConfirm)
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         deleteAccount(accountId);
@@ -378,19 +366,20 @@
                     if (data.error) {
                         showToast(data.error, 'danger');
                     } else {
-                        showToast(data.message || 'Account deleted successfully.', 'success');
+                        showToast(data.message || translations.accountDeleted, 'success');
                         loadAccounts();
                     }
                 })
                 .catch(err => {
                     console.error('Error deleting account:', err);
-                    showToast('An error occurred while deleting the account.', 'danger');
+                    showToast(translations.errorDeleting, 'danger');
                 });
         }
 
         // Confirm & Disable account
         function confirmDisableAccount(id) {
-            showCustomConfirm('Disable Account', 'Are you sure you want to disable this account?')
+
+            showCustomConfirm({{ _('Disable Account')|tojson }}, translations.disableConfirm)
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         disableAccount(id);
@@ -402,18 +391,18 @@
             fetch(`/api/account/disable/${id}`, {method: 'PUT'})
                 .then(response => response.json())
                 .then(data => {
-                    showToast(data.message || 'Account disabled', 'success');
+                    showToast(data.message || translations.accountDisabled, 'success');
                     loadAccounts();
                 })
                 .catch(err => {
                     console.error('Error disabling account:', err);
-                    showToast('An error occurred while disabling the account.', 'danger');
+                    showToast(translations.errorDisabling, 'danger');
                 });
         }
 
         // Confirm & Enable account
         function confirmEnableAccount(id) {
-            showCustomConfirm('Enable Account', 'Are you sure you want to enable this account?')
+            showCustomConfirm({{ _('Enable Account')|tojson }}, translations.enableConfirm)
                 .then(userConfirmed => {
                     if (userConfirmed) {
                         enableAccount(id);
@@ -425,18 +414,24 @@
             fetch(`/api/account/enable/${id}`, {method: 'PUT'})
                 .then(response => response.json())
                 .then(data => {
-                    showToast(data.message || 'Account enabled', 'success');
+                    showToast(data.message || translations.accountEnabled, 'success');
                     loadAccounts();
                 })
                 .catch(err => {
                     console.error('Error enabling account:', err);
-                    showToast('An error occurred while enabling the account.', 'danger');
+                    showToast(translations.errorEnabling, 'danger');
                 });
         }
 
         // Filter on page load
         document.addEventListener('DOMContentLoaded', () => {
             loadAccounts(); // load all accounts initially
+            // Initialize RTL layout if needed
+            {% if get_locale() == 'ar' %}
+            document.querySelectorAll('.modal-header').forEach(header => {
+                header.classList.add('flex-row-reverse');
+            });
+            {% endif %}
         });
     </script>
 {% endblock %}
