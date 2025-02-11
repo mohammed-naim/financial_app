@@ -1,6 +1,6 @@
 body {
-            background-color: #f8f9fa;
-        }
+    background-color: #f8f9fa;
+}
 
 .section-heading {
     font-family: 'Poppins', sans-serif;
@@ -20,5 +20,5 @@ body {
 }
 
 .exchange-rates-table td {
-            font-size: 0.9rem;
-        }
+    font-size: 0.9rem;
+}

@@ -6,6 +6,7 @@ from models.user import User
 from services import register_check_repeated_transactions, register_investment_service
 from flask_migrate import Migrate
 from config import Config
+from flask_babel import Babel, gettext
 
 app = Flask(__name__)
 
@@ -17,6 +18,17 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
+# Language selector
+def get_locale():
+    lang = 'en'
+    try:
+        lang = current_user.language
+    except AttributeError:
+        pass
+    return lang
+app.jinja_env.globals['get_locale'] = get_locale
+
+babel = Babel(app, locale_selector=get_locale)
 
 # User loader callback for Flask-Login
 @login_manager.user_loader

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from models import db, Notification
 from flask_login import login_required, current_user
+from flask_babel import lazy_gettext as _
 
 notification_bp = Blueprint('notification', __name__, url_prefix='/api/notification')
 
@@ -19,7 +20,7 @@ def get_notifications():
 def update_notification(notification_id):
     notification = current_user.notifications.filter_by(id=notification_id).first()
     if not notification:
-        return jsonify({'error': 'Notification not found or access denied'}), 404
+        return jsonify({'error': _('Notification not found or access denied')}), 404
     notification.is_seen = True
     db.session.commit()
-    return jsonify({'message': 'Notification updated successfully'}), 200
+    return jsonify({'message': _('Notification updated successfully')}), 200

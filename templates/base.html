@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+{#dir="{% if get_locale() == 'ar' %}rtl{% else %}ltr{% endif %}"#}
+<html lang="{{ get_locale() }}"  data-bs-theme="light">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Money App</title>
+    <title>{{ _('Money App') }}</title>
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
-    />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"/>
     {% block head %}{% endblock %}
 </head>
@@ -19,104 +18,80 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fas fa-coins me-2"></i>Money App</a>
+        <a class="navbar-brand" href="#"><i class="fas fa-coins me-2"></i>{{ _('Money App') }}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/accounts"
-                    ><i class="fas fa-wallet"></i> Accounts</a
-                    >
+                    <a class="nav-link" href="/accounts">
+                        <i class="fas fa-wallet"></i> {{ _('Accounts') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/categories"
-                    ><i class="fas fa-list"></i> Categories</a
-                    >
+                    <a class="nav-link" href="/categories">
+                        <i class="fas fa-list"></i> {{ _('Categories') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/transactions"
-                    ><i class="fas fa-exchange-alt"></i> Transactions</a
-                    >
+                    <a class="nav-link" href="/transactions">
+                        <i class="fas fa-exchange-alt"></i> {{ _('Transactions') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/debts"
-                    ><i class="fas fa-hand-holding-usd"></i> Debts</a
-                    >
+                    <a class="nav-link" href="/debts">
+                        <i class="fas fa-hand-holding-usd"></i> {{ _('Debts') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/investments"
-                    ><i class="fas fa-chart-line"></i> Investments</a
-                    >
+                    <a class="nav-link" href="/investments">
+                        <i class="fas fa-chart-line"></i> {{ _('Investments') }}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard"
-                    ><i class="fas fa-chart-pie"></i> Dashboard</a
-                    >
+                    <a class="nav-link" href="/dashboard">
+                        <i class="fas fa-chart-pie"></i> {{ _('Dashboard') }}
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            id="notificationDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
+                    <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span id="notificationBadge" class="badge bg-danger">0</span>
                     </a>
-                    <ul
-                            class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="notificationDropdown"
-                            id="notificationsList"
-                    >
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown"
+                        id="notificationsList">
                         <li>
-                            <a class="dropdown-item text-center" href="#"
-                            >No new notifications</a
-                            >
+                            <a class="dropdown-item text-center" href="#">
+                                {{ _('No new notifications') }}
+                            </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            id="languageDropdown"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <i class="fas fa-globe"></i> Language
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe"></i> {{ _('Language') }}
                     </a>
-                    <ul
-                            class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="languageDropdown"
-                    >
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                         <li>
-                            <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    onclick="changeLanguage('en')"
-                            >English</a
-                            >
+                            <a class="dropdown-item" href="#" onclick="changeLanguage('en')">
+                                {{ _('English') }}
+                            </a>
                         </li>
                         <li>
-                            <a
-                                    class="dropdown-item"
-                                    href="#"
-                                    onclick="changeLanguage('ar')"
-                            >Arabic</a
-                            >
+                            <a class="dropdown-item" href="#" onclick="changeLanguage('ar')">
+                                {{ _('Arabic') }}
+                            </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="logoutUser()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt"></i> {{ _('Logout') }}
                     </a>
                 </li>
             </ul>
@@ -133,51 +108,34 @@
 
 <!-- Footer -->
 <footer class="container-fluid">
-    <div class="text-center">&copy; {{ year }} Money App. All Rights Reserved.</div>
+    <div class="text-center">&copy; {{ year }} {{ _('Money App. All Rights Reserved.') }}</div>
 </footer>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- TOAST CONTAINER (CUSTOM ALERT) -->
-<div
-        id="toastContainer"
-        class="position-fixed top-0 end-0 p-3"
-        style="z-index: 1055"
-></div>
+<div id="toastContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1055"></div>
 
 <!-- CUSTOM CONFIRM MODAL -->
-<div
-        class="modal fade"
-        id="customConfirmModal"
-        tabindex="-1"
-        aria-hidden="true"
->
+<div class="modal fade" id="customConfirmModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 id="customConfirmTitle" class="modal-title fw-bold">Confirm</h5>
-                <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                ></button>
+                <h5 id="customConfirmTitle" class="modal-title fw-bold">{{ _('Confirm') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="{{ _('Close') }}"></button>
             </div>
             <div class="modal-body">
                 <p id="customConfirmMessage"></p>
             </div>
             <div class="modal-footer">
-                <button
-                        id="customConfirmCancel"
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                >
-                    Cancel
+                <button id="customConfirmCancel" type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    {{ _('Cancel') }}
                 </button>
                 <button id="customConfirmOk" type="button" class="btn btn-primary">
-                    OK
+                    {{ _('OK') }}
                 </button>
             </div>
         </div>
@@ -185,6 +143,14 @@
 </div>
 
 <script>
+    const translationsBase = {
+        'errorChangingLanguage': {{ _('An error occurred while changing language.')|tojson }},
+        'errorLoggingOut': {{_('An error occurred while logging out.')|tojson}},
+        'close': {{_('Close')|tojson}},
+        'noNotifications': {{_('No new notifications')|tojson}},
+        'errorFetchingNotifications': {{_('Error fetching notifications.')|tojson}},
+        'errorMarkingNotification': {{_('Error marking notification as read.')|tojson}}
+    }
     // =======================
     // 1) LANGUAGE CHANGER
     // =======================
@@ -204,7 +170,7 @@
             })
             .catch((err) => {
                 console.error("Error changing language:", err);
-                showToast("An error occurred while changing language.", "danger");
+                showToast(translationsBase.errorChangingLanguage, "danger");
             });
     }
 
@@ -222,12 +188,12 @@
                     showToast(data.message, "success");
                     window.location.href = "/auth/login";
                 } else {
-                    showToast("An error occurred while logging out.", "danger");
+                    showToast(translationsBase.errorLoggingOut, "danger");
                 }
             })
             .catch((error) => {
                 console.error("Logout failed:", error);
-                showToast("An error occurred while logging out.", "danger");
+                showToast(translationsBase.errorLoggingOut, "danger");
             });
     }
 
@@ -253,7 +219,7 @@
                     <div class="toast-body">${message}</div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto"
                             data-bs-dismiss="toast"
-                            aria-label="Close"></button>
+                            aria-label="${translationsBase.close}"></button>
                 </div>
             `;
 
@@ -341,6 +307,7 @@
             })
             .catch((error) => {
                 console.error("Error fetching notifications:", error);
+                showToast(translationsBase.errorFetchingNotifications, "danger");
             });
     }
 
@@ -350,7 +317,7 @@
 
         if (notifications.length === 0) {
             notificationsList.innerHTML =
-                '<li><a class="dropdown-item text-center" href="#">No new notifications</a></li>';
+                `<li><a class="dropdown-item text-center" href="#">${translationsBase.noNotifications}</a></li>`;
         } else {
             notifications.forEach((notification) => {
                 const listItem = document.createElement("li");
@@ -396,7 +363,7 @@
             })
             .catch((error) => {
                 console.error("Error marking notification as read:", error);
-                showToast("Error marking notification as read", "danger");
+                showToast(translationsBase.errorMarkingNotification, "danger");
             });
     }
 

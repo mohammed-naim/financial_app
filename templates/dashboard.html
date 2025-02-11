@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="container mt-5">
-        <h1 class="text-center mb-4"><i class="fas fa-chart-pie"></i> Dashboard</h1>
+        <h1 class="text-center mb-4"><i class="fas fa-chart-pie"></i> {{ _('Statistics') }} </h1>
 
         <!-- TOP CARDS FOR KEY METRICS (OVERVIEW) -->
         <div class="row g-4 mb-4 text-center">
@@ -16,7 +16,7 @@
             <div class="col-md-3">
                 <div class="card border-success shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Income</h5>
+                        <h5 class="card-title">{{ _('Income') }}</h5>
                         <h2 id="incomeValue" class="text-success fw-bold">0</h2>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
             <div class="col-md-3">
                 <div class="card border-danger shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Expenses</h5>
+                        <h5 class="card-title">{{ _('Expenses') }}</h5>
                         <h2 id="expensesValue" class="text-danger fw-bold">0</h2>
                     </div>
                 </div>
@@ -34,10 +34,10 @@
             <div class="col-md-3">
                 <div class="card border-primary shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Account Balances</h5>
-                        <p class="mb-2">Enabled: <span id="enabledAccountsValue" class="fw-bold text-primary">0</span>
+                        <h5 class="card-title">{{ _('Account Balances')}}</h5>
+                        <p class="mb-2">{{ _('Enabled') }}: <span id="enabledAccountsValue" class="fw-bold text-primary">0</span>
                         </p>
-                        <p class="mb-0">Disabled: <span id="disabledAccountsValue" class="fw-bold text-muted">0</span>
+                        <p class="mb-0">{{ _('Disabled') }}: <span id="disabledAccountsValue" class="fw-bold text-muted">0</span>
                         </p>
                     </div>
                 </div>
@@ -46,10 +46,10 @@
             <div class="col-md-3">
                 <div class="card border-warning shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Debts</h5>
-                        <p class="mb-2">Creditor: <span id="creditorDebtsValue" class="fw-bold text-warning">0</span>
+                        <h5 class="card-title">{{ _('Debts') }}</h5>
+                        <p class="mb-2">{{ _('Creditor') }}: <span id="creditorDebtsValue" class="fw-bold text-warning">0</span>
                         </p>
-                        <p class="mb-0">Debtor: <span id="debtorDebtsValue" class="fw-bold text-warning">0</span></p>
+                        <p class="mb-0">{{ _('Debtor') }}: <span id="debtorDebtsValue" class="fw-bold text-warning">0</span></p>
                     </div>
                 </div>
             </div>
@@ -60,9 +60,9 @@
             <div class="col-md-6">
                 <div class="card border-info text-center shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Investments</h5>
-                        <p class="mb-2">Total Invested: <span id="investedValue" class="fw-bold text-info">0</span></p>
-                        <p class="mb-0">Total Profit: <span id="profitValue" class="fw-bold text-success">0</span></p>
+                        <h5 class="card-title">{{ _('Investments') }}</h5>
+                        <p class="mb-2">{{ _('Total Invested')}}: <span id="investedValue" class="fw-bold text-info">0</span></p>
+                        <p class="mb-0">{{ _('Total Profit')}}: <span id="profitValue" class="fw-bold text-success">0</span></p>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header text-white bg-primary">
-                        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Income vs. Expenses</h5>
+                        <h5 class="mb-0"><i class="fas fa-chart-bar"></i> {{ _('Income vs. Expenses')}}</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="incomeExpensesChart" height="200"></canvas>
@@ -86,7 +86,7 @@
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm">
                     <div class="card-header text-white bg-secondary">
-                        <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Category Summary</h5>
+                        <h5 class="mb-0"><i class="fas fa-chart-pie"></i> {{ _('Category Summary')}}</h5>
                     </div>
                     <div class="card-body">
                         <canvas id="categorySummaryChart" height="200"></canvas>
@@ -100,30 +100,30 @@
             <div class="col-12">
                 <div class="card shadow-sm">
                     <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> Cash Flow Over Time</h5>
+                        <h5 class="mb-0"><i class="fas fa-chart-line"></i> {{ _('Cash Flow Over Time')}}</h5>
                     </div>
                     <div class="card-body">
                         <!-- FILTER FORM -->
                         <form id="cashFlowFilterForm" class="row g-3 mb-3">
                             <div class="col-sm-3">
-                                <label for="startDate" class="form-label fw-semibold">Start Date</label>
+                                <label for="startDate" class="form-label fw-semibold">{{ _('Start Date')}}</label>
                                 <input type="date" id="startDate" name="start_date" class="form-control" required>
                             </div>
                             <div class="col-sm-3">
-                                <label for="endDate" class="form-label fw-semibold">End Date</label>
+                                <label for="endDate" class="form-label fw-semibold">{{ _('End Date')}}</label>
                                 <input type="date" id="endDate" name="end_date" class="form-control" required>
                             </div>
                             <div class="col-sm-3">
-                                <label for="interval" class="form-label fw-semibold">Interval</label>
+                                <label for="interval" class="form-label fw-semibold">{{ _('Interval') }}</label>
                                 <select id="interval" name="interval" class="form-select" required>
-                                    <option value="day">Daily</option>
-                                    <option value="week">Weekly</option>
-                                    <option value="month">Monthly</option>
+                                    <option value="day">{{ _('Daily') }}</option>
+                                    <option value="week">{{ _('Weekly') }}</option>
+                                    <option value="month">{{ _('Monthly') }}</option>
                                 </select>
                             </div>
                             <div class="col-sm-3 d-flex align-items-end">
                                 <button type="submit" class="btn btn-info w-100">
-                                    <i class="fas fa-sync"></i> Apply Filter
+                                    <i class="fas fa-sync"></i> {{ _('Apply Filter')}}
                                 </button>
                             </div>
                         </form>
@@ -200,9 +200,9 @@
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Income', 'Expenses'],
+                    labels: [{{_('Income')|tojson}}, {{_('Expenses')|tojson}}],
                     datasets: [{
-                        label: 'Amount',
+                        label: {{_('Amount')|tojson}},
                         data: [income, expenses],
                         backgroundColor: [
                             'rgba(75, 192, 192, 0.7)',  // teal
