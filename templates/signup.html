@@ -205,7 +205,7 @@
           const name = document.getElementById("fullName").value.trim();
           // Basic client-side validation
           if (!email || !password) {
-            showError({{_("Email and password are required.")}});
+            showError({{_("Email and password are required.")|tojson}});
             return;
           }
 
@@ -230,7 +230,7 @@
               if (!response.ok) {
                 // Server responded with an error (4xx or 5xx)
                 const errorMessage =
-                  data.error || data.errors || {{_("Signup failed.")}};
+                  data.error || data.errors || {{_("Signup failed.")|tojson}};
                 throw new Error(errorMessage);
               }
               // If Signup is successful, check for "next" param in URL
