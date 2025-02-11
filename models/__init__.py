@@ -25,12 +25,16 @@ def init_db(app):
         # Create all database tables
         db.create_all()
         print('db created with all tables')
+        if User.query.get(1) is None:
+            _user = User("dump","dump@dump.com","dumpdump")
+            db.session.add(_user)
+            db.session.commit()
 
         if Category.query.get(1) is None:
-            _category = Category(user_id=0, type='expense', name='Transfer from account')
+            _category = Category(user_id=1, type='expense', name='Transfer from account')
             db.session.add(_category)
             db.session.commit()
         if Category.query.get(2) is None:
-            _category = Category(user_id=0, type='income', name='Transfer to account')
+            _category = Category(user_id=1, type='income', name='Transfer to account')
             db.session.add(_category)
             db.session.commit()
