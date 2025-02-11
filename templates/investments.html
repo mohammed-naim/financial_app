@@ -424,7 +424,7 @@
                     if (resp.error) {
                         showToast(resp.error, 'danger');
                     } else {
-                        showToast('Investment added successfully!', 'success');
+                        showToast({{_('Investment added successfully!')|tojson}}, 'success');
                         bootstrap.Modal.getInstance(document.getElementById('addInvestmentModal')).hide();
                         getInvestments(currentPage);
                     }

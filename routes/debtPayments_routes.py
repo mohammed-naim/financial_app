@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_login import login_required, current_user
 from decimal import Decimal
 from marshmallow import Schema, fields, ValidationError
+from flask_babel import lazy_gettext as _
 
 # Create a blueprint for debts payments
 debt_payments_bp = Blueprint('debt_payments', __name__, url_prefix='/api/debt-payments')
@@ -29,22 +30,22 @@ def get_payments(debt_id):
     per_page = request.args.get('per_page', 10, type=int)
     debt = current_user.debts.filter_by(id=debt_id).first()
     if debt is None:
-        return jsonify({"error": "debt not found"}), 404
+        return jsonify({"error": _("debt not found")}), 404
     # If payment ID is provided, return payment by ID
     if payment_id:
         payment = debt.debtPayments.filter_by(id=payment_id).first()
         if payment is None:
-            return jsonify({'error': 'Payment not found or access denied'}), 404
+            return jsonify({'error': _('Payment not found or access denied')}), 404
         return jsonify(payment.to_dict()), 200
     payments = debt.debtPayments
     if not payments:
-        return jsonify({'error': 'Payment not found or access denied'}), 404
+        return jsonify({'error': _('Payment not found or access denied')}), 404
     # If date period is provided, filter payments by date range
     if start_date:
         try:
             start_date = datetime.strptime(start_date, "%Y-%m-%d")
         except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+            return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD')}), 400
 
         payments = payments.filter(
             DebtPayments.date >= start_date,
@@ -53,7 +54,7 @@ def get_payments(debt_id):
         try:
             end_date = datetime.strptime(end_date, "%Y-%m-%d")
         except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+            return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD')}), 400
 
         payments = payments.filter(
             DebtPayments.date <= end_date
@@ -80,17 +81,17 @@ def add_payment():
         schema = DebtPaymentSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': 'request body is empty or some data lost'}), 400
+        return jsonify({'error': _('request body is empty or some data lost')}), 400
     # based on the debt type add or remove the amount from the account
     account = current_user.accounts.filter_by(id=data.get('account_id')).first()
     debt = current_user.debts.filter_by(id=data.get('debt_id')).first()
     if not account or not debt:
-        return jsonify({'error': 'Account or Debt not found or access denied'}), 404
+        return jsonify({'error': _('Account or Debt not found or access denied')}), 404
 
     if debt.paid >= debt.amount:
-        return jsonify({'error': 'You have paid all the debts'}), 400
+        return jsonify({'error': _('You have paid all the debts')}), 400
     if data['amount'] > debt.remaining:
-        return jsonify({'error': 'You cannot pay more than the remaining amount'}), 400
+        return jsonify({'error': _('You cannot pay more than the remaining amount')}), 400
 
     new_payment = DebtPayments(
         amount=data['amount'],
@@ -113,7 +114,7 @@ def add_payment():
 def delete_payment(debt_payment_id):
     payment = current_user.debts.join(DebtPayments).filter(DebtPayments.id == debt_payment_id).first()
     if not payment:
-        return jsonify({'error': 'Payment not found or access denied'}), 404
+        return jsonify({'error': _('Payment not found or access denied')}), 404
     payment = DebtPayments.query.filter(DebtPayments.id == debt_payment_id).first()
     account = current_user.accounts.filter_by(id=payment.account_id).first()
     debt = current_user.debts.filter_by(id=payment.debt_id).first()
@@ -122,7 +123,7 @@ def delete_payment(debt_payment_id):
     debt.update({'paid': paid_amount})
     db.session.delete(payment)
     db.session.commit()
-    return jsonify({'message': 'Payment deleted successfully'}), 200
+    return jsonify({'message': _('Payment deleted successfully')}), 200
 
 
 # Update a payment by ID
@@ -134,14 +135,14 @@ def update_payment(debt_payment_id):
         schema = DebtPaymentSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': 'request body is empty or some data lost'}), 400
+        return jsonify({'error': _('request body is empty or some data lost')}), 400
     account = current_user.accounts.filter_by(id=data.get('account_id')).first()
     debt = current_user.debts.filter_by(id=data.get('debt_id')).first()
     if debt is None or account is None:
-        return jsonify({'error': 'account or debt not found'}), 404
+        return jsonify({'error': _('account or debt not found')}), 404
     payment = current_user.debts.join(DebtPayments).filter(DebtPayments.id == debt_payment_id).first()
     if not payment:
-        return jsonify({'error': 'payment not found or access denied'}), 404
+        return jsonify({'error': _('payment not found or access denied')}), 404
     payment = DebtPayments.query.filter(DebtPayments.id == debt_payment_id).first()
     payment.update(data)
     db.session.commit()

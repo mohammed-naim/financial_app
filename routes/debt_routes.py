@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from datetime import datetime
 import traceback
 from marshmallow import Schema, fields, ValidationError
-
+from flask_babel import lazy_gettext as _
 debt_bp = Blueprint('debt', __name__, url_prefix='/api/debts')
 
 
@@ -31,7 +31,7 @@ def add_debt():
         schema = DebtSchema()
         data = schema.load(data)
     except ValidationError:
-        return jsonify({'error': 'Type, person name, amount, and account are required'}), 400
+        return jsonify({'error': _('Type, person name, amount, and account are required')}), 400
     debt_type = data.get('type')  # "creditor" or "debtor"
     person_name = data.get('person_name')
     amount = data.get('amount')
@@ -39,7 +39,7 @@ def add_debt():
     account_id = data.get('account_id')
     account = current_user.accounts.filter_by(id=account_id).first()
     if not account:
-        return jsonify({'error': 'Account not found or access denied'}), 404
+        return jsonify({'error': _('Account not found or access denied')}), 404
 
     new_debt = Debt(
         user_id=current_user.id,
@@ -53,7 +53,7 @@ def add_debt():
     account.update_balance(amount, new_debt.type)
     db.session.commit()
 
-    return jsonify({'message': 'Debt added successfully', 'success': True, 'debt': new_debt.to_dict()}), 201
+    return jsonify({'message': _('Debt added successfully'), 'success': True, 'debt': new_debt.to_dict()}), 201
 
 
 # Unified GET endpoint for debts
@@ -73,7 +73,7 @@ def get_debts():
         if debt_id:
             debt = current_user.debts.filter_by(id=debt_id, user_id=current_user.id).first()
             if not debt:
-                return jsonify({'error': 'Debt not found or access denied'}), 404
+                return jsonify({'error': _('Debt not found or access denied')}), 404
             return jsonify(debt.to_dict()), 200
 
         # Base query for current user's debts
@@ -85,7 +85,7 @@ def get_debts():
                 start_date = datetime.strptime(start_date, "%Y-%m-%d")
                 end_date = datetime.strptime(end_date, "%Y-%m-%d")
             except ValueError:
-                return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+                return jsonify({'error': _('Invalid date format. Use YYYY-MM-DD')}), 400
 
             query = query.filter(Debt.date >= start_date, Debt.date <= end_date)
 
@@ -124,18 +124,18 @@ def get_debts():
 def update_debt(debt_id):
     debt = current_user.debts.filter_by(id=debt_id).first()
     if not debt:
-        return jsonify({'error': 'Debt not found or access denied'}), 404
+        return jsonify({'error': _('Debt not found or access denied')}), 404
     data = request.get_json()
     try:
         schema = DebtSchema()
         data = schema.load(data)
     except ValidationError:
-        return jsonify({'error': 'Type, person name, amount, and account are required'}), 400
+        return jsonify({'error': _('Type, person name, amount, and account are required')}), 400
 
     account_id = data.get('account_id', debt.account_id)
     account = current_user.accounts.filter_by(id=account_id).first()
     if not account:
-        return jsonify({'error': 'Account not found or access denied'}), 404
+        return jsonify({'error': _('Account not found or access denied')}), 404
     previous_amount = debt.amount
     previous_type = debt.type
     debt.update(data)
@@ -148,7 +148,7 @@ def update_debt(debt_id):
         amount = float(debt.amount) - float(previous_amount)
     account.update_balance(amount, debt.type)
     db.session.commit()
-    return jsonify({'message': 'Debt updated successfully', 'debt': debt.to_dict()}), 200
+    return jsonify({'message': _('Debt updated successfully'), 'debt': debt.to_dict()}), 200
 
 
 # Delete a debt
@@ -157,13 +157,13 @@ def update_debt(debt_id):
 def delete_debt(debt_id):
     debt = current_user.debts.filter_by(id=debt_id).first()
     if not debt:
-        return jsonify({'error': 'Debt not found or access denied'}), 404
+        return jsonify({'error': _('Debt not found or access denied')}), 404
     if debt.debtPayments.all():
-        return jsonify({"error": "There are payments associated with this debt."}), 400
+        return jsonify({"error": _("There are payments associated with this debt.")}), 400
     account = Account.query.get(debt.account_id)
     amount = debt.amount * -1
     account.update_balance(amount, debt.type)
     db.session.delete(debt)
     db.session.commit()
 
-    return jsonify({'message': 'Debt deleted successfully'}), 200
+    return jsonify({'message': _('Debt deleted successfully')}), 200

@@ -280,10 +280,10 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.message) {
-                                    showToast(data.message, 'success');
+                                    showToast(translations.categoryDisabled, 'success');
                                     loadCategories();
                                 } else {
-                                    showToast(data.error || translations.errorDisablingCategory, 'danger');
+                                    showToast( translations.errorDisablingCategory, 'danger');
                                 }
                             })
                             .catch(err => {
@@ -397,7 +397,7 @@
                                     showToast(translations.categoryEnabled, 'success');
                                     loadCategories();
                                 } else {
-                                    showToast(data.error || translations.errorEnablingCategory, 'danger');
+                                    showToast(translations.errorEnablingCategory, 'danger');
                                 }
                             })
                             .catch(err => {

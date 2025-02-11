@@ -265,7 +265,7 @@
                 })
                 .catch(err => {
                     console.error('Error fetching account details:', err);
-                    showToast('Error fetching account details.', 'danger');
+                    showToast(translations.errorFetching, 'danger');
                 });
         }
 
@@ -286,7 +286,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                showToast(data.message || translations.accountUpdated, 'success');
+                showToast(translations.accountUpdated, 'success');
                 loadAccounts();
                 bootstrap.Modal.getInstance(document.getElementById('editAccountModal')).hide();
             })

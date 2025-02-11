@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 16:32+0200\n"
+"POT-Creation-Date: 2025-02-11 11:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,336 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: routes/account_routes.py:31 routes/account_routes.py:95
+#: routes/auth_routes.py:27 routes/auth_routes.py:83
+msgid "No data provided"
+msgstr ""
+
+#: routes/account_routes.py:38
+msgid "Account name is required"
+msgstr ""
+
+#: routes/account_routes.py:40
+msgid "Currency is required"
+msgstr ""
+
+#: routes/account_routes.py:44
+msgid "Account created successfully"
+msgstr ""
+
+#: routes/account_routes.py:49 routes/account_routes.py:107
+msgid "An unexpected error occurred"
+msgstr ""
+
+#: routes/account_routes.py:81 routes/account_routes.py:91
+#: routes/account_routes.py:116 routes/account_routes.py:128
+#: routes/account_routes.py:140 routes/category_routes.py:134
+#: routes/debt_routes.py:42 routes/debt_routes.py:138
+msgid "Account not found or access denied"
+msgstr ""
+
+#: routes/account_routes.py:102 templates/accounts.html:182
+msgid "Account updated successfully"
+msgstr ""
+
+#: routes/account_routes.py:119
+msgid "Account Enabled Successfully"
+msgstr ""
+
+#: routes/account_routes.py:132
+msgid "Account Disabled Successfully"
+msgstr ""
+
+#: routes/account_routes.py:142
+msgid "There are operations associated with this account."
+msgstr ""
+
+#: routes/account_routes.py:145
+msgid "Account Deleted Successfully"
+msgstr ""
+
+#: routes/account_routes.py:157 routes/repeted_transactions_routes.py:39
+#: routes/repeted_transactions_routes.py:107
+msgid "Missing required fields"
+msgstr ""
+
+#: routes/account_routes.py:160
+msgid "Amount must be greater than zero"
+msgstr ""
+
+#: routes/account_routes.py:164
+msgid "Source account not found or access denied"
+msgstr ""
+
+#: routes/account_routes.py:166
+msgid "Destination account not found or access denied"
+msgstr ""
+
+#: routes/account_routes.py:168
+msgid "Insufficient funds in source account"
+msgstr ""
+
+#: routes/account_routes.py:190
+msgid "Transfer completed successfully"
+msgstr ""
+
+#: routes/auth_routes.py:36
+msgid "full name, email, and password are required"
+msgstr ""
+
+#: routes/auth_routes.py:40
+msgid "User with this email already exists"
+msgstr ""
+
+#: routes/auth_routes.py:49
+msgid "User registered successfully"
+msgstr ""
+
+#: routes/auth_routes.py:93
+msgid "Email and password are required"
+msgstr ""
+
+#: routes/auth_routes.py:99
+msgid "Login successful"
+msgstr ""
+
+#: routes/auth_routes.py:101
+msgid "Invalid email or password"
+msgstr ""
+
+#: routes/auth_routes.py:108
+msgid "Logout successful"
+msgstr ""
+
+#: routes/category_routes.py:30 routes/category_routes.py:97
+msgid "Category name and type are required"
+msgstr ""
+
+#: routes/category_routes.py:36
+msgid "Category created successfully"
+msgstr ""
+
+#: routes/category_routes.py:53 routes/category_routes.py:91
+#: routes/category_routes.py:111 routes/category_routes.py:123
+msgid "Category not found or access denied"
+msgstr ""
+
+#: routes/category_routes.py:79
+msgid "Invalid category type"
+msgstr ""
+
+#: routes/category_routes.py:102
+msgid "Category updated successfully"
+msgstr ""
+
+#: routes/category_routes.py:114
+msgid "Category enabled successfully"
+msgstr ""
+
+#: routes/category_routes.py:126
+msgid "Category Disable successfully"
+msgstr ""
+
+#: routes/category_routes.py:136
+msgid "There are operations associated with this category."
+msgstr ""
+
+#: routes/category_routes.py:139
+msgid "Category Deleted Successfully"
+msgstr ""
+
+#: routes/dashboard_routes.py:19 routes/dashboard_routes.py:160
+#: routes/debtPayments_routes.py:48 routes/debtPayments_routes.py:57
+#: routes/debt_routes.py:88
+msgid "Invalid date format. Use YYYY-MM-DD"
+msgstr ""
+
+#: routes/dashboard_routes.py:111
+msgid "Invalid or missing date format. Use YYYY-MM-DD"
+msgstr ""
+
+#: routes/dashboard_routes.py:114
+msgid "Invalid interval. Choose from day, week, or month"
+msgstr ""
+
+#: routes/debtPayments_routes.py:33
+msgid "debt not found"
+msgstr ""
+
+#: routes/debtPayments_routes.py:38 routes/debtPayments_routes.py:42
+#: routes/debtPayments_routes.py:117
+msgid "Payment not found or access denied"
+msgstr ""
+
+#: routes/debtPayments_routes.py:84 routes/debtPayments_routes.py:138
+msgid "request body is empty or some data lost"
+msgstr ""
+
+#: routes/debtPayments_routes.py:89
+msgid "Account or Debt not found or access denied"
+msgstr ""
+
+#: routes/debtPayments_routes.py:92
+msgid "You have paid all the debts"
+msgstr ""
+
+#: routes/debtPayments_routes.py:94
+msgid "You cannot pay more than the remaining amount"
+msgstr ""
+
+#: routes/debtPayments_routes.py:126
+msgid "Payment deleted successfully"
+msgstr ""
+
+#: routes/debtPayments_routes.py:142
+msgid "account or debt not found"
+msgstr ""
+
+#: routes/debtPayments_routes.py:145
+msgid "payment not found or access denied"
+msgstr ""
+
+#: routes/debt_routes.py:34 routes/debt_routes.py:133
+msgid "Type, person name, amount, and account are required"
+msgstr ""
+
+#: routes/debt_routes.py:56
+msgid "Debt added successfully"
+msgstr ""
+
+#: routes/debt_routes.py:76 routes/debt_routes.py:127 routes/debt_routes.py:160
+msgid "Debt not found or access denied"
+msgstr ""
+
+#: routes/debt_routes.py:151
+msgid "Debt updated successfully"
+msgstr ""
+
+#: routes/debt_routes.py:162
+msgid "There are payments associated with this debt."
+msgstr ""
+
+#: routes/debt_routes.py:169
+msgid "Debt deleted successfully"
+msgstr ""
+
+#: routes/investment_routes.py:45 routes/investment_routes.py:115
+msgid "Currency, account, amount invested and purchase price are required"
+msgstr ""
+
+#: routes/investment_routes.py:48
+msgid "Account not found"
+msgstr ""
+
+#: routes/investment_routes.py:57
+msgid "Account not found or Access denied"
+msgstr ""
+
+#: routes/investment_routes.py:75
+msgid "Investment added successfully"
+msgstr ""
+
+#: routes/investment_routes.py:109 routes/investment_routes.py:129
+#: routes/investment_routes.py:140
+msgid "Investment not found or access denied"
+msgstr ""
+
+#: routes/investment_routes.py:117
+msgid "Account can't be updated"
+msgstr ""
+
+#: routes/investment_routes.py:120 routes/investment_routes.py:151
+msgid "Investment updated successfully"
+msgstr ""
+
+#: routes/investment_routes.py:132
+msgid "Investment deleted successfully"
+msgstr ""
+
+#: routes/investment_routes.py:144
+msgid "bad request"
+msgstr ""
+
+#: routes/notifications_route.py:23
+msgid "Notification not found or access denied"
+msgstr ""
+
+#: routes/notifications_route.py:26
+msgid "Notification updated successfully"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:51 routes/transaction_routes.py:39
+#: routes/transaction_routes.py:123
+msgid "Account or Category not found or access denied"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:71
+msgid "Something went wrong while adding repeated transaction"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:72 templates/transactions.html:856
+msgid "Repeated transaction created successfully"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:89
+#: routes/repeted_transactions_routes.py:99
+#: routes/repeted_transactions_routes.py:125
+msgid "Repeated transaction not found or access denied"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:116 templates/transactions.html:923
+msgid "Repeated transaction updated successfully"
+msgstr ""
+
+#: routes/repeted_transactions_routes.py:128 templates/transactions.html:954
+msgid "Repeated transaction deleted successfully"
+msgstr ""
+
+#: routes/settings_routes.py:13
+msgid "language not found"
+msgstr ""
+
+#: routes/settings_routes.py:16
+msgid "Language changed successfully"
+msgstr ""
+
+#: routes/transaction_routes.py:29
+msgid "Amount, category, and account are required or body format is wrong"
+msgstr ""
+
+#: routes/transaction_routes.py:51 templates/transactions.html:670
+msgid "Transaction created successfully"
+msgstr ""
+
+#: routes/transaction_routes.py:82 routes/transaction_routes.py:88
+msgid "Invalid date format. Use YYYY-MM-DD."
+msgstr ""
+
+#: routes/transaction_routes.py:110 routes/transaction_routes.py:135
+#: routes/transaction_routes.py:149
+msgid "Transaction not found or access denied"
+msgstr ""
+
+#: routes/transaction_routes.py:117
+msgid "Amount, category, and account are required"
+msgstr ""
+
+#: routes/transaction_routes.py:126 templates/transactions.html:713
+msgid "Transaction updated successfully"
+msgstr ""
+
+#: routes/transaction_routes.py:141 templates/transactions.html:743
+msgid "Transaction deleted successfully"
+msgstr ""
+
+#: routes/transaction_routes.py:151
+msgid "Transaction is not in processing status"
+msgstr ""
+
+#: routes/transaction_routes.py:161 templates/transactions.html:770
+msgid "Transaction processed successfully"
+msgstr ""
 
 #: templates/accounts.html:8 templates/base.html:29
 msgid "Accounts"
@@ -174,10 +504,6 @@ msgstr ""
 
 #: templates/accounts.html:179
 msgid "Are you sure you want to enable this account?"
-msgstr ""
-
-#: templates/accounts.html:182
-msgid "Account updated successfully"
 msgstr ""
 
 #: templates/accounts.html:183
@@ -636,6 +962,10 @@ msgstr ""
 msgid "Are you sure you want to delete this debt?"
 msgstr ""
 
+#: templates/debts.html:356
+msgid "Debt deleted successfully."
+msgstr ""
+
 #: templates/debts.html:359
 msgid "Error deleting debt."
 msgstr ""
@@ -650,6 +980,14 @@ msgstr ""
 
 #: templates/debts.html:400
 msgid "No description"
+msgstr ""
+
+#: templates/debts.html:435
+msgid "Payment added successfully."
+msgstr ""
+
+#: templates/debts.html:438
+msgid "Error adding payment."
 msgstr ""
 
 #: templates/debts.html:463
@@ -783,6 +1121,10 @@ msgstr ""
 
 #: templates/investments.html:348
 msgid "No"
+msgstr ""
+
+#: templates/investments.html:427
+msgid "Investment added successfully!"
 msgstr ""
 
 #: templates/investments.html:434
@@ -923,6 +1265,10 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
+#: templates/transactions.html:595
+msgid "Error loading transactions."
+msgstr ""
+
 #: templates/transactions.html:621
 msgid "First"
 msgstr ""
@@ -931,16 +1277,12 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: templates/transactions.html:670
-msgid "Transaction created successfully"
-msgstr ""
-
 #: templates/transactions.html:678
 msgid "An error occurred while adding the transaction."
 msgstr ""
 
-#: templates/transactions.html:713
-msgid "Transaction updated successfully"
+#: templates/transactions.html:720
+msgid "An error occurred while updating the transaction."
 msgstr ""
 
 #: templates/transactions.html:725
@@ -949,10 +1291,6 @@ msgstr ""
 
 #: templates/transactions.html:725
 msgid "Are you sure you want to delete this transaction?"
-msgstr ""
-
-#: templates/transactions.html:743
-msgid "Transaction deleted successfully"
 msgstr ""
 
 #: templates/transactions.html:749
@@ -967,10 +1305,6 @@ msgstr ""
 msgid "This transaction is currently processing. Do you want to finalize it now?"
 msgstr ""
 
-#: templates/transactions.html:770
-msgid "Transaction processed successfully"
-msgstr ""
-
 #: templates/transactions.html:776
 msgid "An error occurred while processing the transaction."
 msgstr ""
@@ -979,20 +1313,12 @@ msgstr ""
 msgid "Error loading repeated transactions."
 msgstr ""
 
-#: templates/transactions.html:856
-msgid "Repeated transaction created successfully"
-msgstr ""
-
 #: templates/transactions.html:863
 msgid "An error occurred while adding repeated transaction."
 msgstr ""
 
 #: templates/transactions.html:898
 msgid "An error occurred while fetching repeated transaction."
-msgstr ""
-
-#: templates/transactions.html:923
-msgid "Repeated transaction updated successfully"
 msgstr ""
 
 #: templates/transactions.html:931
@@ -1005,10 +1331,6 @@ msgstr ""
 
 #: templates/transactions.html:936
 msgid "Are you sure you want to delete this repeated transaction?"
-msgstr ""
-
-#: templates/transactions.html:954
-msgid "Repeated transaction deleted successfully"
 msgstr ""
 
 #: templates/transactions.html:959

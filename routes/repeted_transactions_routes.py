@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 from datetime import datetime, date, timedelta
 import datetime
 from marshmallow import Schema, fields, ValidationError
+from flask_babel import lazy_gettext as _
 
 repeated_transactions_bp = Blueprint('repeated_transactions', __name__, url_prefix='/api/repeated_transactions')
 
@@ -35,7 +36,7 @@ def add_repeated_transaction():
                 data.get('start_date') + timedelta(days=data.get('period'))):
             raise ValidationError("end date must be greater than start date")
     except ValidationError as e:
-        return jsonify({'error': 'Missing required fields'}), 400
+        return jsonify({'error': _('Missing required fields')}), 400
     account_id = data.get('account_id')
     category_id = data.get('category_id')
     amount = data.get('amount')
@@ -47,7 +48,7 @@ def add_repeated_transaction():
     account_exists = current_user.accounts.filter_by(id=account_id).first() is not None
     category_exists = current_user.categories.filter_by(id=category_id).first() is not None
     if not account_exists or not category_exists:
-        return jsonify({'error': 'Account or Category not found or access denied'}), 404
+        return jsonify({'error': _('Account or Category not found or access denied')}), 404
     new_repeated_transaction = Repeated_Transaction(
         user_id=current_user.id,
         account_id=account_id,
@@ -67,8 +68,8 @@ def add_repeated_transaction():
     except Exception as e:
         db.session.rollback()
 
-        return jsonify({'error': 'Something went wrong while adding repeated transaction'}), 500
-    return jsonify({'message': 'Repeated transaction created successfully'}), 201
+        return jsonify({'error': _('Something went wrong while adding repeated transaction')}), 500
+    return jsonify({'message': _('Repeated transaction created successfully')}), 201
 
 
 # Get all repeated transactions
@@ -85,7 +86,7 @@ def get_repeated_transactions():
 def get_repeated_transaction_by_id(repeated_transaction_id):
     repeated_transaction = current_user.Repeated_Transactions.filter_by(id=repeated_transaction_id).first()
     if not repeated_transaction:
-        return jsonify({'error': 'Repeated transaction not found or access denied'}), 404
+        return jsonify({'error': _('Repeated transaction not found or access denied')}), 404
     return jsonify({'repeated_transaction': repeated_transaction.to_dict()}), 200
 
 
@@ -95,7 +96,7 @@ def get_repeated_transaction_by_id(repeated_transaction_id):
 def update_repeated_transaction(repeated_transaction_id):
     repeated_transaction = current_user.Repeated_Transactions.filter_by(id=repeated_transaction_id).first()
     if not repeated_transaction:
-        return jsonify({'error': 'Repeated transaction not found or access denied'}), 404
+        return jsonify({'error': _('Repeated transaction not found or access denied')}), 404
     data = request.get_json()
     try:
         schema = RepeatedTransactionsSchema()
@@ -103,7 +104,7 @@ def update_repeated_transaction(repeated_transaction_id):
         if data.get('end_date') <= (data.get('start_date') + timedelta(days=data.get('period'))):
             raise ValidationError("end date must be greater than start date")
     except ValidationError as e:
-        return jsonify({'error': 'Missing required fields'}), 400
+        return jsonify({'error': _('Missing required fields')}), 400
     repeated_transaction.account_id = data.get('account_id', repeated_transaction.account_id)
     repeated_transaction.category_id = data.get('category_id', repeated_transaction.category_id)
     repeated_transaction.amount = data.get('amount', repeated_transaction.amount)
@@ -112,7 +113,7 @@ def update_repeated_transaction(repeated_transaction_id):
     repeated_transaction.end_date = data.get('end_date', repeated_transaction.end_date)
     repeated_transaction.description = data.get('description', repeated_transaction.description)
     db.session.commit()
-    return jsonify({'message': 'Repeated transaction updated successfully'}), 200
+    return jsonify({'message': _('Repeated transaction updated successfully')}), 200
 
 
 # Delete a repeated transaction
@@ -121,10 +122,10 @@ def update_repeated_transaction(repeated_transaction_id):
 def delete_repeated_transaction(repeated_transaction_id):
     repeated_transaction = current_user.Repeated_Transactions.filter_by(id=repeated_transaction_id).first()
     if not repeated_transaction:
-        return jsonify({'error': 'Repeated transaction not found or access denied'}), 404
+        return jsonify({'error': _('Repeated transaction not found or access denied')}), 404
     db.session.delete(repeated_transaction)
     db.session.commit()
-    return jsonify({'message': 'Repeated transaction deleted successfully'}), 200
+    return jsonify({'message': _('Repeated transaction deleted successfully')}), 200
 
 
 def create_transaction(repeated_transaction: Repeated_Transaction):

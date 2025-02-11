@@ -353,7 +353,7 @@
                 const res = await fetch(`${baseUrl}/debts/${id}`, {method: 'DELETE'});
                 if (!res.ok) throw new Error('Failed to delete debt');
                 fetchDebts();
-                showToast('Debt deleted successfully.', 'success');
+                showToast({{ _('Debt deleted successfully.')|tojson}}, 'success');
             } catch (err) {
                 console.error('Error deleting debt:', err);
                 showToast({{_('Error deleting debt.')|tojson}}, 'danger');
@@ -432,10 +432,10 @@
                 document.getElementById('paymentForm').reset();
                 fetchPayments(currentDebtId);
                 fetchDebts();
-                showToast('Payment added successfully.', 'success');
+                showToast({{_('Payment added successfully.')|tojson}}, 'success');
             } catch (err) {
                 console.error('Error adding payment:', err);
-                showToast('Error adding payment.', 'danger');
+                showToast({{_('Error adding payment.')|tojson}}, 'danger');
             }
         }
 

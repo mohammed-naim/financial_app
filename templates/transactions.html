@@ -477,7 +477,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading accounts:', err);
-                    showToast('{{ _('Error loading accounts.') }}', 'danger');
+                    showToast('{{ _('Error loading accounts.')|tojson }}', 'danger');
                 });
         }
 
@@ -506,7 +506,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading categories:', err);
-                    showToast('{{ _('Error loading categories.') }}', 'danger');
+                    showToast('{{ _('Error loading categories.')|tojson }}', 'danger');
                 });
         }
 
@@ -592,7 +592,7 @@
                 })
                 .catch(err => {
                     console.error('Error loading transactions:', err);
-                    showToast('Error loading transactions.', 'danger');
+                    showToast({{_('Error loading transactions.')|tojson}}, 'danger');
                 });
         }
 
@@ -717,7 +717,7 @@
                 })
                 .catch(err => {
                     console.error('Error editing transaction:', err);
-                    showToast('An error occurred while updating the transaction.', 'danger');
+                    showToast({{_('An error occurred while updating the transaction.')|tojson}}, 'danger');
                 });
         }
 
