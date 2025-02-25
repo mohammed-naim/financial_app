@@ -140,7 +140,7 @@
                     </div>
 
                     <!-- Add Buttons -->
-                    <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-wrap mt-2">
                         <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
                             <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
                         </button>
@@ -201,6 +201,20 @@
                     aria-labelledby="repeated-transactions-tab"
             >
                 <h1 class="section-heading text-info text-center">{{ _('Repeated Transactions') }}</h1>
+                 <!-- Add Buttons Row -->
+                <div class="filter-row d-flex flex-wrap align-items-center justify-content-between">
+                    <!-- Add Buttons -->
+                    <div class="d-flex flex-wrap">
+                        <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
+                            <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
+                        </button>
+                        <button class="btn btn-info btn-filter" onclick="showModal('addRepeatedTransactionModal')">
+                            <i class="bi bi-calendar-event"></i> {{ _('Add Repeated') }}
+                        </button>
+                    </div>
+                </div>
+
+
                 <div class="table-responsive">
                     <table class="table table-hover table-repeated shadow-sm rounded">
                         <thead>
@@ -555,7 +569,7 @@
                         ${
                             tx.status === 'processing'
                                 ? `<button
-                                        class="btn btn-sm btn-secondary me-2"
+                                        class="btn btn-sm btn-secondary me-2 mb-2"
                                         onclick="confirmProcessTransaction(${tx.id})"
                                     >
                                         {{ _('Process') }}
@@ -563,7 +577,7 @@
                                 : ''
                         }
                         <button
-                            class="btn btn-sm btn-warning me-2"
+                            class="btn btn-sm btn-warning me-2 mb-2"
                             onclick="openEditTransactionModal(
                                 ${tx.id},
                                 '${tx.description || ''}',
@@ -812,7 +826,7 @@
                                     Edit
                                 </button>
                                 <button
-                                    class="btn btn-sm btn-danger"
+                                    class="btn btn-sm btn-danger "
                                     onclick="confirmDeleteRepeatedTransaction(${rt.id})"
                                 >
                                     Delete
