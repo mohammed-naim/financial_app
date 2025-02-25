@@ -140,7 +140,7 @@
                     </div>
 
                     <!-- Add Buttons -->
-                    <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-wrap mt-2">
                         <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
                             <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
                         </button>
@@ -569,7 +569,7 @@
                         ${
                             tx.status === 'processing'
                                 ? `<button
-                                        class="btn btn-sm btn-secondary me-2"
+                                        class="btn btn-sm btn-secondary me-2 mb-2"
                                         onclick="confirmProcessTransaction(${tx.id})"
                                     >
                                         {{ _('Process') }}
@@ -577,7 +577,7 @@
                                 : ''
                         }
                         <button
-                            class="btn btn-sm btn-warning me-2"
+                            class="btn btn-sm btn-warning me-2 mb-2"
                             onclick="openEditTransactionModal(
                                 ${tx.id},
                                 '${tx.description || ''}',
@@ -826,7 +826,7 @@
                                     Edit
                                 </button>
                                 <button
-                                    class="btn btn-sm btn-danger"
+                                    class="btn btn-sm btn-danger "
                                     onclick="confirmDeleteRepeatedTransaction(${rt.id})"
                                 >
                                     Delete
