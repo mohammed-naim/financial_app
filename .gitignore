@@ -2,9 +2,11 @@ logs/
 *.log
 
 __pycache__/
+.pytest_cache
 .env
 
-tests/
 .idea/
 
 *.sqlite
+
+.vscode

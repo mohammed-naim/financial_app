@@ -11,7 +11,7 @@ repeated_transactions_bp = Blueprint('repeated_transactions', __name__, url_pref
 
 def validate_start_date(start_date: datetime):
     if start_date.date() < date.today():
-        raise ValidationError("Invalid currency")
+        raise ValidationError("Invalid start date")
 
 
 class RepeatedTransactionsSchema(Schema):
@@ -36,7 +36,7 @@ def add_repeated_transaction():
                 data.get('start_date') + timedelta(days=data.get('period'))):
             raise ValidationError("end date must be greater than start date")
     except ValidationError as e:
-        return jsonify({'error': _('Missing required fields')}), 400
+        return jsonify({'error': _('Missing required fields'),'errors':e.messages}), 400
     account_id = data.get('account_id')
     category_id = data.get('category_id')
     amount = data.get('amount')
@@ -69,7 +69,7 @@ def add_repeated_transaction():
         db.session.rollback()
 
         return jsonify({'error': _('Something went wrong while adding repeated transaction')}), 500
-    return jsonify({'message': _('Repeated transaction created successfully')}), 201
+    return jsonify({'message': _('Repeated transaction created successfully'),'repeated_transaction': new_repeated_transaction.to_dict()}), 201
 
 
 # Get all repeated transactions
