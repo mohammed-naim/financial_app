@@ -325,7 +325,7 @@
 
         /******************* FETCH INVESTMENTS *******************/
         function getInvestments(page) {
-            fetch(`/api/investment?page=${page}&per_page=${perPage}`)
+            fetch(`${window.location.origin}/api/investment?page=${page}&per_page=${perPage}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
