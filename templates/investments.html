@@ -325,7 +325,7 @@
 
         /******************* FETCH INVESTMENTS *******************/
         function getInvestments(page) {
-            fetch(`${window.location.origin}/api/investment?page=${page}&per_page=${perPage}`)
+            fetch(`/api/investment/?page=${page}&per_page=${perPage}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -415,7 +415,7 @@
                 description: document.getElementById("investmentDescription").value || 'No description'
             };
 
-            fetch('/api/investment', {
+            fetch('/api/investment/', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
@@ -438,7 +438,7 @@
 
         /******************* EDIT INVESTMENT *******************/
         function editInvestment(investmentId) {
-            fetch(`/api/investment?id=${investmentId}`)
+            fetch(`/api/investment/?id=${investmentId}`)
                 .then(response => response.json())
                 .then(invest => {
                     if (invest.error) {
@@ -524,7 +524,7 @@
         function showSellModal(investmentId) {
             // We might fetch the "current_price" from server, for now let's assume it's in exchangeRates or from /api/investment?id=...
             // We'll do a quick fetch:
-            fetch(`/api/investment?id=${investmentId}`)
+            fetch(`/api/investment/?id=${investmentId}`)
                 .then(response => response.json())
                 .then(inv => {
                     if (inv.error) {
