@@ -141,10 +141,10 @@
 
                     <!-- Add Buttons -->
                     <div class="d-flex flex-wrap mt-2">
-                        <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
+                        <button class="btn btn-success btn-filter" id="btn-add-transaction" onclick="showModal('addTransactionModal')">
                             <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
                         </button>
-                        <button class="btn btn-info btn-filter" onclick="showModal('addRepeatedTransactionModal')">
+                        <button class="btn btn-info btn-filter" id="btn-add-repeated-transaction" onclick="showModal('addRepeatedTransactionModal')">
                             <i class="bi bi-calendar-event"></i> {{ _('Add Repeated') }}
                         </button>
                     </div>
@@ -208,7 +208,7 @@
                         <button class="btn btn-success btn-filter" onclick="showModal('addTransactionModal')">
                             <i class="bi bi-plus-circle"></i> {{ _('Add Transaction') }}
                         </button>
-                        <button class="btn btn-info btn-filter" onclick="showModal('addRepeatedTransactionModal')">
+                        <button class="btn btn-info btn-filter" id="btn-add-repeated-transaction2" onclick="showModal('addRepeatedTransactionModal')">
                             <i class="bi bi-calendar-event"></i> {{ _('Add Repeated') }}
                         </button>
                     </div>
@@ -289,7 +289,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">{{ _('Add') }}</button>
+                        <button type="submit" id="btn-submit-add-transaction" class="btn btn-success">{{ _('Add') }}</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
@@ -349,7 +349,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">{{ _('Save Changes') }}</button>
+                        <button type="submit" id="btn-submit-edit-transaction" class="btn btn-success">{{ _('Save Changes') }}</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
@@ -426,7 +426,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">{{ _('Add Repeated') }}</button>
+                        <button type="submit" id="btn-submit-add-repeated-transaction" class="btn btn-info">{{ _('Add Repeated') }}</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancel') }}</button>
                     </div>
                 </form>
