@@ -129,7 +129,7 @@ def disable_category(category_id):
 @category_bp.delete('/<int:category_id>')
 @login_required
 def delete_account(category_id: int):
-    category = current_user.categories.filter_by(id=category_id).first()
+    category :Category = current_user.categories.filter_by(id=category_id).first()
     if not category:
         return jsonify({'error': _('Account not found or access denied')}), 404
     if category.transactions.first():

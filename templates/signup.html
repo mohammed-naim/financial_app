@@ -1,182 +1,238 @@
 <!-- signup.html template -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <title>Sign Up - Financial Growth</title>
     <style>
-        :root {
-            --primary-color: #27ae60;
-            --secondary-color: #2ecc71;
-            --glass-bg: rgba(255, 255, 255, 0.95);
-        }
+      :root {
+        --primary-color: #27ae60;
+        --secondary-color: #2ecc71;
+        --glass-bg: rgba(255, 255, 255, 0.95);
+      }
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #f8fff9 0%, #e3f5eb 100%);
-            font-family: 'Segoe UI', sans-serif;
-        }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #f8fff9 0%, #e3f5eb 100%);
+        font-family: "Segoe UI", sans-serif;
+      }
 
+      .container-wrapper {
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .graphics-side {
+        flex: 1;
+        padding: 2rem;
+        position: relative;
+        min-height: 60vh;
+      }
+
+      .line-art {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        stroke: var(--primary-color);
+        stroke-width: 2;
+        fill: none;
+      }
+
+      .financial-illustration {
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+      }
+
+      .signup-side {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 0 5%;
+        position: relative;
+        transition: transform 0.3s ease;
+      }
+
+      .form-control {
+        border-radius: 10px;
+        padding: 12px 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
+      }
+
+      .input-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        border: none;
+        padding: 12px;
+      }
+
+      @media (max-width: 768px) {
         .container-wrapper {
-            display: flex;
-            min-height: 100vh;
-            align-items: center;
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+          flex-direction: column;
+          padding: 1rem;
         }
 
         .graphics-side {
-            flex: 1;
-            padding: 2rem;
-            position: relative;
-            min-height: 60vh;
-        }
-
-        .line-art {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            stroke: var(--primary-color);
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .financial-illustration {
-            width: 100%;
-            height: 100%;
-            opacity: 0.8;
+          order: 2;
+          min-height: 40vh;
+          margin-top: 2rem;
         }
 
         .signup-side {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 3rem 2rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            margin: 0 5%;
-            position: relative;
-            transition: transform 0.3s ease;
+          margin: 2rem 0;
+          padding: 2rem 1rem;
         }
-
-        .form-control {
-            border-radius: 10px;
-            padding: 12px 20px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--primary-color);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-            border: none;
-            padding: 12px;
-        }
-
-        @media (max-width: 768px) {
-            .container-wrapper {
-                flex-direction: column;
-                padding: 1rem;
-            }
-
-            .graphics-side {
-                order: 2;
-                min-height: 40vh;
-                margin-top: 2rem;
-            }
-
-            .signup-side {
-                margin: 2rem 0;
-                padding: 2rem 1rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-<div class="container-wrapper">
-    <!-- Line Art Graphics Side -->
-    <div class="graphics-side">
-        <svg class="financial-illustration" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-            <!-- Abstract financial line art -->
-            <path class="line-art" d="M50 450 L150 300 L250 400 L350 200 L450 350"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <path class="line-art" d="M50 200 Q275 100 450 250"
-                  stroke-dasharray="4 4" opacity="0.5"/>
-            <!-- Currency symbols -->
-            <path class="line-art" d="M100 100 L120 80 L140 100 L120 120 Z"
-                  stroke-width="1.5"/>
-            <path class="line-art" d="M400 80 Q420 60 440 80 T400 100"
-                  stroke-width="1.5"/>
-            <!-- Circular elements -->
-            <circle class="line-art" cx="300" cy="150" r="30"
-                    stroke-width="1.5"/>
-            <circle class="line-art" cx="200" cy="80" r="20"
-                    stroke-width="1.5"/>
+  </head>
+  <body>
+    <div class="container-wrapper">
+      <!-- Line Art Graphics Side -->
+      <div class="graphics-side">
+        <svg
+          class="financial-illustration"
+          viewBox="0 0 500 500"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Abstract financial line art -->
+          <path
+            class="line-art"
+            d="M50 450 L150 300 L250 400 L350 200 L450 350"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            class="line-art"
+            d="M50 200 Q275 100 450 250"
+            stroke-dasharray="4 4"
+            opacity="0.5"
+          />
+          <!-- Currency symbols -->
+          <path
+            class="line-art"
+            d="M100 100 L120 80 L140 100 L120 120 Z"
+            stroke-width="1.5"
+          />
+          <path
+            class="line-art"
+            d="M400 80 Q420 60 440 80 T400 100"
+            stroke-width="1.5"
+          />
+          <!-- Circular elements -->
+          <circle
+            class="line-art"
+            cx="300"
+            cy="150"
+            r="30"
+            stroke-width="1.5"
+          />
+          <circle class="line-art" cx="200" cy="80" r="20" stroke-width="1.5" />
         </svg>
-    </div>
+      </div>
 
-    <!-- Signup Side -->
-    <div class="signup-side">
+      <!-- Signup Side -->
+      <div class="signup-side">
         <div class="text-center mb-4">
-            <i class="fas fa-seedling fa-3x text-success mb-3"></i>
-            <h2>{{ _('Start Growing')}}</h2>
-            <p class="text-muted">{{ _('Begin your financial journey')}}</p>
+          <i class="fas fa-seedling fa-3x text-success mb-3"></i>
+          <h2>{{ _('Start Growing')}}</h2>
+          <p class="text-muted">{{ _('Begin your financial journey')}}</p>
         </div>
 
-        <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+        <div
+          id="errorAlert"
+          class="alert alert-danger d-none"
+          role="alert"
+        ></div>
 
         <form id="signupForm">
-            <div class="mb-3 position-relative">
-                <label for="fullName" class="form-label">{{ _('Full Name')}}</label>
-                <input type="text" class="form-control" id="fullName" required/>
-                <i class="fas fa-user input-icon"></i>
-            </div>
-            <div class="mb-3 position-relative">
-                <label for="email" class="form-label">{{ _('Email') }}</label>
-                <input type="email" class="form-control" id="email" required/>
-                <i class="fas fa-envelope input-icon"></i>
-            </div>
-            <div class="mb-3 position-relative">
-                <label for="password" class="form-label">{{ _('Password') }}</label>
-                <input type="password" class="form-control" id="password" required/>
-                <i class="fas fa-lock input-icon"></i>
-            </div>
-            <div class="mb-4 position-relative">
-                <label for="confirm_password" class="form-label">{{ _('Confirm Password')}}</label>
-                <input type="password" class="form-control" id="confirm_password" required/>
-                <i class="fas fa-lock input-icon"></i>
-            </div>
-            <button type="submit" class="btn btn-success w-100 py-2 text-white">
-                {{ _('Create Account')}} <i class="fas fa-leaf ms-2"></i>
-            </button>
+          <div class="mb-3 position-relative">
+            <label for="fullName" class="form-label">{{ _('Full Name')}}</label>
+            <input type="text" class="form-control" id="fullName" required />
+            <i class="fas fa-user input-icon"></i>
+          </div>
+          <div class="mb-3 position-relative">
+            <label for="email" class="form-label">{{ _('Email') }}</label>
+            <input type="email" class="form-control" id="email" required />
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+          <div class="mb-3 position-relative">
+            <label for="password" class="form-label">{{ _('Password') }}</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              required
+            />
+            <i class="fas fa-lock input-icon"></i>
+          </div>
+          <div class="mb-4 position-relative">
+            <label for="confirm_password" class="form-label"
+              >{{ _('Confirm Password')}}</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="confirm_password"
+              required
+            />
+            <i class="fas fa-lock input-icon"></i>
+          </div>
+          <button
+            type="submit"
+            id="btn-create-account"
+            class="btn btn-success w-100 py-2 text-white"
+          >
+            {{ _('Create Account')}} <i class="fas fa-leaf ms-2"></i>
+          </button>
         </form>
 
         <div class="text-center mt-4">
-            <a href="{{ url_for('auth.login') }}" class="text-decoration-none text-success">
-                {{ _('Existing User? Sign In')}} <i class="fas fa-arrow-right ms-1"></i>
-            </a>
+          <a
+            href="{{ url_for('auth.login') }}"
+            class="text-decoration-none text-success"
+          >
+            {{ _('Existing User? Sign In')}}
+            <i class="fas fa-arrow-right ms-1"></i>
+          </a>
         </div>
+      </div>
     </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

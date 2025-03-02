@@ -38,7 +38,7 @@
                 </button>
             </div>
             <!-- Add Investment Button -->
-            <button class="btn btn-success" onclick="showModal('addInvestmentModal')">
+            <button class="btn btn-success" id="btn-add-investment" onclick="showModal('addInvestmentModal')">
                 <i class="bi bi-plus-circle"></i> {{ _('Add Investment')}}
             </button>
         </div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" id="btn-submit-add-investment" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> {{ _('Add') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -147,6 +147,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" id="editInvestmentId">
+                        <input type="hidden" id="editaccount_id">
                         <!-- We do NOT allow changing the account_id per the route code, so no account dropdown here -->
                         <!-- Currency -->
                         <div class="mb-3">
@@ -181,7 +182,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-warning">
+                        <button type="submit" id="btn-submit-edit-investment" class="btn btn-warning">
                             <i class="bi bi-check-circle"></i> {{ _('Update') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -213,7 +214,7 @@
                         <small class="text-muted">{{ _('This defaults to the current price if available, but you can override.')}}</small>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" id="btn-submit-sell-investment" class="btn btn-danger">
                             <i class="bi bi-cash-coin"></i> {{ _('Sell') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -451,6 +452,8 @@
                     document.getElementById("editPurchasePrice").value = invest.purchase_price;
                     document.getElementById("editReferenceCurrency").value = invest.reference_currency;
                     document.getElementById("editDescription").value = invest.description || '';
+                    document.getElementById("editaccount_id").value = invest.account_id;
+
                     showModal("editInvestmentModal");
                 })
                 .catch(err => {
@@ -467,6 +470,7 @@
                 amount_invested: parseFloat(document.getElementById("editAmountInvested").value),
                 purchase_price: parseFloat(document.getElementById("editPurchasePrice").value),
                 reference_currency: document.getElementById("editReferenceCurrency").value,
+                account_id: parseInt(document.getElementById("editaccount_id").value),
                 description: document.getElementById("editDescription").value || 'No description'
             };
 

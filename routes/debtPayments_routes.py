@@ -135,11 +135,14 @@ def update_payment(debt_payment_id):
         schema = DebtPaymentSchema()
         data = schema.load(data)
     except ValidationError as e:
-        return jsonify({'error': _('request body is empty or some data lost')}), 400
+        return jsonify({'error': _('request body is empty or some data lost'),'errors':e.messages}), 400
     account = current_user.accounts.filter_by(id=data.get('account_id')).first()
     debt = current_user.debts.filter_by(id=data.get('debt_id')).first()
-    if debt is None or account is None:
-        return jsonify({'error': _('account or debt not found')}), 404
+    if account is None:
+        return jsonify({'error': _('account not found')}), 404
+    if 'debt_id' in data:
+        if debt is None:
+            return jsonify({'error': _('debt not found')}), 404
     payment = current_user.debts.join(DebtPayments).filter(DebtPayments.id == debt_payment_id).first()
     if not payment:
         return jsonify({'error': _('payment not found or access denied')}), 404

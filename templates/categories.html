@@ -34,7 +34,7 @@
                 </div>
 
                 <!-- Add Category Button -->
-                <button class="btn btn-outline-success" onclick="showModal('addCategoryModal')">
+                <button class="btn btn-outline-success" id="btn-add-category" onclick="showModal('addCategoryModal')">
                     <i class="bi bi-plus-circle"></i> {{ _('Add Category') }}
                 </button>
             </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" id="btn-submit-add-category" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> {{ _('Add') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -133,7 +133,7 @@
                         -->
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" id="btn-submit-edit-category" class="btn btn-success">
                             <i class="bi bi-check-circle"></i> {{ _('Save Changes') }}
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

@@ -11,7 +11,7 @@ class Category(db.Model):
     disabled = db.Column(db.Boolean, default=False, nullable=False)
 
     # Relationships
-    transactions = db.relationship('Transaction', backref='category', lazy=True)
+    transactions = db.relationship('Transaction', backref='category', lazy="dynamic")
 
     def __init__(self, user_id, name, type):
         self.user_id = user_id

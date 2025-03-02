@@ -53,7 +53,7 @@ class Investment(db.Model):
         self.date = data.get('date') if data.get('date') else self.date
         account = Account.query.filter_by(user_id=self.user_id, id=self.account_id).first()
         if old_amount_invested != self.amount_invested:
-            account.balance += (old_amount_invested - self.amount_invested)
+            account.balance += (Decimal(old_amount_invested) - Decimal(self.amount_invested))
         if old_purchase_price != self.purchase_price:
             account.balance += (Decimal(old_purchase_price) - Decimal(self.purchase_price)) * Decimal(
                 self.amount_invested)
